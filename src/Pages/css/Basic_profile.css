@@ -1,0 +1,49 @@
+
+
+#profiletext{
+    position: relative;
+    /* right: 50pt; */
+    font-size: 16pt;
+    color: rgb(121, 49, 142);
+}
+.smallimg { 
+    position: relative;
+    top: 100pt;
+    
+
+}
+#edit_button{
+    position: relative;
+    
+    height: 15%;
+    width: auto;
+
+}
+.container {
+    position: sticky;
+    left: 50pt;
+    width: 500pt;
+    height: 200pt;
+    width:50%;
+
+
+   
+}
+
+
+.container img#profile_pic{
+    position:relative;
+    border-radius: 100%;
+    
+}
+
+#view_profile{
+    position: relative;
+   
+    
+    height: 10%;
+    width: auto;
+
+}
+
+

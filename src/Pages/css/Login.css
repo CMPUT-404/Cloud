@@ -1,0 +1,56 @@
+body{
+    padding-top: 100pt;
+    background-image: url('../../Images/cloud.JPG');
+}
+
+h2, h3{
+    text-align: center;
+}
+
+Label{
+    display: block;
+    text-align: center;
+    line-height: 150%;
+}
+
+
+#emailInput, #passwordInput, #nameInput, #githubInput, #emailLabel, #passwordLabel{
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+    display: block;
+}
+
+
+div.buttonDiv{
+    display: block;        
+    border-color: rgb(152, 255, 255);    
+    border-radius: 15%;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    width:20%;
+    display: block;
+    margin: auto;
+}
+
+
+#submitButton:hover, #registerButton:hover, #newAccountButton:hover{
+    background-color:  rgb(152, 255, 255);
+}
+
+#newAccountButton{
+    margin: auto;
+    display: block;
+    margin-top: 20pt;
+    border-color: rgb(152, 255, 255);    
+    border-radius: 15%;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    width:20%;
+    text-align:center;
+}

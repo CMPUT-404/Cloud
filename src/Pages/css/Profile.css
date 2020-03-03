@@ -1,0 +1,53 @@
+.form{
+    position: absolute;
+    top: 300pt;
+    margin-left: 30%;
+
+}
+
+.form input{
+    border:1px solid ;
+    
+    outline:none;
+    padding: 5pt;
+    border-color: white;
+    width:538pt;
+
+    font-size: 13pt;
+    color: grey;
+}
+
+
+.form button{
+   
+    
+    position: absolute;
+    top: 110pt;
+    left: 0pt;
+    width: 100pt;
+    height: 30pt;
+    border-color: rgb(184, 179, 245);
+    background-color: rgb(179, 222, 245);
+
+    font-size: 13pt;
+    
+    
+   
+
+    
+}
+
+
+#B{
+    position: absolute;
+    
+    left: 0%;
+}
+
+#posts{
+    margin-left: 15%;
+    margin-right: 25%;
+    margin-top: 65pt;
+}
+
+

@@ -12,7 +12,6 @@ function NavBar(){
 
     return(
         <nav>
-            <img id="logo" align="left" alt='logo' src={require('../Images/cloudLogo.jpg')} />
             <ul className='nav-links'>
                 <Link style={navStyle} to='/Profile'><li>Profile</li></Link>
                 <Link style={navStyle} to='/Timeline'><li>Timeline</li></Link>

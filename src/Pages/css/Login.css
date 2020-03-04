@@ -1,6 +1,8 @@
 body{
     padding-top: 100pt;
     background-image: url('../../Images/cloud.JPG');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 h2, h3{

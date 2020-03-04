@@ -17,7 +17,7 @@ class FriendRequest extends React.Component {
 
 
   componentWillMount(){
-    axios.get(`http://127.0.0.1:8000/friendrequest/`)
+    axios.get(`https://cloud-align-server.herokuapp.com/friendrequest/`)
       .then(res => {
         let requests = res.data;
         let tempRequests = [];

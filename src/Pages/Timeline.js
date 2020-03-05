@@ -8,7 +8,7 @@ class Timeline extends React.Component {
     super(props)
     this.state = {
       "postComponents": [],
-      url: 'http://162.246.157.219:25565/posts/'
+      url: 'https://cloud-align-server.herokuapp.com/posts/'
 
     }
     this.getPosts = this.getPosts.bind(this);

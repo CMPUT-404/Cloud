@@ -11,7 +11,7 @@ class Profile extends React.Component {
     super(props)
     this.state = {
       Props: props,
-      userdata : 'http://162.246.157.219:25565/users/9e73298f-3ed6-4a02-ae0b-21bc864c0d87/',
+      userdata : 'https://cloud-align-server.herokuapp.com/users/9e73298f-3ed6-4a02-ae0b-21bc864c0d87/',
       path: "/Timeline",
       postComponents : [],
       edit: false,
@@ -32,7 +32,7 @@ class Profile extends React.Component {
   render(){ 
     // GET
     // var request = new XMLHttpRequest()
-    // request.open('GET','http://162.246.157.219:25565/users')
+    // request.open('GET','https://cloud-align-server.herokuapp.com/users')
     // request.send()
     // var temp = null
     // request.onload = ()=>{
@@ -41,7 +41,7 @@ class Profile extends React.Component {
     // }
 
     //POST 
-    // request.open('POST','http://162.246.157.219:25565/users/')
+    // request.open('POST','https://cloud-align-server.herokuapp.com/users/')
     // request.setRequestHeader("Authorization", "Basic " + btoa("admin:123456"));
     // request.setRequestHeader("Content-Type", "application/json")
     // request.onreadystatechange = function () {
@@ -57,7 +57,7 @@ class Profile extends React.Component {
      
 
     let request = new XMLHttpRequest()
-    request.open('GET', 'http://162.246.157.219:25565/posts/')
+    request.open('GET', 'https://cloud-align-server.herokuapp.com/posts/')
     request.send()
     request.onload = () => {
       let posts = JSON.parse(request.response)

@@ -17,18 +17,22 @@ class Timeline extends React.Component {
 
 
   getPosts(){
-    let request = new XMLHttpRequest()
-    request.open('GET', this.state.url)
-    request.send()
-    request.onload = () => {
-      let posts = JSON.parse(request.response)
-      var tempPostList = [] 
-      for(let i=0;i<posts.length;i++){
-        var eachPost = <CardContent post={posts[i]} />
-        tempPostList.push(eachPost)
-      }
-      this.setState({postComponents: tempPostList})
-    }
+
+    // let request = new XMLHttpRequest()
+    // request.open('GET', this.state.url)
+    // request.send()
+    // request.onload = () => {
+    //   let posts = JSON.parse(request.response)
+    //   var tempPostList = [] 
+    //   for(let i=0;i<posts.length;i++){
+    //     var eachPost = <CardContent post={posts[i]} />
+    //     tempPostList.push(eachPost)
+    //   }
+    //   this.setState({postComponents: tempPostList})
+    // }
+
+    
+
   }
 
 

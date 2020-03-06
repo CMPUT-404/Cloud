@@ -43,7 +43,7 @@ class InputBox extends React.Component{
         var data = {}
         data["plainText"] = text
         data["title"] = "poster"
-        data["author"] = "http://162.246.157.219:25565/users/c36b2919-07ce-4287-b81a-2f305d706530/"
+        data["author"] ="https://cloud-align-server.herokuapp.com/users/c36b2919-07ce-4287-b81a-2f305d706530/"
         data["authorization"] = "raversefantasy"
         
         

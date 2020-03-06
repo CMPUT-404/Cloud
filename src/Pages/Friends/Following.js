@@ -1,15 +1,14 @@
 
 import React from 'react';
 import 'antd/dist/antd.css';
+import './FriendsList.css';
+import axios from 'axios';
+import { List, Avatar, Button, Skeleton} from 'antd';
 
-import { List, Avatar, Button, Skeleton } from 'antd';
-
-import reqwest from 'reqwest';
 
 const count = 4;
-const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat&noinfo`;
 
-class Following extends React.Component {
+class FriendsList extends React.Component {
   state = {
     initLoading: true,
     loading: false,
@@ -18,26 +17,24 @@ class Following extends React.Component {
   };
 
   componentDidMount() {
-    this.getData(res => {
+    axios.get(`https://cloud-align-server.herokuapp.com/following/`).then(res => {
       this.setState({
-        initLoading: false,
-        data: res.results,
-        list: res.results,
-      });
-    });
+        initLoading : false,
+        data: res.data,
+        list: this.dataPre(res.data)
+      })
+    })
   }
 
-  getData = callback => {
-    reqwest({
-      url: fakeDataUrl,
-      type: 'json',
-      method: 'get',
-      contentType: 'application/json',
-      success: res => {
-        callback(res);
-      },
+  dataPre = (data) => {
+    data.forEach((item, i) => {
+      let id = item.following.split("/").slice(4)[0];
+      item.followingId = id;
+
     });
-  };
+    return data;
+  }
+
 
   onLoadMore = () => {
     this.setState({
@@ -74,7 +71,7 @@ class Following extends React.Component {
             lineHeight: '32px',
           }}
         >
-          <Button onClick={this.onLoadMore} id = "loadmore">loading more </Button>
+
         </div>
       ) : null;
 
@@ -92,13 +89,12 @@ class Following extends React.Component {
                 avatar={
                   <Avatar src={require('../../Images/pepe.jpeg')} />
                 }
-                title={<a href="https://ant.design">{item.name.last}</a>}
-                description="dummy friend list"
+                title={<a href={'/Profile/'+item.followingId}>{item.following}</a>}
               />
 
             </Skeleton>
             <div >
-              <Button >unfollow</Button>
+              <Button>Remove</Button>
             </div>
           </List.Item>
         )}
@@ -107,4 +103,4 @@ class Following extends React.Component {
   }
 }
 
-export default Following
+export default FriendsList

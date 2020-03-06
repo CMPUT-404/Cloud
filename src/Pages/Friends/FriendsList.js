@@ -17,7 +17,7 @@ class FriendsList extends React.Component {
   };
 
   componentDidMount() {
-    axios.get(`http://127.0.0.1:8000/friend/`).then(res => {
+    axios.get(`https://cloud-align-server.herokuapp.com/friend/`).then(res => {
       this.setState({
         initLoading : false,
         data: res.data,

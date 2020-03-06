@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import FriendsList from './Pages/Friends/FriendsList';
 import Following from './Pages/Friends/Following';
-import Friends from './Pages/Friends/Friends';
+import Requests from './Pages/Friends/Requests';
 import Profile from './Pages/Profile';
 import NavBar from './Components/NavBar';
 import Timeline from './Pages/Timeline';
@@ -13,7 +13,7 @@ import Post from './Pages/Post';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 class App extends React.Component {
   constructor(){
-    super() 
+    super()
     this.state={
       isLoggedIn: true,
       username: "",
@@ -40,7 +40,7 @@ class App extends React.Component {
         return (
           <Login/>
         )
-      } else{ // log in 
+      } else{ // log in
         var jsonResponse = JSON.parse(request.responseText);
         this.setState({userObject: jsonResponse});
         console.log(this.state.userObject);
@@ -52,7 +52,7 @@ class App extends React.Component {
   register(){
     let request = new XMLHttpRequest();
     request.open('POST', 'https://cloud-align-server.herokuapp.com/users/register');
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");    
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     let body = {
       username: this.state.username,
       password: this.state.password,
@@ -93,7 +93,7 @@ class App extends React.Component {
     this.setState({github: e.target.value})
   }
 
-  render(){  
+  render(){
     if (this.state.isLoggedIn===false){
       return (
         <Login
@@ -113,7 +113,7 @@ class App extends React.Component {
           <NavBar />
           <Switch>
             <Route path="/profile" component={Profile}/>
-            <Route path="/friends" component={Friends}/>
+            <Route path="/requests" component={Requests}/>
             <Route path="/friendslist" component={FriendsList}/>
             <Route path="/following" component={Following}/>
             <Route exact path="/timeline" component={Timeline}/>

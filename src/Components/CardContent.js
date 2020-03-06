@@ -59,7 +59,11 @@ class CardContent extends React.Component{
         return(
             <div>
                 <Card title={this.props.post.title} 
-                  extra={ <Link to={'/Timeline/' + this.props.post.id} >see more</Link> }>
+                  extra={ <Link to={  { pathname:'/Timeline/' + this.props.post.title,
+                  state:{user: this.props.post.author,
+                          text: this.props.post.plainText}}
+                  
+                  } >see more</Link> }>
                     <Link to={'/Profile/'+this.props.post.author}>{this.props.post.author}</Link>
                     <Link to={'/Profile/'+this.props.post.author}><img id="cardProfile" alt='profile' align="left" src={require('../Images/pepe.jpeg')} /></Link>
                     <p>{this.props.post.plainText}</p>
@@ -72,9 +76,6 @@ class CardContent extends React.Component{
                         onCancel={this.handleCancel}
                        
                         >
-                        
-                       
-
 
                         <TextArea rows={7} placeholder="Make a comment about this post"/>
                         <p>{ModalText}</p>

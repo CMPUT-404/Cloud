@@ -30,7 +30,10 @@ class InputBox extends React.Component{
             if (request.readyState === 4 && request.status === 200) {
                 var json = JSON.parse(request.responseText);
                 alert(JSON.stringify(json));
+            }else{
+                window.location.reload()
             }
+            
         };
 
         var text = document.getElementById("text").innerHTML

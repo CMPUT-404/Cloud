@@ -34,8 +34,8 @@ class Basic_profile extends React.Component{
         return(
             <div className="container">
                 <img id="profile_pic" alt='profile' src={require('../../Images/pepe.jpeg')} />
-                <input class="smallimg" id="edit_button" src={require('../../Images/edit.jpeg')} />
-                <input class="smallimg" id="view_profile" src={require('../../Images/view.jpeg')}/>
+                {/* <input className="smallimg" id="edit_button" src={require('../../Images/edit.jpeg')} />
+                <input className="smallimg" id="view_profile" src={require('../../Images/view.jpeg')}/> */}
                 <div id="profiletext">
                 {this.state.name}<br></br>
                 {this.state.email}<br></br>

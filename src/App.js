@@ -31,7 +31,7 @@ class App extends React.Component {
 
   handleLogin(){
     let request = new XMLHttpRequest()
-    request.open('GET', 'http://162.246.157.219:25565/users/login')
+    request.open('GET', 'https://cloud-align-server.herokuapp.com/users/login')
     request.setRequestHeader("Authorization", "Basic " + btoa(this.state.username+":"+this.state.password));
     request.send()
     request.onload = () => {
@@ -51,7 +51,7 @@ class App extends React.Component {
 
   register(){
     let request = new XMLHttpRequest();
-    request.open('POST', 'http://162.246.157.219:25565/users/register');
+    request.open('POST', 'https://cloud-align-server.herokuapp.com/users/register');
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");    
     let body = {
       username: this.state.username,

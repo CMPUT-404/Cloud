@@ -19,10 +19,10 @@ class CardRequest extends React.Component{
     increase = () => {
 
       let request = {
-        friend:"http://127.0.0.1:8000/users/70d955d1-7519-47c4-b9ce-6c424bc7ffb4/",
-        author:"http://127.0.0.1:8000/users/bd55c8cb-eecc-418a-90c9-b50aa7e96a13/",
+        friend:"https://cloud-align-server.herokuapp.com/70d955d1-7519-47c4-b9ce-6c424bc7ffb4/",
+        author:"https://cloud-align-server.herokuapp.com/users/bd55c8cb-eecc-418a-90c9-b50aa7e96a13/",
       }
-      axios.post('http://127.0.0.1:8000/friend/requestprocess/',request)
+      axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',request)
         .then(res =>{
           console.log(res);
         })

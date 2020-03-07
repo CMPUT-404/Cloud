@@ -8,7 +8,7 @@ import Profile from './Pages/Profile';
 import NavBar from './Components/NavBar';
 import Timeline from './Pages/Timeline';
 import Login from './Pages/Login';
-import Register from './Pages/Register';
+import axios from 'axios';
 import Post from './Pages/Post';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 class App extends React.Component {
@@ -30,52 +30,42 @@ class App extends React.Component {
   }
 
   handleLogin(){
-    let request = new XMLHttpRequest()
-    request.open('GET', 'https://cloud-align-server.herokuapp.com/users/login')
-    request.setRequestHeader("Authorization", "Basic " + btoa(this.state.username+":"+this.state.password));
-    request.send()
-    request.onload = () => {
-      if (request.status !== 200) { // analyze HTTP status of the response
-        alert(request.status)
-        return (
-          <Login/>
-        )
-      } else{ // log in
-        var jsonResponse = JSON.parse(request.responseText);
-        this.setState({userObject: jsonResponse});
-        console.log(this.state.userObject);
-        this.setState({isLoggedIn: true});
-      }
-    };
-  }
-
-  register(){
-    let request = new XMLHttpRequest();
-    request.open('POST', 'https://cloud-align-server.herokuapp.com/users/register');
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    let body = {
-      username: this.state.username,
-      password: this.state.password,
-      email: this.state.email,
-      github: this.state.github
+    const auth = 'Basic ' + btoa(this.state.username + ':' + this.state.password)
+    axios.get(`https://cloud-align-server.herokuapp.com/users/login`, {headers: {"Authorization": auth}})
+      .then(response => {
+        if(response.status === 200){
+          alert(response.statusText)
+          this.setState({isLoggedIn: true})
+        }
+          return response
+        })
+        
+      .catch(error=>{
+        for(let k in error.response.data){
+          alert(error.response.data[k])
+        }
+      })
     }
-    request.send(JSON.stringify(body))
-    console.log(body)
 
-    request.onload = () => {
-      if (request.status === 201){
-        var jsonResponse = JSON.parse(request.responseText);
-        this.setState({userObject: jsonResponse});
-        console.log(this.state.userObject);
+    register(){
+      axios.post(`https://cloud-align-server.herokuapp.com/users/register`,{
+        "username": this.state.username,
+        "password": this.state.password,
+        "email": this.state.email,
+        "github": this.state.github
+      }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
+
+      .then(response => {
         this.setState({isLoggedIn:true});
-      }else if (request.status !== 200){
-        return(
-          <Register/>
-        )
-      }
-    }
-  }
+        return response
+      })
 
+      .catch(error => {
+        for(let k in error.response.data){
+          alert(error.response.data[k][0])
+        }
+      }) 
+    }
 
   usernameChange(e){
     this.setState({username: e.target.value})

@@ -6,8 +6,6 @@ import axios from 'axios';
 import { List, Avatar, Button, Skeleton} from 'antd';
 
 
-
-
 class FriendsList extends React.Component {
   state = {
     initLoading: true,
@@ -28,38 +26,30 @@ class FriendsList extends React.Component {
 
   dataPre = (data) => {
     data.forEach((item, i) => {
-      let id = item.friend.split("/").slice(4)[0];
-      item.friendId = id;
-
+      item.friendId = item.friend.split("/").slice(4)[0];
+      item.authorId = item.author.split("/").slice(4)[0];
     });
     return data;
   }
 
-
-  
-
+  unfriend =(item) =>{
+    let data = {
+      author:item.author,
+      friend:item.friend
+  }
+    axios.post('https://cloud-align-server.herokuapp.com/friend/delete/',data).then(res =>{
+      console.log(res)}
+    )
+  } 
   render() {
-    const { initLoading, loading, list } = this.state;
-    const loadMore =
-      !initLoading && !loading ? (
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: 12,
-            height: 32,
-            lineHeight: '32px',
-          }}
-        >
-
-        </div>
-      ) : null;
+    const { initLoading,  list } = this.state;
+  
 
     return (
       <List
         className="demo-loadmore-list"
         loading={initLoading}
         itemLayout="horizontal"
-        loadMore={loadMore}
         dataSource={list}
         renderItem={item => (
           <List.Item>
@@ -73,7 +63,7 @@ class FriendsList extends React.Component {
 
             </Skeleton>
             <div >
-              <Button>Remove</Button>
+              <Button onClick={() => this.unfriend(item)}>Remove</Button>
             </div>
           </List.Item>
         )}

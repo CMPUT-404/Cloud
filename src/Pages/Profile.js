@@ -24,10 +24,42 @@ class Profile extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.loadcomp()
+  }
+
 
 
   
+  loadcomp(){
+    let request = new XMLHttpRequest()
+    request.open('GET', 'https://cloud-align-server.herokuapp.com/posts/2')
 
+
+
+    request.send()
+    request.onload = () => {
+
+      if (request.status === 200){
+      let posts = JSON.parse(request.response)
+      // var tempPostList = [] 
+      // alert(JSON.stringify(posts))
+      // for(let i=0;i<posts.length;i++){
+        
+      //   var eachPost = <CardContent post={posts[i]} />
+      //   tempPostList.push(eachPost)
+      // }
+      //var temp = <CardContent id={1} post={posts} />
+      var temp2 = {id:1, post:posts}
+      console.log(temp2)
+
+      this.setState({postComponents: temp2})
+    }else{
+      alert("222")
+    }
+    
+  }
+}
 
   render(){ 
     // GET
@@ -53,21 +85,11 @@ class Profile extends React.Component {
     // };
     // request.send('{"username":"AtestCow","password":"123456"}')
 
+    //this.loadcomp()
+
     if (this.state.edit === false){
      
 
-    let request = new XMLHttpRequest()
-    request.open('GET', 'https://cloud-align-server.herokuapp.com/posts/')
-    request.send()
-    request.onload = () => {
-      let posts = JSON.parse(request.response)
-      var tempPostList = [] 
-      for(let i=0;i<posts.length;i++){
-        var eachPost = <CardContent post={posts[i]} />
-        tempPostList.push(eachPost)
-      }
-      this.setState({postComponents: tempPostList})
-    }
 
     return (
       
@@ -76,13 +98,14 @@ class Profile extends React.Component {
 
         
         <div id="B">
-        <BasicProfile edit={this.state.go_edit} url={this.state.userdata} />
+        {/* <BasicProfile edit={this.state.go_edit} url={this.state.userdata} /> */}
         </div>
 
         
 
         <div id="posts">
-            {this.state.postComponents}ls
+
+        {this.state.postComponents.post && <CardContent id={this.state.postComponents.id} post={this.state.postComponents.post} />}
           </div>
 
         

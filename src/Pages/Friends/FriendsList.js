@@ -6,7 +6,7 @@ import axios from 'axios';
 import { List, Avatar, Button, Skeleton} from 'antd';
 
 
-const count = 4;
+
 
 class FriendsList extends React.Component {
   state = {

@@ -22,9 +22,10 @@ class FriendRequest extends React.Component {
         let requests = res.data;
         let tempRequests = [];
         for(let i = 0;i<requests.length;i++){
-          let authorId = requests[i].authorID.split("/").slice(4)[0];
+          let authorId = requests[i].authorID;
+          let friendId = requests[i].friendID;
           //this.fetchUsername(authorId);
-          let eachRequest = <CardRequest displayName = {authorId} friendRequest={requests[i]} />
+          let eachRequest = <CardRequest displayName = {authorId} authorId = {authorId} friendId = {friendId} friendRequest={requests[i]} />
           tempRequests.push(eachRequest);
         }
         this.setState({

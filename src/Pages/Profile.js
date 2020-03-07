@@ -24,6 +24,10 @@ class Profile extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.loadcomp()
+  }
+
 
 
   
@@ -45,8 +49,11 @@ class Profile extends React.Component {
       //   var eachPost = <CardContent post={posts[i]} />
       //   tempPostList.push(eachPost)
       // }
-      var temp = <CardContent id={1} post={posts} />
-      this.setState({postComponents: temp})
+      //var temp = <CardContent id={1} post={posts} />
+      var temp2 = {id:1, post:posts}
+      console.log(temp2)
+
+      this.setState({postComponents: temp2})
     }else{
       alert("222")
     }
@@ -78,23 +85,11 @@ class Profile extends React.Component {
     // };
     // request.send('{"username":"AtestCow","password":"123456"}')
 
-    this.loadcomp()
+    //this.loadcomp()
 
     if (this.state.edit === false){
      
 
-    let request = new XMLHttpRequest()
-    request.open('GET', 'https://cloud-align-server.herokuapp.com/posts/')
-    request.send()
-    request.onload = () => {
-      let posts = JSON.parse(request.response)
-      var tempPostList = [] 
-      for(let i=0;i<posts.length;i++){
-        var eachPost = <CardContent post={posts[i]} />
-        tempPostList.push(eachPost)
-      }
-      this.setState({postComponents: tempPostList})
-    }
 
     return (
       
@@ -109,7 +104,8 @@ class Profile extends React.Component {
         
 
         <div id="posts">
-            {this.state.postComponents}
+
+        {this.state.postComponents.post && <CardContent id={this.state.postComponents.id} post={this.state.postComponents.post} />}
           </div>
 
         

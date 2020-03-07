@@ -16,7 +16,8 @@ class CardContent extends React.Component{
             ModalText: "display a list of comments",
             visible: false,
             confirmLoading: false,
-            path: '/Timeline/' + props.post.id
+            //path: '/Timeline/' + props.post.id,
+
           };
     }
 
@@ -69,6 +70,7 @@ class CardContent extends React.Component{
                     <p>{this.props.post.plainText}</p>
                     <button onClick={this.addComment}>Add Comment</button>
                     <Modal
+                        
                         title={this.props.post.title}
                         visible={visible}
                         onOk={this.handleOk}

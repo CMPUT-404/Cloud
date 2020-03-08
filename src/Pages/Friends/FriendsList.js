@@ -36,10 +36,11 @@ class FriendsList extends React.Component {
     let data = {
       author:item.author,
       friend:item.friend
-  }
+    }
     axios.post('https://cloud-align-server.herokuapp.com/friend/delete/',data).then(res =>{
       console.log(res)}
     )
+    window.location.reload(false);
   } 
   render() {
     const { initLoading,  list } = this.state;
@@ -63,7 +64,7 @@ class FriendsList extends React.Component {
 
             </Skeleton>
             <div >
-              <Button onClick={() => this.unfriend(item)}>Remove</Button>
+              <Button onClick={() => this.unfriend(item)}>Unfriend</Button>
             </div>
           </List.Item>
         )}

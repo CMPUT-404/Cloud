@@ -19,9 +19,9 @@ class Post extends React.Component{
 
     componentDidMount(){
 
-
-        var id = this.props.location.state.user
         this._isMounted = true
+        var id = this.props.location.state.user
+       
 
         
         const axios = require('axios')

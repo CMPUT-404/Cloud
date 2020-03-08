@@ -7,6 +7,8 @@ import Edit from './Models/Edit';
 
 class Profile extends React.Component {
 
+  _isMounted = false
+
   constructor(props){
     super(props)
     this.state = {
@@ -32,28 +34,32 @@ class Profile extends React.Component {
 
   
   loadcomp(){
-    let request = new XMLHttpRequest()
-    request.open('GET', 'https://cloud-align-server.herokuapp.com/posts/2')
 
 
 
-    request.send()
-    request.onload = () => {
+    
+    // let request = new XMLHttpRequest()
+    // request.open('GET', 'https://cloud-align-server.herokuapp.com/posts/2')
 
-      if (request.status === 200){
-      let posts = JSON.parse(request.response)
-      // var tempPostList = [] 
-      // alert(JSON.stringify(posts))
-      // for(let i=0;i<posts.length;i++){
-        
-      //   var eachPost = <CardContent post={posts[i]} />
-      //   tempPostList.push(eachPost)
-      // }
-      //var temp = <CardContent id={1} post={posts} />
-      var temp2 = {id:1, post:posts}
-      console.log(temp2)
 
-      this.setState({postComponents: temp2})
+
+    // request.send()
+    // request.onload = () => {
+
+    //   if (request.status === 200){
+    //   let posts = JSON.parse(request.response)
+    //     var tempPostList = [] 
+    //     alert(JSON.stringify(posts))
+    //     for(let i=0;i<posts.length;i++){
+          
+    //       var eachPost = <CardContent post={posts[i]} />
+    //       tempPostList.push(eachPost)
+    //     }
+    //     var temp = <CardContent id={1} post={posts} />
+    //   var temp2 = {id:1, post:posts}
+    //   console.log(temp2)
+
+    //   this.setState({postComponents: temp2})
     }else{
       alert("222")
     }
@@ -85,7 +91,7 @@ class Profile extends React.Component {
     // };
     // request.send('{"username":"AtestCow","password":"123456"}')
 
-    //this.loadcomp()
+    
 
     if (this.state.edit === false){
      
@@ -109,13 +115,7 @@ class Profile extends React.Component {
           </div>
 
         
-        
 
-       
-        
-        
-       
-       
     
       </div>
     

@@ -16,28 +16,19 @@ class Post extends React.Component{
     }
 
     componentDidMount(){
-
-
         var id = this.props.location.state.user
-        this._isMounted = true
-
-        
+        this._isMounted = true        
         const axios = require('axios')
-        axios.get('https://cloud-align-server.herokuapp.com/posts/'+id).then(
+        axios.get('https://cloud-align-server.herokuapp.com/posts/'+id)
+        .then(
             (response) =>{
-            
-                
                 this.setState({the_post: response.data})
-                
-            }
-        
-        ).catch(
+            })
+        .catch(
             function(err){
                 alert(err)
             }
         )
-
-
     }
 
     componentWillUnmount(){
@@ -48,19 +39,6 @@ class Post extends React.Component{
     
     render(){
 
-    // this.componentDidMount(this.props.location.state.user)
-   
-
-  
-    // let request = new XMLHttpRequest()
-    // request.open('GET', this.props.location.state.user)
-    // request.send()
-    // request.onload = () => {
-    //     let res = JSON.parse(request.response)
-        
-    //     alert(JSON.stringify(res,null,4))
-
-    // }
     if(this.state.the_post!==null){
     return(
 
@@ -70,10 +48,8 @@ class Post extends React.Component{
         extra={this.state.the_post.author_data.username}
         > 
         <Link to={'/Profile/'+this.state.the_post.author}><img alt='profile' align="left" src={require('../Images/pepe.jpeg')} /></Link>
-        {this.state.the_post.content}<br></br>
-        
+        {this.state.the_post.content}<br></br> 
         </Card>
-       
         </div>
   
     )

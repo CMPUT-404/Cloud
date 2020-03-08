@@ -36,6 +36,7 @@ class App extends React.Component {
       "password": this.state.password
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
       .then(response => {
+        console.log(response)
         if(response.status === 200){
   
           this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true,})
@@ -43,6 +44,7 @@ class App extends React.Component {
           return response
         })
       .catch(error=>{
+        //console.log(error)
         for(let k in error.response.data){
           alert(error.response.data[k])
         }
@@ -96,14 +98,25 @@ class App extends React.Component {
             <NavBar />
             <Switch>
               <Route path="/profile" render={
-                //()=>{return } === ()=>()
                 (props)=>(
                 <Profile token={this.state.token} userObject={this.state.userObject} {...props}/>)
                 }/>
-              <Route path="/requests" component={Requests}/>
-              <Route path="/friendslist" component={FriendsList}/>
-              <Route path="/following" component={Following}/>
-              <Route exact path="/timeline" component={Timeline}/>
+              <Route path="/requests" render={
+                (props)=>(
+                <Requests token={this.state.token} userObject={this.state.userObject} {...props}/>)
+                }/>/>
+              <Route path="/friendslist" render={
+                (props)=>(
+                <FriendsList token={this.state.token} userObject={this.state.userObject} {...props}/>)
+                }/>/>
+              <Route path="/following" render={
+                (props)=>(
+                <Following token={this.state.token} userObject={this.state.userObject} {...props}/>)
+                }/>/>
+              <Route exact path="/timeline" render={
+                (props)=>(
+                <Timeline token={this.state.token} userObject={this.state.userObject} {...props}/>)
+                }/>
               <Route path ="/Timeline/:Post" component={Post}/>
             </Switch>
           </Router>

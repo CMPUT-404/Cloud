@@ -49,6 +49,7 @@ class Profile extends React.Component {
       return(
         <div className="Profile" >
           <div id="posts">
+          <BasicProfile userObject={this.props.userObject}/>
             {this.state.postComponents}
           </div>    
         </div>

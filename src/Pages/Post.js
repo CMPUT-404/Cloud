@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import {Card} from 'antd';
 import  { Link } from 'react-router-dom';
@@ -48,7 +46,6 @@ class Post extends React.Component{
 
    
     
-
     render(){
 
     // this.componentDidMount(this.props.location.state.user)

@@ -34,6 +34,10 @@ class CardContent extends React.Component{
         });
       };
 
+    deletePost =() => {
+      
+    }
+
     handleOk = () => {
         this.setState({
           ModalText: 'Posting your comment',
@@ -69,6 +73,7 @@ class CardContent extends React.Component{
                     <Link to={'/Profile/'+this.props.post.author}><img id="cardProfile" alt='profile' align="left" src={require('../Images/pepe.jpeg')} /></Link>
                     <p>{this.props.post.content}</p>
                     <button onClick={this.addComment}>Add Comment</button>
+                    <button onClick={this.deletePost}>Delete</button>
                     <Modal
                         
                         title={this.props.post.title}

@@ -13,7 +13,7 @@ class Profile extends React.Component {
     super(props)
     this.state = {
       Props: props,
-      userdata : 'https://cloud-align-server.herokuapp.com/users/9e73298f-3ed6-4a02-ae0b-21bc864c0d87/',
+      userdata : 'https://cloud-align-server.herokuapp.com/users',
       path: "/Timeline",
       postComponents : [],
       edit: false,
@@ -102,7 +102,7 @@ class Profile extends React.Component {
       
       <div className="Profile" >
 
-        
+        <h1>{this.props.token}</h1>
         <div id="B">
         {/* <BasicProfile edit={this.state.go_edit} url={this.state.userdata} /> */}
         </div>

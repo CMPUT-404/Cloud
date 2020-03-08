@@ -38,6 +38,7 @@ class Timeline extends React.Component {
 
   render(){
     return(
+
       <div className="Timeline">
         <InputBox id="InputBox" url={this.state.url}/>
         {this.state.postComponents}

@@ -11,6 +11,8 @@ import Login from './Pages/Login';
 import axios from 'axios';
 import Post from './Pages/Post';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
+const token = React.createContext('');
 class App extends React.Component {
   constructor(){
     super()
@@ -106,17 +108,21 @@ class App extends React.Component {
       )
     } else {
       return(
-        <Router>
-          <NavBar />
-          <Switch>
-            <Route path="/profile" component={Profile}/>
-            <Route path="/requests" component={Requests}/>
-            <Route path="/friendslist" component={FriendsList}/>
-            <Route path="/following" component={Following}/>
-            <Route exact path="/timeline" component={Timeline}/>
-            <Route path ="/Timeline/:Post" component={Post}/>
-          </Switch>
-        </Router>
+          <Router>
+            <NavBar />
+            <Switch>
+              <Route path="/profile" render={
+                //()=>{return } === ()=>()
+                (props)=>(
+                <Profile token={this.state.token} userObject={this.state.userObject} {...props}/>)
+                }/>
+              <Route path="/requests" component={Requests}/>
+              <Route path="/friendslist" component={FriendsList}/>
+              <Route path="/following" component={Following}/>
+              <Route exact path="/timeline" component={Timeline}/>
+              <Route path ="/Timeline/:Post" component={Post}/>
+            </Switch>
+          </Router>
       );
     }
   }

@@ -12,39 +12,17 @@ class InputBox extends React.Component{
         }
     }
     submitPost(){
-<<<<<<< HEAD
-        
-
-        const axios = require('axios')
-
-=======
         //const axios = require('axios')
->>>>>>> Frontend-Develop
         // axios.post('https://cloud-align-server.herokuapp.com/author/posts/',{
         //     "username": 
         // }).then(
         //     (response) =>{
-<<<<<<< HEAD
-            
-                
-                
-                
         //     }
-        
-=======
-        //     }
->>>>>>> Frontend-Develop
         // ).catch(
         //     function(err){
         //         alert(err)
         //     }
         // )
-<<<<<<< HEAD
-
-
-       
-=======
->>>>>>> Frontend-Develop
     }
     pictureHandler = event => {
         console.log(event)

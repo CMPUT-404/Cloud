@@ -27,6 +27,7 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
+    // this._isMounted = true
     this.loadcomp()
   }
 
@@ -35,36 +36,28 @@ class Profile extends React.Component {
   
   loadcomp(){
 
-    var e = 1
+
+    alert(this.props.userObject.id)
+    
+
+    const axios = require('axios')
+        axios.get('https://cloud-align-server.herokuapp.com/author/allPosts/' + this.props.userObject.id).then(
+            (response) =>{
+            
+                this.setState({my_posts: response.data})
+                
+                
+            }
+        
+        ).catch(
+            function(err){
+                alert(err)
+            }
+        )
 
     
-    // let request = new XMLHttpRequest()
-    // request.open('GET', 'https://cloud-align-server.herokuapp.com/posts/2')
-
-
-
-    // request.send()
-    // request.onload = () => {
-
-    //   if (request.status === 200){
-    //   let posts = JSON.parse(request.response)
-    //     var tempPostList = [] 
-    //     alert(JSON.stringify(posts))
-    //     for(let i=0;i<posts.length;i++){
-          
-    //       var eachPost = <CardContent post={posts[i]} />
-    //       tempPostList.push(eachPost)
-    //     }
-    //     var temp = <CardContent id={1} post={posts} />
-    //   var temp2 = {id:1, post:posts}
-    //   console.log(temp2)
-
-    //   this.setState({postComponents: temp2})
-    // }else{
-    //   alert("222")
-    // }
-    
-  // }
+   
+  
 }
 
   render(){ 
@@ -95,14 +88,15 @@ class Profile extends React.Component {
 
     if (this.state.edit === false){
      
-
+    console.log(this.props.userObject)
 
     return (
       
       
       <div className="Profile" >
 
-        <h1>{this.props.token}</h1>
+        {/* <h1>{this.props.token}</h1> */}
+        <h1>{JSON.stringify(this.props.userObject)}</h1>
         <div id="B">
         {/* <BasicProfile edit={this.state.go_edit} url={this.state.userdata} /> */}
         </div>
@@ -111,7 +105,14 @@ class Profile extends React.Component {
 
         <div id="posts">
 
-        {this.state.postComponents.post && <CardContent id={this.state.postComponents.id} post={this.state.postComponents.post} />}
+       {/* { objects.map( function(this.state.my_posts){
+        return 8
+    })
+    
+    } */}
+
+        {JSON.stringify(this.state.my_posts)}
+        {/* {this.state.postComponents.post && <CardContent id={this.state.postComponents.id} post={this.state.postComponents.post} />} */}
           </div>
 
         

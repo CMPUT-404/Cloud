@@ -19,41 +19,26 @@ class InputBox extends React.Component{
     }
 
     submitPost(){
-        var request = new XMLHttpRequest()
-        request.open('POST',this.props.url)
-        // alert(this.props.url)
-       
-        request.setRequestHeader("Content-Type", "application/json")
-        request.setRequestHeader('Authorization', "Basic " + btoa('vanessa:123456'));
-        request.onreadystatechange = function () {
+        
+
+        const axios = require('axios')
+
+        // axios.post('https://cloud-align-server.herokuapp.com/author/posts/',{
+        //     "username": 
+        // }).then(
+        //     (response) =>{
             
-            if (request.readyState === 4 && request.status === 200) {
-                var json = JSON.parse(request.responseText);
-                alert(JSON.stringify(json));
-            }else{
-                window.location.reload()
-            }
-            
-        };
-
-        var text = document.getElementById("text").innerHTML
-
+                
+                
+                
+        //     }
         
+        // ).catch(
+        //     function(err){
+        //         alert(err)
+        //     }
+        // )
 
-        var data = {}
-        data["plainText"] = text
-        data["title"] = "poster"
-        data["author"] ="https://cloud-align-server.herokuapp.com/users/c36b2919-07ce-4287-b81a-2f305d706530/"
-        data["authorization"] = "raversefantasy"
-        
-        
-        
-
-
-        data = JSON.stringify(data);
-       
-
-        request.send(data)
 
        
     }

@@ -22,7 +22,8 @@ class App extends React.Component {
       password: "",
       github: "",
       email: "",
-      token: ""
+      token: "",
+      
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.usernameChange = this.usernameChange.bind(this);
@@ -39,10 +40,11 @@ class App extends React.Component {
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
       .then(response => {
         if(response.status === 200){
-          alert(response.statusText)
+          console.log(response)
+          this.setState({token: response.data.token, userObject:response.data.user})
           this.setState({isLoggedIn: true})
-          this.setState({token: response.data.token})
-          console.log(this.state.token)
+          
+          
         }
           return response
         })
@@ -60,16 +62,15 @@ class App extends React.Component {
         "password": this.state.password,
         "email": this.state.email,
         "github": this.state.github
-      }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
 
-      .then(response => {
+      }, {headers: {"Content-Type": "application/json;charset=UTF-8"}}).then(response => {
         this.setState({isLoggedIn: true})
-        this.setState({token: response.data.token})
+        this.setState({token: response.data.token, userObject:response.data.user})
         console.log(this.state.token)
         return response
-      })
 
-      .catch(error => {
+      }).catch(error => {
+        console.log(error.response)
         for(let k in error.response.data.errors){
           alert(error.response.data.errors[k][0])
         }

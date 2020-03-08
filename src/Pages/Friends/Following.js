@@ -15,6 +15,10 @@ class FollowingList extends React.Component {
   };
 
   componentDidMount() {
+    this.fetchData();
+  }
+  
+  fetchData =() => {
     axios.get(`https://cloud-align-server.herokuapp.com/following/`).then(res => {
       this.setState({
         initLoading : false,
@@ -37,13 +41,14 @@ class FollowingList extends React.Component {
       'Content-Type': 'multipart/form-data',
     }
     let data = {
-      author:item.following,
-      following:item.author
+      author:item.author,
+      following:item.following
     }
     axios.post('https://cloud-align-server.herokuapp.com/following/delete/',data,{headers : headers}).then(res =>{
+      this.fetchData();
       console.log(res)}
     )
-    //window.location.reload(false);
+    
   } 
   
   render() {

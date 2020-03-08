@@ -3,6 +3,7 @@ import BasicProfile from './Models/Basic_profile';
 import './css/Profile.css';
 import CardContent from '../Components/CardContent';
 import Edit from './Models/Edit';
+import axios from 'axios';
 
 
 class Profile extends React.Component {
@@ -20,13 +21,11 @@ class Profile extends React.Component {
       go_edit: ()=>{
         this.setState({edit:true})
       }
-
-
-
     }
   }
 
   componentDidMount() {
+<<<<<<< HEAD
     // this._isMounted = true
     this.loadcomp()
   }
@@ -85,8 +84,32 @@ class Profile extends React.Component {
     // request.send('{"username":"AtestCow","password":"123456"}')
 
     
+=======
+    this.__isMounted = true;
+    this.loadPostData()
+  }
 
+  loadPostData(){
+    axios.get("https://cloud-align-server.herokuapp.com/author/allPosts/"+this.props.userObject.id)
+      .then(response => {
+        var tempPostList = []
+        for(let i=0; i<response.data.length; i++){
+          var eachPost = <CardContent key={response.data[i].id} post={response.data[i]}/>
+          tempPostList.push(eachPost)
+        }
+        this.setState({postComponents: tempPostList})
+
+      })
+      .catch(()=>{
+        alert("Something went wrong")
+      }
+      )
+  }
+>>>>>>> Frontend-Develop
+
+  render(){
     if (this.state.edit === false){
+<<<<<<< HEAD
      
     console.log(this.props.userObject)
 
@@ -126,16 +149,23 @@ class Profile extends React.Component {
     }
     else{
       
+=======
+      return(
+        <div className="Profile" >
+          <div id="posts">
+            {this.state.postComponents}
+          </div>    
+        </div>
+      )
+    }else{ 
+>>>>>>> Frontend-Develop
       return(
         <div id="B">
-        <BasicProfile url={this.state.userdata}/>
-        
-        <Edit url={this.state.userdata}/>
+          <BasicProfile url={this.state.userdata}/>
+          <Edit url={this.state.userdata}/>
         </div>
       )
     }
-
   }
-
 }
 export default Profile

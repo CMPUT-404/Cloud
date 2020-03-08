@@ -1,4 +1,3 @@
-
 import React from 'react';
 import './App.css';
 import FriendsList from './Pages/Friends/FriendsList';
@@ -12,7 +11,6 @@ import axios from 'axios';
 import Post from './Pages/Post';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
-const token = React.createContext('');
 class App extends React.Component {
   constructor(){
     super()
@@ -23,7 +21,11 @@ class App extends React.Component {
       github: "",
       email: "",
       token: "",
+<<<<<<< HEAD
       
+=======
+      userObject: {}
+>>>>>>> Frontend-Develop
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.usernameChange = this.usernameChange.bind(this);
@@ -32,7 +34,6 @@ class App extends React.Component {
     this.emailChange = this.emailChange.bind(this);
     this.register = this.register.bind(this);
   }
-
   handleLogin(){
     axios.post(`https://cloud-align-server.herokuapp.com/users/login`,{
       "username": this.state.username,
@@ -40,28 +41,32 @@ class App extends React.Component {
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
       .then(response => {
         if(response.status === 200){
+<<<<<<< HEAD
           console.log(response)
           this.setState({token: response.data.token, userObject:response.data.user})
           this.setState({isLoggedIn: true})
           
           
+=======
+  
+          this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true,})
+>>>>>>> Frontend-Develop
         }
           return response
         })
-        
       .catch(error=>{
         for(let k in error.response.data){
           alert(error.response.data[k])
         }
       })
     }
-
     register(){
       axios.post(`https://cloud-align-server.herokuapp.com/users/register`,{
         "username": this.state.username,
         "password": this.state.password,
         "email": this.state.email,
         "github": this.state.github
+<<<<<<< HEAD
 
       }, {headers: {"Content-Type": "application/json;charset=UTF-8"}}).then(response => {
         this.setState({isLoggedIn: true})
@@ -71,28 +76,30 @@ class App extends React.Component {
 
       }).catch(error => {
         console.log(error.response)
+=======
+      }, {headers: {"Content-Type": "application/json;charset=UTF-8"}}).then(response => {
+
+        this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
+        return response
+      }).catch(error => {
+>>>>>>> Frontend-Develop
         for(let k in error.response.data.errors){
           alert(error.response.data.errors[k][0])
         }
       }) 
     }
-
   usernameChange(e){
     this.setState({username: e.target.value})
   }
-
   passwordChange(e){
     this.setState({password: e.target.value})
   }
-
   emailChange(e){
     this.setState({email: e.target.value})
   }
-
   githubChange(e){
     this.setState({github: e.target.value})
   }
-
   render(){
     if (this.state.isLoggedIn===false){
       return (
@@ -129,5 +136,3 @@ class App extends React.Component {
   }
 }
 export default App
-
-

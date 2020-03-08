@@ -1,56 +1,57 @@
-
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Input } from 'antd';
 import './InputBox.css';
-
-
-
 const { TextArea } = Input;
-
 class InputBox extends React.Component{
     constructor(){
         super()
         this.submitPost = this.submitPost.bind(this)
         this.state ={
             visible :false,
-
         }
     }
-
     submitPost(){
+<<<<<<< HEAD
         
 
         const axios = require('axios')
 
+=======
+        //const axios = require('axios')
+>>>>>>> Frontend-Develop
         // axios.post('https://cloud-align-server.herokuapp.com/author/posts/',{
         //     "username": 
         // }).then(
         //     (response) =>{
+<<<<<<< HEAD
             
                 
                 
                 
         //     }
         
+=======
+        //     }
+>>>>>>> Frontend-Develop
         // ).catch(
         //     function(err){
         //         alert(err)
         //     }
         // )
+<<<<<<< HEAD
 
 
        
+=======
+>>>>>>> Frontend-Develop
     }
-
     pictureHandler = event => {
         console.log(event)
     }
-
     preSubmit = () =>{
         this.setState({visible: true,})
     }
-    
     render(){
         return(
             <div id="inputBox">
@@ -64,10 +65,4 @@ class InputBox extends React.Component{
         )
     }
 }
-
 export default InputBox
-
-// Make public?<br></br>
-// <input type="radio" name="public" value="yes" id="yes"></input>Yes<br></br>
-// <input type="radio" name="public" value="no" id="no"></input>No
-          

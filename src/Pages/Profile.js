@@ -35,7 +35,7 @@ class Profile extends React.Component {
   
   loadcomp(){
 
-
+    var e = 1
 
     
     // let request = new XMLHttpRequest()
@@ -60,11 +60,11 @@ class Profile extends React.Component {
     //   console.log(temp2)
 
     //   this.setState({postComponents: temp2})
-    }else{
-      alert("222")
-    }
+    // }else{
+    //   alert("222")
+    // }
     
-  }
+  // }
 }
 
   render(){ 

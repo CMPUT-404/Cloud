@@ -18,25 +18,33 @@ class CardRequest extends React.Component{
     accept = () => {
 
       let data = {
-        friend:this.state.requests.authorID,
-        author:this.state.requests.friendID,
-        friendstatus:"accept"
+        friend:this.state.requests.authorID.id,
+        author:this.state.requests.friendID.id,
+        friendstatus:"accept",
+        
       }
-      axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
+      axios.post('http://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
 
         .then(res =>{
           this.props.onUpdate();
+          console.log(res);
+
+          this.setState({
+            requests : this.props.friendRequest,
+            displayName : this.props.displayName
+          })
+        
           })
     };
 
     decline = () => {
 
       let data = {
-        friend:this.state.requests.authorID,
-        author:this.state.requests.friendID,
+        friend:this.state.requests.authorID.id,
+        author:this.state.requests.friendID.id,
         friendstatus:"decline"
       }
-      axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
+      axios.post('http://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
 
         .then(res =>{
           this.props.onUpdate();
@@ -57,12 +65,14 @@ class CardRequest extends React.Component{
             <div>
                 <Card title={displayName}>
 
-                <Link to={'/Profile/'+requests.authorID}><img id="cardProfile" alt='profile' align="left" src={require('../../Images/pepe.jpeg')} /></Link>
+                <Link to={'/Profile/'+requests.auid}><img id="cardProfile" alt='profile' align="left" src={require('../../Images/pepe.jpeg')} /></Link>
                 <h2> {displayName} {'wants to add you as a friend'}</h2>
                 <hr/>
-                <Link to={'/Profile/'+requests.authorID}>{requests.authorID}</Link>
+                <Link to={'/Profile/'+requests.frid}>Profile</Link>
+                <div style={{float: 'right'}}>
                 <Button onClick={this.accept}>accept</Button>
                 <Button onClick={this.decline}>decline</Button>
+                </div>
                 </Card>
             </div>
         )

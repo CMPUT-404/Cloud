@@ -19,7 +19,7 @@ class FollowingList extends React.Component {
   }
   
   fetchData =() => {
-    axios.get(`https://cloud-align-server.herokuapp.com/following/`).then(res => {
+    axios.get(`http://cloud-align-server.herokuapp.com/following/`).then(res => {
       this.setState({
         initLoading : false,
         data: res.data,
@@ -44,7 +44,7 @@ class FollowingList extends React.Component {
       author:item.author,
       following:item.following
     }
-    axios.post('https://cloud-align-server.herokuapp.com/following/delete/',data,{headers : headers}).then(res =>{
+    axios.post('http://cloud-align-server.herokuapp.com/following/delete/',data,{headers : headers}).then(res =>{
       this.fetchData();
       console.log(res)}
     )

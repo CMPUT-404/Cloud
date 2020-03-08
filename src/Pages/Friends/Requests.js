@@ -16,15 +16,20 @@ class FriendRequest extends React.Component {
   }
 
   fetchData = () => {
-    axios.get(`https://cloud-align-server.herokuapp.com/friendrequest/`)
+    axios.get(`http://cloud-align-server.herokuapp.com/friendrequest/`)
       .then(res => {
         let requests = res.data;
         let tempRequests = [];
         for(let i = 0;i<requests.length;i++){
-          let authorId = requests[i].authorID;
-          let friendId = requests[i].friendID;
-          //this.fetchUsername(authorId);
-          let eachRequest = <CardRequest key={friendId} onUpdate = {this.fetchData} displayName = {authorId} authorId = {authorId} friendId = {friendId} friendRequest={requests[i]} />
+          let authorId = requests[i].authorID.id;
+          let friendId = requests[i].friendID.id;
+          let auid =  requests[i].authorID.id.split("/").slice(4)[0];
+          let frid =  requests[i].authorID.id.split("/").slice(4)[0];
+  
+          let friendName = requests[i].authorID.displayName;
+
+          let eachRequest = <CardRequest key={friendId} onUpdate = {this.fetchData} displayName = {friendName} 
+          authorId = {authorId} friendId = {friendId} friendRequest={requests[i]} auid={auid} frid={frid}/>
           tempRequests.push(eachRequest);
         }
         this.setState({

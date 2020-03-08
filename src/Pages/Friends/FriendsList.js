@@ -15,6 +15,10 @@ class FriendsList extends React.Component {
   };
 
   componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData =() => {
     axios.get(`https://cloud-align-server.herokuapp.com/friend/`).then(res => {
       this.setState({
         initLoading : false,
@@ -38,10 +42,10 @@ class FriendsList extends React.Component {
       friend:item.friend
     }
     axios.post('https://cloud-align-server.herokuapp.com/friend/delete/',data).then(res =>{
-      console.log(res)}
-    )
-    window.location.reload(false);
+      this.fetchData();
+    })
   } 
+  
   render() {
     const { initLoading,  list } = this.state;
   

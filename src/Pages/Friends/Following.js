@@ -33,19 +33,19 @@ class FollowingList extends React.Component {
   }
 
   unfollow =(item) =>{
-    let data = {
-      author:item.author,
-      following:item.following
+    const headers = {
+      'Content-Type': 'multipart/form-data',
     }
-    axios.post('https://cloud-align-server.herokuapp.com/following/delete/',data).then(res =>{
+    let data = {
+      author:item.following,
+      following:item.author
+    }
+    axios.post('https://cloud-align-server.herokuapp.com/following/delete/',data,{headers : headers}).then(res =>{
       console.log(res)}
     )
-    window.location.reload(false);
+    //window.location.reload(false);
   } 
-
-
   
-
   render() {
     const { initLoading,  list } = this.state;
 

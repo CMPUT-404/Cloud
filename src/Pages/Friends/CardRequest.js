@@ -20,22 +20,36 @@ class CardRequest extends React.Component{
       let data = {
         friend:this.state.requests.authorID,
         author:this.state.requests.friendID,
+        friendstatus:"accept"
       }
       axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
 
         .then(res =>{
+          this.props.onUpdate();
+          })
+    };
+
+    decline = () => {
+
+      let data = {
+        friend:this.state.requests.authorID,
+        author:this.state.requests.friendID,
+        friendstatus:"decline"
+      }
+      axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
+
+        .then(res =>{
+          this.props.onUpdate();
           console.log(res);
           this.setState({
             requests : this.props.friendRequest,
             displayName : this.props.displayName
           })
 
+
           })
+
     };
-
-    decline = () => {
-
-    }
 
     render(){
         const {requests,displayName} = this.state;

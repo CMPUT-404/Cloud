@@ -29,6 +29,7 @@ class Timeline extends React.Component {
         tempPostList.push(eachPost)
       }
       this.setState({postComponents: tempPostList})
+      
     }
 
     

@@ -24,14 +24,19 @@ class Profile extends React.Component {
     }
   }
 
+  
   componentDidMount() {
     this.__isMounted = true;
-    this.loadPostData()
+    // this.loadPostData()
+    this.load_propfile()
   }
 
   loadPostData(){
+   
     axios.get("https://cloud-align-server.herokuapp.com/author/allPosts/"+this.props.userObject.id)
       .then(response => {
+
+        
         var tempPostList = []
         for(let i=0; i<response.data.length; i++){
           var eachPost = <CardContent key={response.data[i].id} post={response.data[i]}/>
@@ -40,8 +45,8 @@ class Profile extends React.Component {
         this.setState({postComponents: tempPostList})
 
       })
-      .catch(()=>{
-        alert("Something went wrong")
+      .catch((err)=>{
+        console.log(err)
       }
       )
   }

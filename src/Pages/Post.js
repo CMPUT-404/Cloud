@@ -28,6 +28,7 @@ class Post extends React.Component{
             
                 
                 this.setState({the_post: response.data})
+                alert(JSON.postComponents(this.the_post))
                 
             }
         

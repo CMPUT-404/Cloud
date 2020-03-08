@@ -19,7 +19,7 @@ class FollowingList extends React.Component {
   }
   
   fetchData =() => {
-    axios.get(`http://cloud-align-server.herokuapp.com/following/`).then(res => {
+    axios.get(`https://cloud-align-server.herokuapp.com/following/`).then(res => {
       this.setState({
         initLoading : false,
         data: res.data,
@@ -30,8 +30,8 @@ class FollowingList extends React.Component {
 
   dataPre = (data) => {
     data.forEach((item, i) => {
-      item.followingId = item.following.split("/").slice(4)[0];
-      item.authorId = item.author.split("/").slice(4)[0];
+      item.followingId = item.friendID.id;
+      item.authorId = item.authorID.id;
     });
     return data;
   }
@@ -41,10 +41,10 @@ class FollowingList extends React.Component {
       'Content-Type': 'multipart/form-data',
     }
     let data = {
-      author:item.author,
-      following:item.following
+      author:item.authorID.id,
+      following:item.friendID.id
     }
-    axios.post('http://cloud-align-server.herokuapp.com/following/delete/',data,{headers : headers}).then(res =>{
+    axios.post('https://cloud-align-server.herokuapp.com/following/delete/',data,{headers : headers}).then(res =>{
       this.fetchData();
       console.log(res)}
     )
@@ -67,7 +67,7 @@ class FollowingList extends React.Component {
                 avatar={
                   <Avatar src={require('../../Images/pepe.jpeg')} />
                 }
-                title={<a href={'/Profile/'+item.followingId}>{item.following}</a>}
+                title={<a href={'/Profile/'+item.followingId}>{item.friendID.displayName}</a>}
               />
 
             </Skeleton>

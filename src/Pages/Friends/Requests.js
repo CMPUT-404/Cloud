@@ -1,7 +1,7 @@
 import React from 'react';
 import CardRequest from './CardRequest';
 import 'antd/dist/antd.css';
-import { Badge } from 'antd';
+import { Badge,Button } from 'antd';
 import axios from 'axios';
 
 
@@ -16,7 +16,7 @@ class FriendRequest extends React.Component {
   }
 
   fetchData = () => {
-    axios.get(`http://cloud-align-server.herokuapp.com/friendrequest/`)
+    axios.get(`https://cloud-align-server.herokuapp.com/friendrequest/`)
       .then(res => {
         let requests = res.data;
         let tempRequests = [];
@@ -44,10 +44,19 @@ class FriendRequest extends React.Component {
     this.fetchData();  
   }
 
+  addFriend =()=>{
+    let data = {    
+    }
+    axios.post('https://cloud-align-server.herokuapp.com/friendrequest/',data)
+      .then(res =>{
+        })
+  }
+
     render(){
       return (
         <div className="FriendRequest">
           <h2> Pending Friend Requests {<Badge count={this.state.count} />}</h2>
+          <Button onClick = {this.addFriend}>add a friend</Button>
 
           {this.state.friendRequests}
         </div>

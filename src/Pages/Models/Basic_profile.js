@@ -20,6 +20,7 @@ class Basic_profile extends React.Component{
     
 
     render(){
+        console.log(JSON.stringify(this.props.userObject))
         var request = new XMLHttpRequest()
         request.open('GET',this.props.url)
         request.send()

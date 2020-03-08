@@ -1,49 +1,37 @@
 
 
 import React from 'react';
+import axios from 'axios';
 
 class Edit extends React.Component{
     save_change(tempdata){
-
-
-  
-
   
       var data = {};
       var email = document.getElementById("email").value;
       var name = document.getElementById("name").value;
       if (email !== ''){data["email"] = email}
       if (name!==''){data["username"] = name}
-      // data["password"] = "raversefantasy"
-      
-     
+
       data = JSON.stringify(data);
-      
-    
-      var putreq = new XMLHttpRequest(); 
-      putreq.open('PUT',this.props.url,false);
-
-     
-      
-    
-
-      putreq.setRequestHeader('Authorization', "Basic " + btoa('vanessa:123456'));
-      putreq.setRequestHeader('Content-Type', 'application/json');
 
 
-      
-      putreq.onreadystatechange = function () {
+      // axios.patch("")
+      // var putreq = new XMLHttpRequest(); 
+      // putreq.open('PUT',this.props.url,false);
+      // putreq.setRequestHeader('Authorization', "Basic " + btoa('vanessa:123456'));
+      // putreq.setRequestHeader('Content-Type', 'application/json');
+      // putreq.onreadystatechange = function () {
          
-          if (putreq.status !== 200){
-            var json = JSON.parse(putreq.responseText);
-            alert(JSON.stringify(json));
-          }
+      //     if (putreq.status !== 200){
+      //       var json = JSON.parse(putreq.responseText);
+      //       alert(JSON.stringify(json));
+      //     }
           
-        };
+      //   };
     
      
     
-      putreq.send(data);
+      // putreq.send(data);
     
        
        

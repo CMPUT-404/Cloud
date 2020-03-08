@@ -34,6 +34,10 @@ class CardContent extends React.Component{
         });
       };
 
+    deletePost =() => {
+      
+    }
+
     handleOk = () => {
         this.setState({
           ModalText: 'Posting your comment',
@@ -60,15 +64,16 @@ class CardContent extends React.Component{
         return(
             <div>
                 <Card title={this.props.post.title} 
-                  extra={ <Link to={  { pathname:'/Timeline/' + this.props.post.title,
-                  state:{user: this.props.post.author,
+                  extra={ <Link to={  { pathname:'/Timeline/' + this.props.post.id,
+                  state:{user: this.props.post.id,
                           text: this.props.post.plainText}}
                   
-                  } >see more</Link> }>
-                    <Link to={'/Profile/'+this.props.post.author}>{this.props.post.author}</Link>
+                  } >see more</Link> }> 
+                    <Link to={'/Profile/'+this.props.post.author}>{this.props.post.author_data.username}</Link>
                     <Link to={'/Profile/'+this.props.post.author}><img id="cardProfile" alt='profile' align="left" src={require('../Images/pepe.jpeg')} /></Link>
-                    <p>{this.props.post.plainText}</p>
+                    <p>{this.props.post.content}</p>
                     <button onClick={this.addComment}>Add Comment</button>
+                    <button onClick={this.deletePost}>Delete</button>
                     <Modal
                         
                         title={this.props.post.title}

@@ -30,16 +30,17 @@ class FriendsList extends React.Component {
 
   dataPre = (data) => {
     data.forEach((item, i) => {
-      item.friendId = item.friend.split("/").slice(4)[0];
-      item.authorId = item.author.split("/").slice(4)[0];
+      //item.friendId = item.friend.split("/").slice(4)[0];
+      item.friendId = item.friendID.id;
+      item.authorId = item.authorID.id;
     });
     return data;
   }
 
   unfriend =(item) =>{
     let data = {
-      author:item.author,
-      friend:item.friend
+      author:item.authorID.id,
+      friend:item.friendID.id
     }
     axios.post('https://cloud-align-server.herokuapp.com/friend/delete/',data).then(res =>{
       this.fetchData();
@@ -63,7 +64,7 @@ class FriendsList extends React.Component {
                 avatar={
                   <Avatar src={require('../../Images/pepe.jpeg')} />
                 }
-                title={<a href={'/Profile/'+item.friendId}>{item.friend}</a>}
+                title={<a href={'/Profile/'+item.friendId}>{item.friendID.displayName}</a>}
               />
 
             </Skeleton>

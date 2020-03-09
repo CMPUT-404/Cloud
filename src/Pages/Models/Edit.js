@@ -16,32 +16,49 @@ class Edit extends React.Component{
 
 
 
-  save_change = () =>{
-    console.log(this.props)
-    var auth = "Token "+this.props.token
+  save_change(props){
+    console.log(props)
+    var auth = "Token "+props.token
+
+   
+
+    
     var name = document.getElementById('name').value
-    axios.patch(this.props.url, {username: name}, {headers:{
+    
+    
+
+    var Email = document.getElementById('email').value
+    var Bio = document.getElementById('bio').value
+
+    axios.patch(props.url, {username: name, email:Email, bio:Bio}, {headers:{
       "Authorization": auth,
     }
-  }).catch(e=>{console.log(e)})
-  }
+  }).then(function(response){
+    window.location.reload()
+  }).catch(e=>{if (e.response.status === 400){
+            alert("this name already exists")
+  }else{
+    alert("oops something went wrong")
+  } })
 
-render(){
+ }
+
+ render(){
     return(
     
         <div id="form">
-          <form className="form"  onSubmit={ ()=>this.save_change(this.state)} id="changes">
+          <p className="form" id="changes">
             <input type="text" id="name" placeholder="Name" ></input><br></br>
             <input type="text" id="email" placeholder="Email"></input><br></br>
-            <input type="text" placeholder="PhoneNumber"></input><br></br>
+            <input type="text" id="bio" placeholder="Bio"></input><br></br>
             
-            <button> 
+            <button type="submit" onClick={()=> this.save_change(this.props)}> 
             Save changes
             </button>
-          </form>
+          </p>
         </div>
     )
-}
+ }
     
 }
 

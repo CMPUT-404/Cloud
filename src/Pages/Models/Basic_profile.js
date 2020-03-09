@@ -8,12 +8,8 @@ class Basic_profile extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-
-        }
-        
-           
-            
-        }
+        } 
+    }
     
 
     componentWillUnmount(){
@@ -22,12 +18,6 @@ class Basic_profile extends React.Component{
 
     componentDidMount(){
         this._isMounted = true
-
-       
-        
-
-
-
     }
 
     
@@ -38,8 +28,8 @@ class Basic_profile extends React.Component{
         return(
             <div className="container">
                 <img id="profile_pic" alt='profile' src={require('../../Images/pepe.jpeg')} />
-                <img className="smallimg" id="edit_button" onClick={this.props.edit} src={require('../../Images/edit.jpeg')} />
-                <img className="smallimg" id="view_profile" src={require('../../Images/view.jpeg')}/>
+                <img className="smallimg" alt='profile' id="edit_button" onClick={this.props.edit} src={require('../../Images/edit.jpeg')} />
+                <img className="smallimg" alt='profile' id="view_profile" src={require('../../Images/view.jpeg')}/>
                 <div id="profiletext">
                 {this.props.object.username}<br></br>
                 {this.props.object.email}<br></br>

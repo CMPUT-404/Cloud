@@ -48,19 +48,9 @@ class App extends React.Component {
       "password": this.state.password
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
       .then(response => {
-<<<<<<< HEAD
           console.log(response)
           localStorage.setItem("token", response.data.token)
           this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
-=======
-        console.log(response)
-        if(response.status === 200){
-  
-          this.setState({token: response.data.token, userObject:response.data.user})
-          this.setState({isLoggedIn: true})
-
-        }
->>>>>>> joe-dev
           return response
         })
       .catch(error=>{

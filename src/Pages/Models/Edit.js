@@ -4,53 +4,30 @@ import React from 'react';
 import axios from 'axios';
 
 class Edit extends React.Component{
-  constructor(props){
-    super(props)
+
+  _isMounted = false
+  componentWillUnmount(){
+    this._isMounted = false
+  }
+
+  componentDidMount(){
+    this._isMounted = true
   }
 
 
-    _isMounted = false
-    componentWillUnmount(){
-      this._isMounted = false
+
+  save_change = () =>{
+    console.log(this.props)
+    var auth = "Token "+this.props.token
+    var name = document.getElementById('name').value
+    axios.patch(this.props.url, {username: name}, {headers:{
+      "Authorization": auth,
     }
-
-    componentDidMount(){
-      this._isMounted = true
-
-      
-      
-
-
-
+  }).catch(e=>{console.log(e)})
   }
-
-
-
-    save_change = () =>{
-      console.log(this.props)
-      var auth = "Token "+this.props.token
-
-      var name = document.getElementById('name').value
-      alert(name)
-  
-      axios.patch(this.props.url, {username: name}, {headers:{
-        "Authorization": auth,
-      }
-    }).catch(e=>{console.log(e)})
-
-    
-
-    
-       
-       
-    
-        
-      }
 
 render(){
     return(
-
-          
     
         <div id="form">
           <form className="form"  onSubmit={ ()=>this.save_change(this.state)} id="changes">
@@ -61,8 +38,6 @@ render(){
             <button> 
             Save changes
             </button>
-            
-
           </form>
         </div>
     )

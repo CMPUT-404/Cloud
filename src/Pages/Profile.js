@@ -8,28 +8,40 @@ import axios from 'axios';
 
 class Profile extends React.Component {
 
+  _isMounted = false
+
   constructor(props){
     super(props)
     this.state = {
       Props: props,
-      userdata : 'https://cloud-align-server.herokuapp.com/users',
+      
       path: "/Timeline",
       postComponents : [],
       edit: false,
-      go_edit: ()=>{
+      go_edit : ()=>{
+       
         this.setState({edit:true})
       }
+      
     }
   }
 
+  
   componentDidMount() {
     this.__isMounted = true;
     this.loadPostData()
+    
   }
 
   loadPostData(){
+<<<<<<< HEAD
+=======
+   
+>>>>>>> joe-dev
     axios.get("https://cloud-align-server.herokuapp.com/posts/user/"+this.props.userObject.id)
       .then(response => {
+
+        
         var tempPostList = []
         for(let i=0; i<response.data.length; i++){
           var eachPost = <CardContent key={response.data[i].id} post={response.data[i]}/>
@@ -38,8 +50,8 @@ class Profile extends React.Component {
         this.setState({postComponents: tempPostList})
 
       })
-      .catch(()=>{
-        alert("Something went wrong")
+      .catch((err)=>{
+        console.log(err)
       }
       )
   }
@@ -49,7 +61,7 @@ class Profile extends React.Component {
       return(
         <div className="Profile" >
           <div id="posts">
-          <BasicProfile userObject={this.props.userObject}/>
+          <BasicProfile object={this.props.userObject} edit={this.state.go_edit}/>
             {this.state.postComponents}
           </div>    
         </div>
@@ -57,8 +69,8 @@ class Profile extends React.Component {
     }else{ 
       return(
         <div id="B">
-          <BasicProfile url={this.state.userdata}/>
-          <Edit url={this.state.userdata}/>
+          <BasicProfile object={this.props.userObject} edit={this.state.go_edit}/>
+          <Edit object={this.props.userObject} token={this.props.token} url={"https://cloud-align-server.herokuapp.com/users/"+this.props.userObject.id+"/"}/>
         </div>
       )
     }

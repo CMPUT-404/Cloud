@@ -36,7 +36,7 @@ class Basic_profile extends React.Component{
         
 
         return(
-            <div className="container">
+            <div id="basicProfile" className="container">
                 <img id="profile_pic" alt='profile' src={require('../../Images/profile.jpeg')} />
                 <img className="smallimg" alt='profile' id="edit_button" onClick={this.props.edit} src={require('../../Images/edit.jpeg')} />
                 <img className="smallimg" alt='profile' id="view_profile" src={require('../../Images/view.jpeg')}/>

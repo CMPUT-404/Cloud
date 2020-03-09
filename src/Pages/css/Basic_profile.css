@@ -1,4 +1,6 @@
-
+#basicProfile{
+    margin-left: 5%;
+}
 
 #profiletext{
     position: relative;
@@ -20,7 +22,7 @@
 
 }
 .container {
-    position: sticky;
+ 
     left: 50pt;
     width: 500pt;
     height: 200pt;

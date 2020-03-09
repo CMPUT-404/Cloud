@@ -34,10 +34,7 @@ class Profile extends React.Component {
   }
 
   loadPostData(){
-<<<<<<< HEAD
-=======
    
->>>>>>> joe-dev
     axios.get("https://cloud-align-server.herokuapp.com/posts/user/"+this.props.userObject.id)
       .then(response => {
 

@@ -62,7 +62,7 @@ class FriendsList extends React.Component {
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
                 avatar={
-                  <Avatar src={require('../../Images/pepe.jpeg')} />
+                  <Avatar src={require('../../Images/profile.jpeg')} />
                 }
                 title={<a href={'/Profile/'+item.friendId}>{item.friendID.displayName}</a>}
               />

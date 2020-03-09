@@ -50,6 +50,9 @@ class Timeline extends React.Component {
         "description": "",
         "visible_to": ""
       })
+      .then(()=>{
+        window.location.reload()
+      })
       
       .catch((err)=>{
         console.log(err)

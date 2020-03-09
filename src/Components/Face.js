@@ -10,7 +10,7 @@ class Face extends React.Component{
         return(
 
             <div>
-            <img src={require('../Images/pepe.png')} />
+            <img src={require('../Images/profile.png')} />
            </div>
 
 

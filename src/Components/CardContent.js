@@ -16,7 +16,8 @@ class CardContent extends React.Component{
             ModalText: "display a list of comments",
             visible: false,
             confirmLoading: false,
-            path: '/Timeline/' + props.post.id
+            //path: '/Timeline/' + props.post.id,
+
           };
     }
 
@@ -32,6 +33,10 @@ class CardContent extends React.Component{
           visible: true,
         });
       };
+
+    deletePost =() => {
+      
+    }
 
     handleOk = () => {
         this.setState({
@@ -59,12 +64,18 @@ class CardContent extends React.Component{
         return(
             <div>
                 <Card title={this.props.post.title} 
-                  extra={ <Link to={'/Timeline/' + this.props.post.id} >see more</Link> }>
-                    <Link to={'/Profile/'+this.props.post.author}>{this.props.post.author}</Link>
+                  extra={ <Link to={  { pathname:'/Timeline/' + this.props.post.id,
+                  state:{user: this.props.post.id,
+                          text: this.props.post.plainText}}
+                  
+                  } >see more</Link> }> 
+                    <Link to={'/Profile/'+this.props.post.author}>{this.props.post.author_data.username}</Link>
                     <Link to={'/Profile/'+this.props.post.author}><img id="cardProfile" alt='profile' align="left" src={require('../Images/pepe.jpeg')} /></Link>
-                    <p>{this.props.post.plainText}</p>
+                    <p>{this.props.post.content}</p>
                     <button onClick={this.addComment}>Add Comment</button>
+                    <button onClick={this.deletePost}>Delete</button>
                     <Modal
+                        
                         title={this.props.post.title}
                         visible={visible}
                         onOk={this.handleOk}
@@ -72,9 +83,6 @@ class CardContent extends React.Component{
                         onCancel={this.handleCancel}
                        
                         >
-                        
-                       
-
 
                         <TextArea rows={7} placeholder="Make a comment about this post"/>
                         <p>{ModalText}</p>

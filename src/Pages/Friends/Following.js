@@ -1,15 +1,12 @@
 
 import React from 'react';
 import 'antd/dist/antd.css';
+import './FriendsList.css';
+import axios from 'axios';
+import { List, Avatar, Button, Skeleton} from 'antd';
 
-import { List, Avatar, Button, Skeleton } from 'antd';
 
-import reqwest from 'reqwest';
-
-const count = 4;
-const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat&noinfo`;
-
-class Following extends React.Component {
+class FollowingList extends React.Component {
   state = {
     initLoading: true,
     loading: false,
@@ -18,72 +15,50 @@ class Following extends React.Component {
   };
 
   componentDidMount() {
-    this.getData(res => {
+    this.fetchData();
+  }
+  
+  fetchData =() => {
+    axios.get(`https://cloud-align-server.herokuapp.com/following/`).then(res => {
       this.setState({
-        initLoading: false,
-        data: res.results,
-        list: res.results,
-      });
-    });
+        initLoading : false,
+        data: res.data,
+        list: this.dataPre(res.data)
+      })
+    })
   }
 
-  getData = callback => {
-    reqwest({
-      url: fakeDataUrl,
-      type: 'json',
-      method: 'get',
-      contentType: 'application/json',
-      success: res => {
-        callback(res);
-      },
+  dataPre = (data) => {
+    data.forEach((item, i) => {
+      item.followingId = item.friendID.id;
+      item.authorId = item.authorID.id;
     });
-  };
+    return data;
+  }
 
-  onLoadMore = () => {
-    this.setState({
-      loading: true,
-      list: this.state.data.concat([...new Array(count)].map(() => ({ loading: true, name: {} }))),
-    });
-    this.getData(res => {
-      const data = this.state.data.concat(res.results);
-      this.setState(
-        {
-          data,
-          list: data,
-          loading: false,
-        },
-        () => {
-          // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
-          // In real scene, you can using public method of react-virtualized:
-          // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
-          window.dispatchEvent(new Event('resize'));
-        },
-      );
-    });
-  };
-
+  unfollow =(item) =>{
+    const headers = {
+      'Content-Type': 'multipart/form-data',
+    }
+    let data = {
+      author:item.authorID.id,
+      following:item.friendID.id
+    }
+    axios.post('https://cloud-align-server.herokuapp.com/following/delete/',data,{headers : headers}).then(res =>{
+      this.fetchData();
+      console.log(res)}
+    )
+    
+  } 
+  
   render() {
-    const { initLoading, loading, list } = this.state;
-    const loadMore =
-      !initLoading && !loading ? (
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: 12,
-            height: 32,
-            lineHeight: '32px',
-          }}
-        >
-          <Button onClick={this.onLoadMore} id = "loadmore">loading more </Button>
-        </div>
-      ) : null;
+    const { initLoading,  list } = this.state;
 
     return (
       <List
         className="demo-loadmore-list"
         loading={initLoading}
         itemLayout="horizontal"
-        loadMore={loadMore}
         dataSource={list}
         renderItem={item => (
           <List.Item>
@@ -92,13 +67,12 @@ class Following extends React.Component {
                 avatar={
                   <Avatar src={require('../../Images/pepe.jpeg')} />
                 }
-                title={<a href="https://ant.design">{item.name.last}</a>}
-                description="dummy friend list"
+                title={<a href={'/Profile/'+item.followingId}>{item.friendID.displayName}</a>}
               />
 
             </Skeleton>
             <div >
-              <Button >unfollow</Button>
+              <Button onClick={() => this.unfollow(item)}>Unfollow</Button>
             </div>
           </List.Item>
         )}
@@ -107,4 +81,4 @@ class Following extends React.Component {
   }
 }
 
-export default Following
+export default FollowingList

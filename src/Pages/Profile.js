@@ -3,115 +3,74 @@ import BasicProfile from './Models/Basic_profile';
 import './css/Profile.css';
 import CardContent from '../Components/CardContent';
 import Edit from './Models/Edit';
+import axios from 'axios';
 
 
 class Profile extends React.Component {
+
+  _isMounted = false
 
   constructor(props){
     super(props)
     this.state = {
       Props: props,
-      userdata : 'http://162.246.157.219:25565/users/9e73298f-3ed6-4a02-ae0b-21bc864c0d87/',
+      
       path: "/Timeline",
       postComponents : [],
       edit: false,
-      go_edit: ()=>{
+      go_edit : ()=>{
+       
         this.setState({edit:true})
       }
-
-
-
+      
     }
   }
 
-
-
   
+  componentDidMount() {
+    this.__isMounted = true;
+    this.loadPostData()
+    
+  }
 
+  loadPostData(){
+   
+    axios.get("https://cloud-align-server.herokuapp.com/posts/user/"+this.props.userObject.id)
+      .then(response => {
 
-  render(){ 
-    // GET
-    // var request = new XMLHttpRequest()
-    // request.open('GET','http://162.246.157.219:25565/users')
-    // request.send()
-    // var temp = null
-    // request.onload = ()=>{
-    //   temp = JSON.parse(request.response)
-    //   alert(temp[0].url)
-    // }
+        
+        var tempPostList = []
+        for(let i=0; i<response.data.length; i++){
+          var eachPost = <CardContent key={response.data[i].id} post={response.data[i]}/>
+          tempPostList.push(eachPost)
+        }
+        this.setState({postComponents: tempPostList})
 
-    //POST 
-    // request.open('POST','http://162.246.157.219:25565/users/')
-    // request.setRequestHeader("Authorization", "Basic " + btoa("admin:123456"));
-    // request.setRequestHeader("Content-Type", "application/json")
-    // request.onreadystatechange = function () {
-    //   alert(request.responseText)
-    //   if (request.readyState === 4 && request.status === 200) {
-    //       var json = JSON.parse(request.responseText);
-    //       alert(JSON.stringify(json));
-    //   }
-    // };
-    // request.send('{"username":"AtestCow","password":"123456"}')
-
-    if (this.state.edit === false){
-     
-
-    let request = new XMLHttpRequest()
-    request.open('GET', 'http://162.246.157.219:25565/posts/')
-    request.send()
-    request.onload = () => {
-      let posts = JSON.parse(request.response)
-      var tempPostList = [] 
-      for(let i=0;i<posts.length;i++){
-        var eachPost = <CardContent post={posts[i]} />
-        tempPostList.push(eachPost)
+      })
+      .catch((err)=>{
+        console.log(err)
       }
-      this.setState({postComponents: tempPostList})
-    }
+      )
+  }
 
-    return (
-      
-      
-      <div className="Profile" >
-
-        
-        <div id="B">
-        <BasicProfile edit={this.state.go_edit} url={this.state.userdata} />
+  render(){
+    if (this.state.edit === false){
+      return(
+        <div className="Profile" >
+          <div id="posts">
+          <BasicProfile object={this.props.userObject} edit={this.state.go_edit}/>
+            {this.state.postComponents}
+          </div>    
         </div>
-
-        
-
-        <div id="posts">
-            {this.state.postComponents}ls
-          </div>
-
-        
-        
-
-       
-        
-        
-       
-       
-    
-      </div>
-    
-
-
-    )
-    }
-    else{
-      
+      )
+    }else{ 
       return(
         <div id="B">
-        <BasicProfile url={this.state.userdata}/>
-        
-        <Edit url={this.state.userdata}/>
+          <BasicProfile object={this.props.userObject} edit={this.state.go_edit}/>
+          <Edit object={this.props.userObject} token={this.props.token} url={"https://cloud-align-server.herokuapp.com/users/"+this.props.userObject.id+"/"}/>
         </div>
       )
     }
-
   }
-
 }
 export default Profile

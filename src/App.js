@@ -2,22 +2,26 @@ import React from 'react';
 import './App.css';
 import FriendsList from './Pages/Friends/FriendsList';
 import Following from './Pages/Friends/Following';
-import Friends from './Pages/Friends/Friends';
+import Requests from './Pages/Friends/Requests';
 import Profile from './Pages/Profile';
 import NavBar from './Components/NavBar';
 import Timeline from './Pages/Timeline';
 import Login from './Pages/Login';
-import Register from './Pages/Register';
+import axios from 'axios';
+import Post from './Pages/Post';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
 class App extends React.Component {
   constructor(){
-    super() 
+    super()
     this.state={
       isLoggedIn: false,
       username: "",
       password: "",
       github: "",
-      email: ""
+      email: "",
+      token: localStorage.getItem("token") || "",
+      userObject: {}
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.usernameChange = this.usernameChange.bind(this);
@@ -27,71 +31,65 @@ class App extends React.Component {
     this.register = this.register.bind(this);
   }
 
+  componentDidMount(){
+    axios.get(`https://cloud-align-server.herokuapp.com/users/validate`,{headers:{Authorization: "Token "+this.state.token}})
+    .then(response=>{
+      console.log(response)
+      this.setState({isLoggedIn: true, userObject: response.data.user})
+    })
+    .catch(()=>{
+      this.setState({isLoggedIn: false})
+    })
+  }
+
   handleLogin(){
-    let request = new XMLHttpRequest()
-    request.open('GET', 'https://cloud-align-server.herokuapp.com/users/login')
-    request.setRequestHeader("Authorization", "Basic " + btoa(this.state.username+":"+this.state.password));
-    request.send()
-    request.onload = () => {
-      if (request.status !== 200) { // analyze HTTP status of the response
-        alert(request.status)
-        return (
-          <Login/>
-        )
-      } else{ // log in 
-        var jsonResponse = JSON.parse(request.responseText);
-        this.setState({userObject: jsonResponse});
-        console.log(this.state.userObject);
-        this.setState({isLoggedIn: true});
-      }
-    };
-  }
-
-  register(){
-    let request = new XMLHttpRequest();
-    request.open('POST', 'https://cloud-align-server.herokuapp.com/users/register');
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");    
-    let body = {
-      username: this.state.username,
-      password: this.state.password,
-      email: this.state.email,
-      github: this.state.github
+    axios.post(`https://cloud-align-server.herokuapp.com/users/login`,{
+      "username": this.state.username,
+      "password": this.state.password
+    }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
+      .then(response => {
+          console.log(response)
+          localStorage.setItem("token", response.data.token)
+          this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
+          return response
+        })
+      .catch(error=>{
+        //console.log(error)
+        for(let k in error.response.data){
+          alert(error.response.data[k])
+        }
+      })
     }
-    request.send(JSON.stringify(body))
-    console.log(body)
-
-    request.onload = () => {
-      if (request.status === 201){
-        var jsonResponse = JSON.parse(request.responseText);
-        this.setState({userObject: jsonResponse});
-        console.log(this.state.userObject);
-        this.setState({isLoggedIn:true});
-      }else if (request.status !== 200){
-        return(
-          <Register/>
-        )
-      }
+    register(){
+      axios.post(`https://cloud-align-server.herokuapp.com/users/register`,{
+        "username": this.state.username,
+        "password": this.state.password,
+        "email": this.state.email,
+        "github": this.state.github
+      }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
+      .then(response => {
+        localStorage.setItem("token", response.data.token)
+        this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
+        return response
+      }).catch(error => {
+        for(let k in error.response.data.errors){
+          alert(error.response.data.errors[k][0])
+        }
+      }) 
     }
-  }
-
-
   usernameChange(e){
     this.setState({username: e.target.value})
   }
-
   passwordChange(e){
     this.setState({password: e.target.value})
   }
-
   emailChange(e){
     this.setState({email: e.target.value})
   }
-
   githubChange(e){
     this.setState({github: e.target.value})
   }
-
-  render(){  
+  render(){
     if (this.state.isLoggedIn===false){
       return (
         <Login
@@ -107,16 +105,32 @@ class App extends React.Component {
       )
     } else {
       return(
-        <Router>
-          <NavBar />
-          <Switch>
-            <Route path="/profile" component={Profile}/>
-            <Route path="/friends" component={Friends}/>
-            <Route path="/friendslist" component={FriendsList}/>
-            <Route path="/following" component={Following}/>
-            <Route exact path="/timeline" component={Timeline}/>
-          </Switch>
-        </Router>
+          <Router>
+            <NavBar />
+            <Switch>
+              <Route path="/profile" render={
+                (props)=>(
+                <Profile token={this.state.token} userObject={this.state.userObject} {...props}/>)
+                }/>
+              <Route path="/requests" render={
+                (props)=>(
+                <Requests token={this.state.token} userObject={this.state.userObject} {...props}/>)
+                }/>/>
+              <Route path="/friendslist" render={
+                (props)=>(
+                <FriendsList token={this.state.token} userObject={this.state.userObject} {...props}/>)
+                }/>/>
+              <Route path="/following" render={
+                (props)=>(
+                <Following token={this.state.token} userObject={this.state.userObject} {...props}/>)
+                }/>/>
+              <Route exact path="/timeline" render={
+                (props)=>(
+                <Timeline token={this.state.token} userObject={this.state.userObject} {...props}/>)
+                }/>
+              <Route path ="/Timeline/:Post" component={Post}/>
+            </Switch>
+          </Router>
       );
     }
   }

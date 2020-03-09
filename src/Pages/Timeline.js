@@ -1,6 +1,10 @@
 import React from 'react';
-import InputBox from '../Components/InputBox';
 import CardContent from '../Components/CardContent';
+import axios from 'axios';
+import { Input } from 'antd';
+import './Timeline.css';
+const { TextArea } = Input;
+
 
 
 class Timeline extends React.Component {
@@ -8,34 +12,63 @@ class Timeline extends React.Component {
     super(props)
     this.state = {
       "postComponents": [],
-      url: 'http://162.246.157.219:25565/posts/'
+      url: 'https://cloud-align-server.herokuapp.com/posts/'
 
     }
-    this.getPosts = this.getPosts.bind(this);
-    this.getPosts();
+    this.loadPostData = this.loadPostData.bind(this);
+    this.submitPost = this.submitPost.bind(this);
+    this.loadPostData();
   }
 
+  loadPostData(){
+    axios.get("https://cloud-align-server.herokuapp.com/posts")
+      .then(response => {
+        var tempPostList = []
+        for(let i=0; i<response.data.length; i++){
+          var eachPost = <CardContent key={response.data[i].id} post={response.data[i]}/>
+          tempPostList.push(eachPost)
+        }
+        this.setState({postComponents: tempPostList})
 
-  getPosts(){
-    let request = new XMLHttpRequest()
-    request.open('GET', this.state.url)
-    request.send()
-    request.onload = () => {
-      let posts = JSON.parse(request.response)
-      var tempPostList = [] 
-      for(let i=0;i<posts.length;i++){
-        var eachPost = <CardContent post={posts[i]} />
-        tempPostList.push(eachPost)
+      })
+      .catch(()=>{
+        alert("Something went wrong")
       }
-      this.setState({postComponents: tempPostList})
-    }
+      )
+  }
+
+  submitPost(){
+    
+    var title = document.getElementById("title").innerHTML
+    var text = document.getElementById("text").innerHTML
+
+    console.log(this.props.userObject)
+    
+    axios.post("https://cloud-align-server.herokuapp.com/posts/",{
+        "title":title, 
+        "content":text, 
+        "author": "https://cloud-align-server.herokuapp.com/users/"+this.props.userObject.id+"/",
+        "visibilities": true
+      })
+      
+      .catch((err)=>{
+        console.log(err)
+      })
+    
+
   }
 
 
   render(){
     return(
+
       <div className="Timeline">
-        <InputBox id="InputBox" url={this.state.url}/>
+        <div id="inputBox">
+              <TextArea id="title" rows={1} placeholder="Title of the Post"/>
+              <TextArea id="text" rows={7} placeholder="Maximum 300 characters " maxLength="300"/>
+              <button id="submitButton" onClick={this.submitPost}>Submit</button>
+              <input id="uploadButton" type="file" alt="image uploaded by user" onChange={this.pictureHandler}/>
+          </div>
         {this.state.postComponents}
       </div>
     )

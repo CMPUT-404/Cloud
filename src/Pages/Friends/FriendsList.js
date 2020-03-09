@@ -6,8 +6,6 @@ import axios from 'axios';
 import { List, Avatar, Button, Skeleton} from 'antd';
 
 
-const count = 4;
-
 class FriendsList extends React.Component {
   state = {
     initLoading: true,
@@ -17,7 +15,11 @@ class FriendsList extends React.Component {
   };
 
   componentDidMount() {
-    axios.get(`http://127.0.0.1:8000/friend/`).then(res => {
+    this.fetchData();
+  }
+
+  fetchData =() => {
+    axios.get(`https://cloud-align-server.herokuapp.com/friend/`).then(res => {
       this.setState({
         initLoading : false,
         data: res.data,
@@ -28,59 +30,32 @@ class FriendsList extends React.Component {
 
   dataPre = (data) => {
     data.forEach((item, i) => {
-      let id = item.friend.split("/").slice(4)[0];
-      item.friendId = id;
-
+      //item.friendId = item.friend.split("/").slice(4)[0];
+      item.friendId = item.friendID.id;
+      item.authorId = item.authorID.id;
     });
     return data;
   }
 
-
-  onLoadMore = () => {
-    this.setState({
-      loading: true,
-      list: this.state.data.concat([...new Array(count)].map(() => ({ loading: true, name: {} }))),
-    });
-    this.getData(res => {
-      const data = this.state.data.concat(res.results);
-      this.setState(
-        {
-          data,
-          list: data,
-          loading: false,
-        },
-        () => {
-          // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
-          // In real scene, you can using public method of react-virtualized:
-          // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
-          window.dispatchEvent(new Event('resize'));
-        },
-      );
-    });
-  };
-
+  unfriend =(item) =>{
+    let data = {
+      author:item.authorID.id,
+      friend:item.friendID.id
+    }
+    axios.post('https://cloud-align-server.herokuapp.com/friend/delete/',data).then(res =>{
+      this.fetchData();
+    })
+  } 
+  
   render() {
-    const { initLoading, loading, list } = this.state;
-    const loadMore =
-      !initLoading && !loading ? (
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: 12,
-            height: 32,
-            lineHeight: '32px',
-          }}
-        >
-
-        </div>
-      ) : null;
+    const { initLoading,  list } = this.state;
+  
 
     return (
       <List
         className="demo-loadmore-list"
         loading={initLoading}
         itemLayout="horizontal"
-        loadMore={loadMore}
         dataSource={list}
         renderItem={item => (
           <List.Item>
@@ -89,12 +64,12 @@ class FriendsList extends React.Component {
                 avatar={
                   <Avatar src={require('../../Images/pepe.jpeg')} />
                 }
-                title={<a href={'/Profile/'+item.friendId}>{item.friend}</a>}
+                title={<a href={'/Profile/'+item.friendId}>{item.friendID.displayName}</a>}
               />
 
             </Skeleton>
             <div >
-              <Button>Remove</Button>
+              <Button onClick={() => this.unfriend(item)}>Unfriend</Button>
             </div>
           </List.Item>
         )}

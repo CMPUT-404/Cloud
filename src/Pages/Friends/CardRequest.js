@@ -9,52 +9,72 @@ class CardRequest extends React.Component{
 
   constructor(props){
       super(props)
-      this.num = {
-      count: 6,
-      };
-      this.state = {
-        path: '/Timeline/' + props.friendRequest.id
+      this.state= {
+        requests : this.props.friendRequest,
+        displayName : this.props.displayName
       }
-}
-    increase = () => {
+    }
 
-      let request = {
-        friend:"http://127.0.0.1:8000/users/70d955d1-7519-47c4-b9ce-6c424bc7ffb4/",
-        author:"http://127.0.0.1:8000/users/bd55c8cb-eecc-418a-90c9-b50aa7e96a13/",
+    accept = () => {
+
+      let data = {
+        friend:this.state.requests.authorID.id,
+        author:this.state.requests.friendID.id,
+        friendstatus:"accept",
+        
       }
-      axios.post('http://127.0.0.1:8000/friend/requestprocess/',request)
+      axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
+
         .then(res =>{
+          this.props.onUpdate();
           console.log(res);
-        })
+
+          this.setState({
+            requests : this.props.friendRequest,
+            displayName : this.props.displayName
+          })
+        
+          })
     };
 
     decline = () => {
-      let count = this.num.count - 1;
-      if (count < 0) {
-        count = 0;
-      }
-      this.setState({ count });
-    };
 
-    onChange = show => {
-      this.setState({ show });
+      let data = {
+        friend:this.state.requests.authorID.id,
+        author:this.state.requests.friendID.id,
+        friendstatus:"decline"
+      }
+      axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
+
+        .then(res =>{
+          this.props.onUpdate();
+          console.log(res);
+          this.setState({
+            requests : this.props.friendRequest,
+            displayName : this.props.displayName
+          })
+
+
+          })
+
     };
 
     render(){
+        const {requests,displayName} = this.state;
         return(
             <div>
-                <Card title={this.props.friendRequest.displayName}>
+                <Card title={displayName}>
 
-                <Link to={'/Profile/'+this.props.friendRequest.authorID}><img id="cardProfile" alt='profile' align="left" src={require('../../Images/pepe.jpeg')} /></Link>
-                <h2> {this.props.displayName} {'wants to add you as a friend'}</h2>
+                <Link to={'/Profile/'+requests.auid}><img id="cardProfile" alt='profile' align="left" src={require('../../Images/pepe.jpeg')} /></Link>
+                <h2> {displayName} {'wants to add you as a friend'}</h2>
                 <hr/>
-                <Link to={'/Profile/'+this.props.friendRequest.authorID}>{this.props.friendRequest.authorID}</Link>
+                <Link to={'/Profile/'+requests.frid}>Profile</Link>
+                <div style={{float: 'right'}}>
+                <Button onClick={this.accept}>accept</Button>
                 <Button onClick={this.decline}>decline</Button>
-                <Button onClick={this.increase}>accept</Button>
+                </div>
                 </Card>
             </div>
-
-
         )
     }
 }

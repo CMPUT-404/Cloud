@@ -39,7 +39,9 @@ class App extends React.Component {
         console.log(response)
         if(response.status === 200){
   
-          this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true,})
+          this.setState({token: response.data.token, userObject:response.data.user})
+          this.setState({isLoggedIn: true})
+
         }
           return response
         })

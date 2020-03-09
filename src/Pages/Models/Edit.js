@@ -4,34 +4,42 @@ import React from 'react';
 import axios from 'axios';
 
 class Edit extends React.Component{
-    save_change(tempdata){
+  constructor(props){
+    super(props)
+  }
+
+
+    _isMounted = false
+    componentWillUnmount(){
+      this._isMounted = false
+    }
+
+    componentDidMount(){
+      this._isMounted = true
+
+      
+      
+
+
+
+  }
+
+
+
+    save_change = () =>{
+      console.log(this.props)
+      var auth = "Token "+this.props.token
+
+      var name = document.getElementById('name').value
+      alert(name)
   
-      var data = {};
-      var email = document.getElementById("email").value;
-      var name = document.getElementById("name").value;
-      if (email !== ''){data["email"] = email}
-      if (name!==''){data["username"] = name}
+      axios.patch(this.props.url, {username: name}, {headers:{
+        "Authorization": auth,
+      }
+    }).catch(e=>{console.log(e)})
 
-      data = JSON.stringify(data);
-
-
-      // axios.patch("")
-      // var putreq = new XMLHttpRequest(); 
-      // putreq.open('PUT',this.props.url,false);
-      // putreq.setRequestHeader('Authorization', "Basic " + btoa('vanessa:123456'));
-      // putreq.setRequestHeader('Content-Type', 'application/json');
-      // putreq.onreadystatechange = function () {
-         
-      //     if (putreq.status !== 200){
-      //       var json = JSON.parse(putreq.responseText);
-      //       alert(JSON.stringify(json));
-      //     }
-          
-      //   };
     
-     
-    
-      // putreq.send(data);
+
     
        
        
@@ -50,7 +58,7 @@ render(){
             <input type="text" id="email" placeholder="Email"></input><br></br>
             <input type="text" placeholder="PhoneNumber"></input><br></br>
             
-            <button type="submit"> 
+            <button> 
             Save changes
             </button>
             

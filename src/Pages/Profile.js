@@ -28,7 +28,7 @@ class Profile extends React.Component {
   }
 
   loadPostData(){
-    axios.get("https://cloud-align-server.herokuapp.com/author/allPosts/"+this.props.userObject.id)
+    axios.get("https://cloud-align-server.herokuapp.com/posts/user/"+this.props.userObject.id)
       .then(response => {
         var tempPostList = []
         for(let i=0; i<response.data.length; i++){

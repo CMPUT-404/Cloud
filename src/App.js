@@ -20,7 +20,7 @@ class App extends React.Component {
       password: "",
       github: "",
       email: "",
-      token: "",
+      token: localStorage.getItem("token") || "",
       userObject: {}
     }
     this.handleLogin = this.handleLogin.bind(this);
@@ -30,17 +30,27 @@ class App extends React.Component {
     this.emailChange = this.emailChange.bind(this);
     this.register = this.register.bind(this);
   }
+
+  componentDidMount(){
+    axios.get(`https://cloud-align-server.herokuapp.com/users/validate`,{headers:{Authorization: "Token "+this.state.token}})
+    .then(response=>{
+      console.log(response)
+      this.setState({isLoggedIn: true, userObject: response.data.user})
+    })
+    .catch(()=>{
+      this.setState({isLoggedIn: false})
+    })
+  }
+
   handleLogin(){
     axios.post(`https://cloud-align-server.herokuapp.com/users/login`,{
       "username": this.state.username,
       "password": this.state.password
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
       .then(response => {
-        console.log(response)
-        if(response.status === 200){
-  
-          this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true,})
-        }
+          console.log(response)
+          localStorage.setItem("token", response.data.token)
+          this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
           return response
         })
       .catch(error=>{
@@ -56,8 +66,9 @@ class App extends React.Component {
         "password": this.state.password,
         "email": this.state.email,
         "github": this.state.github
-      }, {headers: {"Content-Type": "application/json;charset=UTF-8"}}).then(response => {
-
+      }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
+      .then(response => {
+        localStorage.setItem("token", response.data.token)
         this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
         return response
       }).catch(error => {

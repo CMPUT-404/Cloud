@@ -32,23 +32,23 @@ class Timeline extends React.Component {
 
       })
       .catch(()=>{
-        alert("Something went wrong")
-      }
-      )
+        alert("Something went wrong, please try again")
+      })
   }
 
   submitPost(){
     
     var title = document.getElementById("title").innerHTML
     var text = document.getElementById("text").innerHTML
-
     console.log(this.props.userObject)
     
     axios.post("https://cloud-align-server.herokuapp.com/posts/",{
         "title":title, 
         "content":text, 
         "author": "https://cloud-align-server.herokuapp.com/users/"+this.props.userObject.id+"/",
-        "visibilities": true
+        "visibilities": true,
+        "description": "",
+        "visible_to": ""
       })
       
       .catch((err)=>{

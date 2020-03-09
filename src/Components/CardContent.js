@@ -6,7 +6,7 @@ import { Card } from 'antd';
 import { Modal} from 'antd';
 import { Input } from 'antd';
 import  { Link } from 'react-router-dom'
-
+import axios from 'axios';
 
 const { TextArea } = Input;
 class CardContent extends React.Component{
@@ -35,6 +35,11 @@ class CardContent extends React.Component{
       };
 
     deletePost =() => {
+      alert("🌬 Deleting your post.....")
+      axios.delete("https://cloud-align-server.herokuapp.com/posts/"+this.props.post.id)
+      .then(()=>{
+        window.location.reload()
+      })
       
     }
 
@@ -70,20 +75,17 @@ class CardContent extends React.Component{
                   
                   } >see more</Link> }> 
                     <Link to={'/Profile/'+this.props.post.author}>{this.props.post.author_data.username}</Link>
-                    <Link to={'/Profile/'+this.props.post.author}><img id="cardProfile" alt='profile' align="left" src={require('../Images/pepe.jpeg')} /></Link>
+                    <Link to={'/Profile/'+this.props.post.author}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
                     <p>{this.props.post.content}</p>
                     <button onClick={this.addComment}>Add Comment</button>
                     <button onClick={this.deletePost}>Delete</button>
                     <Modal
-                        
                         title={this.props.post.title}
                         visible={visible}
                         onOk={this.handleOk}
                         confirmLoading={confirmLoading}
                         onCancel={this.handleCancel}
-                       
                         >
-
                         <TextArea rows={7} placeholder="Make a comment about this post"/>
                         <p>{ModalText}</p>
                     </Modal>

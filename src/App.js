@@ -4,6 +4,7 @@ import FriendsList from './Pages/Friends/FriendsList';
 import Following from './Pages/Friends/Following';
 import Requests from './Pages/Friends/Requests';
 import Profile from './Pages/Profile';
+import LogOut from './Pages/LogOut';
 import NavBar from './Components/NavBar';
 import Timeline from './Pages/Timeline';
 import Login from './Pages/Login';
@@ -48,9 +49,13 @@ class App extends React.Component {
       "password": this.state.password
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
       .then(response => {
-          console.log(response)
-          localStorage.setItem("token", response.data.token)
-          this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
+        console.log(response)
+        if(response.status === 200){
+  
+          this.setState({token: response.data.token, userObject:response.data.user})
+          this.setState({isLoggedIn: true})
+
+        }
           return response
         })
       .catch(error=>{
@@ -129,6 +134,7 @@ class App extends React.Component {
                 <Timeline token={this.state.token} userObject={this.state.userObject} {...props}/>)
                 }/>
               <Route path ="/Timeline/:Post" component={Post}/>
+              <Route path ="/LogOut" component={LogOut}/>
             </Switch>
           </Router>
       );

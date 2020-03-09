@@ -47,7 +47,7 @@ class Post extends React.Component{
         <Card title= {this.state.the_post.title} 
         extra={this.state.the_post.author_data.username}
         > 
-        <Link to={'/Profile/'+this.state.the_post.author}><img alt='profile' align="left" src={require('../Images/pepe.jpeg')} /></Link>
+        <Link to={'/Profile/'+this.state.the_post.author}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
         {this.state.the_post.content}<br></br> 
         </Card>
         </div>

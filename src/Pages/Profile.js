@@ -57,10 +57,13 @@ class Profile extends React.Component {
     if (this.state.edit === false){
       return(
         <div className="Profile" >
-          <div id="posts">
+           <div id="posts">
           <BasicProfile object={this.props.userObject} edit={this.state.go_edit}/>
-            {this.state.postComponents}
+            
           </div>    
+          <div id="myPosts">
+            {this.state.postComponents}
+            </div>
         </div>
       )
     }else{ 

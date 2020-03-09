@@ -65,7 +65,7 @@ class CardRequest extends React.Component{
             <div>
                 <Card title={displayName}>
 
-                <Link to={'/Profile/'+requests.auid}><img id="cardProfile" alt='profile' align="left" src={require('../../Images/pepe.jpeg')} /></Link>
+                <Link to={'/Profile/'+requests.auid}><img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} /></Link>
                 <h2> {displayName} {'wants to add you as a friend'}</h2>
                 <hr/>
                 <Link to={'/Profile/'+requests.frid}>Profile</Link>

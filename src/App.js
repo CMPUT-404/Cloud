@@ -135,7 +135,7 @@ class App extends React.Component {
                 <Timeline token={this.state.token} userObject={this.state.userObject} {...props}/>)
                 }/>
               <Route path ="/Timeline/:Post" component={Post}/>
-              <Route path="/OtherProfile/:OtherProfile" component={OtherProfile} token={this.state.token}></Route>
+              <Route path="/OtherProfile/:OtherProfile" component={OtherProfile}></Route>
               <Route path ="/LogOut" component={LogOut}/>
             </Switch>
           </Router>

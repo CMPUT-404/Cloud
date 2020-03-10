@@ -31,7 +31,7 @@ class Profile extends React.Component {
     var id =  this.props.location.state.user.id
     var token = this.props.location.state.token
     
-    alert(token)
+    
     axios.get('https://cloud-align-server.herokuapp.com/users/'+id, {headers: {"Authorization": "Token "+ token}} )
         .then(
             (response) =>{
@@ -52,19 +52,28 @@ class Profile extends React.Component {
 
   render(){
    
+      if (this.state.the_post){
       return(
-      <div>{JSON.stringify(this.state.the_post)}</div>
-        // <div className="Profile" >
-        //    <div id="posts">
-        //   <BasicProfile object={this.props.userObject}/>
-            
-        //   </div>    
-        //   <div id="myPosts">
-        //     {this.state.postComponents}
-        //     </div>
-        // </div>
+      <div>
+       
+       <img id="profile_pic" alt='profile' src={require('../Images/profile.jpeg')} /><br></br>
+      {this.state.the_post.username}<br></br>
+      {this.state.the_post.email}<br></br>
+      {this.state.the_post.github}<br></br>
+      {this.state.the_post.bio}<br></br>
+
+      
+    
+      
+      
+      </div>
       )
+      }else{
+        return(
+          <div></div>
+        )
+      
     }
   
-}
+}}
 export default Profile

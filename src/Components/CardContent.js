@@ -70,7 +70,12 @@ class CardContent extends React.Component{
                         token: this.props.token,
                       } }}>{this.props.post.author_data.username}</Link>
 
-                    <Link to={'/Profile/'}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
+                    <Link to={{ pathname:'/OtherProfile/'+ this.props.post.author_data.id,
+                      state:{
+                        user:this.props.post.author_data,
+                        token: this.props.token,
+                      } }}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
+
 
                     <p>{this.props.post.content}</p>
                     <button onClick={this.addComment}>Add Comment</button>

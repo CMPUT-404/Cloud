@@ -60,7 +60,9 @@ class CardRequest extends React.Component{
     };
 
     render(){
+        
         const {requests,displayName} = this.state;
+        console.log(requests,displayName);
         return(
             <div>
                 <Card title={displayName}>

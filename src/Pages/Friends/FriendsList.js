@@ -19,28 +19,29 @@ class FriendsList extends React.Component {
   }
 
   fetchData =() => {
-    axios.get(`https://cloud-align-server.herokuapp.com/friend/`).then(res => {
+    axios.get('https://cloud-align-server.herokuapp.com/friend/user/'+this.props.userObject.id).then(res => {
+      console.log(res.data);
       this.setState({
         initLoading : false,
         data: res.data,
-        list: this.dataPre(res.data)
+        authorId : res.data.author.id,
+        list: this.dataPre(res.data.authors)
       })
     })
   }
 
+
   dataPre = (data) => {
     data.forEach((item, i) => {
-      //item.friendId = item.friend.split("/").slice(4)[0];
-      item.friendId = item.friendID.id;
-      item.authorId = item.authorID.id;
+      item.authorID = item.author;
     });
     return data;
   }
 
   unfriend =(item) =>{
     let data = {
-      author:item.authorID.id,
-      friend:item.friendID.id
+      author:this.state.authorId,
+      friend:item.id
     }
     axios.post('https://cloud-align-server.herokuapp.com/friend/delete/',data).then(res =>{
       this.fetchData();
@@ -64,7 +65,7 @@ class FriendsList extends React.Component {
                 avatar={
                   <Avatar src={require('../../Images/profile.jpeg')} />
                 }
-                title={<a href={'/Profile/'+item.friendId}>{item.friendID.displayName}</a>}
+                title={<a href={'/Profile/'+item.id}>{item.displayName}</a>}
               />
 
             </Skeleton>

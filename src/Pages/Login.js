@@ -14,13 +14,14 @@ class Login extends React.Component {
   register(){
     this.setState({hasAccount:false});
   }
-
   
   render(){  
     if(this.state.hasAccount === true){
       return (
         <div>
-          <h2>Welcome to Cloud Align</h2>
+          <h2>Welcome to Cloud Align 
+            <span role="img" aria-label="cloud"> ⛅️</span>
+          </h2>
           <h3>Login</h3>
           <FormGroup className='login-form'>
             <Label>Enter Your Username</Label>
@@ -38,8 +39,12 @@ class Login extends React.Component {
     }else{
       return(
         <div>
-          <h2>Welcome to Cloud Align</h2>
-          <h3>Register for an account</h3>
+          <h2>Welcome to Cloud Align
+            <span role="img" aria-label="cloud"> ⛅️</span>
+          </h2>
+          <h3>Register for an account
+            <span role="img" aria-label="cloud"> ⛅️</span>
+          </h3>
           <FormGroup className='register-form'>
             <Label>Enter Your Username </Label>
             <Input id='nameInput' type='text' placeholder='Username' value={this.props.username} onChange={this.props.usernameChange}/>

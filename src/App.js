@@ -4,6 +4,7 @@ import FriendsList from './Pages/Friends/FriendsList';
 import Following from './Pages/Friends/Following';
 import Requests from './Pages/Friends/Requests';
 import Profile from './Pages/Profile';
+import LogOut from './Pages/LogOut';
 import NavBar from './Components/NavBar';
 import Timeline from './Pages/Timeline';
 import Login from './Pages/Login';
@@ -135,6 +136,7 @@ class App extends React.Component {
                 }/>
               <Route path ="/Timeline/:Post" component={Post}/>
               <Route path="/OtherProfile/:OtherProfile" component={OtherProfile} token={this.state.token}></Route>
+              <Route path ="/LogOut" component={LogOut}/>
             </Switch>
           </Router>
       );

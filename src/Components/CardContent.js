@@ -8,6 +8,8 @@ import { Input } from 'antd';
 import  { Link } from 'react-router-dom'
 import axios from 'axios';
 
+
+
 const { TextArea } = Input;
 class CardContent extends React.Component{
     constructor(props){
@@ -35,6 +37,7 @@ class CardContent extends React.Component{
       };
 
     deletePost =() => {
+     
       alert("🌬 Deleting your post.....")
       axios.delete("https://cloud-align-server.herokuapp.com/posts/"+this.props.post.id)
       .then(()=>{
@@ -74,8 +77,20 @@ class CardContent extends React.Component{
                           text: this.props.post.plainText}}
                   
                   } >see more</Link> }> 
-                    <Link to={'/Profile/'+this.props.post.author}>{this.props.post.author_data.username}</Link>
-                    <Link to={'/Profile/'+this.props.post.author}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
+                    
+
+                    
+
+                  
+
+                    <Link to={{ pathname:'/OtherProfile/'+ this.props.post.author_data.id,
+                      state:{
+                        user:this.props.post.author_data,
+                        token: this.props.token,
+                      } }}>{this.props.post.author_data.username}</Link>
+
+                    <Link to={'/Profile/'}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
+                    {/* <p>{JSON.stringify(this.props.post.author_data)}</p> */}
                     <p>{this.props.post.content}</p>
                     <button onClick={this.addComment}>Add Comment</button>
                     <button onClick={this.deletePost}>Delete</button>

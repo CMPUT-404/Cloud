@@ -45,7 +45,7 @@ class Basic_profile extends React.Component{
                 {this.props.object.email}<br></br>
                 {this.props.object.bio}<br></br>
                 {this.props.object.github}
-                <Button onClick = {this.addFriend}>add a friend</Button>
+                {/* <Button onClick = {this.addFriend}>add a friend</Button> */}
                 </div>
             </div>
         )

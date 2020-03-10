@@ -9,6 +9,7 @@ import Timeline from './Pages/Timeline';
 import Login from './Pages/Login';
 import axios from 'axios';
 import Post from './Pages/Post';
+import OtherProfile from './Pages/OtherProfile'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 class App extends React.Component {
@@ -34,7 +35,7 @@ class App extends React.Component {
   componentDidMount(){
     axios.get(`https://cloud-align-server.herokuapp.com/users/validate`,{headers:{Authorization: "Token "+this.state.token}})
     .then(response=>{
-      console.log(response)
+      //console.log(response)
       this.setState({isLoggedIn: true, userObject: response.data.user})
     })
     .catch(()=>{
@@ -48,7 +49,7 @@ class App extends React.Component {
       "password": this.state.password
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
       .then(response => {
-        console.log(response)
+        //console.log(response)
         if(response.status === 200){
   
           this.setState({token: response.data.token, userObject:response.data.user})
@@ -133,6 +134,7 @@ class App extends React.Component {
                 <Timeline token={this.state.token} userObject={this.state.userObject} {...props}/>)
                 }/>
               <Route path ="/Timeline/:Post" component={Post}/>
+              <Route path="/OtherProfile/:OtherProfile" component={OtherProfile} token={this.state.token}></Route>
             </Switch>
           </Router>
       );

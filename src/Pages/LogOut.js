@@ -1,5 +1,5 @@
 import React from 'react';
-import './LogOut.css';
+import './css/LogOut.css';
 
 class LogOut extends React.Component{
 

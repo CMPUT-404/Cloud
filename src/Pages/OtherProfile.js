@@ -1,6 +1,6 @@
 import React from 'react';
 import CardContent from '../Components/CardContent';
-import './css/Profile.css';
+import './css/OtherProfile.css';
 
 import axios from 'axios';
 
@@ -18,11 +18,10 @@ class Profile extends React.Component {
       postComponents : [],
       edit: false,
       go_edit : ()=>{
-       
         this.setState({edit:true})
       }
-      
     }
+    this.loadPostData = this.loadPostData.bind(this);
   }
 
   
@@ -73,13 +72,18 @@ class Profile extends React.Component {
    
       if (this.state.the_post){
       return(
-      <div>     
+      <div id="ProfileSection">     
         <img id="profile_pic" alt='profile' src={require('../Images/profile.jpeg')} /><br></br>
-        {this.state.the_post.username}<br></br>
-        {this.state.the_post.email}<br></br>
-        {this.state.the_post.github}<br></br>
-        {this.state.the_post.bio}<br></br>
-        {this.state.postComponents}
+        <div id="profiletext">
+          {this.state.the_post.username}<br></br>
+          {this.state.the_post.email}<br></br>
+          {this.state.the_post.github}<br></br>
+          {this.state.the_post.bio}<br></br>
+        </div>
+
+        <div id="Posts">
+            {this.state.postComponents}
+        </div>
       </div>
       )
       }else{

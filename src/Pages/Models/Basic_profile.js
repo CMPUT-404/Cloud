@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/Basic_profile.css'
-import { Button } from 'antd';
+
 import axios from 'axios';
 class Basic_profile extends React.Component{
     _isMounted = false
@@ -11,7 +11,6 @@ class Basic_profile extends React.Component{
         } 
     }
     
-
     componentWillUnmount(){
         this._isMounted = false
     }
@@ -38,14 +37,14 @@ class Basic_profile extends React.Component{
         return(
             <div id="basicProfile" className="container">
                 <img id="profile_pic" alt='profile' src={require('../../Images/profile.jpeg')} />
-                <img className="smallimg" alt='profile' id="edit_button" onClick={this.props.edit} src={require('../../Images/edit.jpeg')} />
-                <img className="smallimg" alt='profile' id="view_profile" src={require('../../Images/view.jpeg')}/>
+                <button id="edit_button" onClick={this.props.edit}>
+                    <span role="img" aria-label="cloud"> ✏️ Edit </span>
+                </button>
                 <div id="profiletext">
-                {this.props.object.username}<br></br>
-                {this.props.object.email}<br></br>
-                {this.props.object.bio}<br></br>
-                {this.props.object.github}
-                <Button onClick = {this.addFriend}>add a friend</Button>
+                    {this.props.object.username}<br></br>
+                    {this.props.object.email}<br></br>
+                    {this.props.object.bio}<br></br>
+                    {this.props.object.github}
                 </div>
             </div>
         )

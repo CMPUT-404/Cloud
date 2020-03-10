@@ -41,20 +41,17 @@ class Post extends React.Component{
 
     if(this.state.the_post!==null){
     return(
-
     
-    <div>
-        <Card title= {this.state.the_post.title} 
-        extra={this.state.the_post.author_data.username}
-        > 
-        <Link to={'/Profile/'+this.state.the_post.author}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
-        {this.state.the_post.content}<br></br> 
-        </Card>
-        </div>
+        <div>
+            <Card title= {this.state.the_post.title} 
+                extra={this.state.the_post.author_data.username}
+                > 
+                <Link to={'/Profile/'+this.state.the_post.author}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
+                {this.state.the_post.content}<br></br> 
+            </Card>
+            </div>
   
-    )
-    }
-    else{
+    )}else{
         return(<div></div>)
     }
     }

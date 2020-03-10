@@ -7,19 +7,12 @@
 }
 
 #form input{
-    min-width: 500pt;
+    min-width: 50pt;
 }
 
-#myPosts{
-    position: relative;
-
-    margin-left: 35%;
+div#myPosts{
+    margin-left: 15%;
 }
-
-#posts{
-    margin-left: 35%;
-}
-
 
 
 

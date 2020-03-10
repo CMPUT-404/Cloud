@@ -18,8 +18,6 @@ class CardContent extends React.Component{
             ModalText: "display a list of comments",
             visible: false,
             confirmLoading: false,
-            //path: '/Timeline/' + props.post.id,
-
           };
     }
 
@@ -37,7 +35,6 @@ class CardContent extends React.Component{
       };
 
     deletePost =() => {
-     
       alert("🌬 Deleting your post.....")
       axios.delete("https://cloud-align-server.herokuapp.com/posts/"+this.props.post.id)
       .then(()=>{
@@ -75,13 +72,8 @@ class CardContent extends React.Component{
                   extra={ <Link to={  { pathname:'/Timeline/' + this.props.post.id,
                   state:{user: this.props.post.id,
                           text: this.props.post.plainText}}
-                  
-                  } >see more</Link> }> 
-                    
-
-                    
-
-                  
+                  } >
+                    see more </Link> }> 
 
                     <Link to={{ pathname:'/OtherProfile/'+ this.props.post.author_data.id,
                       state:{
@@ -90,10 +82,11 @@ class CardContent extends React.Component{
                       } }}>{this.props.post.author_data.username}</Link>
 
                     <Link to={'/Profile/'}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
-                    {/* <p>{JSON.stringify(this.props.post.author_data)}</p> */}
+
                     <p>{this.props.post.content}</p>
                     <button onClick={this.addComment}>Add Comment</button>
                     <button onClick={this.deletePost}>Delete</button>
+
                     <Modal
                         title={this.props.post.title}
                         visible={visible}

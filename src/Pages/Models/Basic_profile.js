@@ -11,7 +11,6 @@ class Basic_profile extends React.Component{
         } 
     }
     
-
     componentWillUnmount(){
         this._isMounted = false
     }
@@ -41,11 +40,10 @@ class Basic_profile extends React.Component{
                 <img className="smallimg" alt='profile' id="edit_button" onClick={this.props.edit} src={require('../../Images/edit.jpeg')} />
                 <img className="smallimg" alt='profile' id="view_profile" src={require('../../Images/view.jpeg')}/>
                 <div id="profiletext">
-                {this.props.object.username}<br></br>
-                {this.props.object.email}<br></br>
-                {this.props.object.bio}<br></br>
-                {this.props.object.github}
-                {/* <Button onClick = {this.addFriend}>add a friend</Button> */}
+                    {this.props.object.username}<br></br>
+                    {this.props.object.email}<br></br>
+                    {this.props.object.bio}<br></br>
+                    {this.props.object.github}
                 </div>
             </div>
         )

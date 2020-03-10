@@ -8,9 +8,13 @@ class LogOut extends React.Component{
         this.clear = this.clear.bind(this);
     }
 
+    componentDidMount(){
+        setTimeout(this.clear, 1000)
+    }
+
     clear(){
         localStorage.clear();
-        window.location.reload();
+        window.location.href = "/Timeline";
     }
 
 
@@ -21,7 +25,6 @@ class LogOut extends React.Component{
                     <span role="img" aria-label="cloud"> 🌧️ </span>
                 </h1>
                 <h3 className="Logout">We will miss you</h3> 
-                {setTimeout(this.clear, 1000)}
             </div>
         )
     }

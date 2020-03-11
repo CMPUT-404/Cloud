@@ -10,7 +10,8 @@ class CardRequest extends React.Component{
   constructor(props){
       super(props)
       this.state= {
-        requests : this.props.friendRequest,
+        authorId: this.props.authorId,
+        requestorId: this.props.requestorId,
         displayName : this.props.displayName
       }
     }
@@ -18,8 +19,8 @@ class CardRequest extends React.Component{
     accept = () => {
 
       let data = {
-        friend:this.state.requests.authorID.id,
-        author:this.state.requests.friendID.id,
+        friend:this.state.requestorId,
+        author:this.state.authorId,
         friendstatus:"accept",
         
       }
@@ -30,7 +31,8 @@ class CardRequest extends React.Component{
           console.log(res);
 
           this.setState({
-            requests : this.props.friendRequest,
+            authorId: this.props.authorId,
+            requestorId: this.props.requestorId,
             displayName : this.props.displayName
           })
         
@@ -40,8 +42,8 @@ class CardRequest extends React.Component{
     decline = () => {
 
       let data = {
-        friend:this.state.requests.authorID.id,
-        author:this.state.requests.friendID.id,
+        friend:this.state.requestorId,
+        author:this.state.authorId,
         friendstatus:"decline"
       }
       axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
@@ -50,7 +52,8 @@ class CardRequest extends React.Component{
           this.props.onUpdate();
           console.log(res);
           this.setState({
-            requests : this.props.friendRequest,
+            authorId: this.props.authorId,
+            requestorId: this.props.requestorId,
             displayName : this.props.displayName
           })
 
@@ -61,16 +64,16 @@ class CardRequest extends React.Component{
 
     render(){
         
-        const {requests,displayName} = this.state;
-        console.log(requests,displayName);
+        const {authorId,requestorId,displayName} = this.state;
+        
         return(
             <div>
                 <Card title={displayName}>
 
-                <Link to={'/Profile/'+requests.auid}><img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} /></Link>
+                <Link to={'/Profile/'+authorId}><img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} /></Link>
                 <h2> {displayName} {'wants to add you as a friend'}</h2>
                 <hr/>
-                <Link to={'/Profile/'+requests.frid}>Profile</Link>
+                <Link to={'/Profile/'+requestorId}>Profile</Link>
                 <div style={{float: 'right'}}>
                 <Button onClick={this.accept}>accept</Button>
                 <Button onClick={this.decline}>decline</Button>

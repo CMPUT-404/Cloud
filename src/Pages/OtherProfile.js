@@ -1,6 +1,6 @@
 import React from 'react';
-
-import './css/Profile.css';
+import CardContent from '../Components/CardContent';
+import './css/OtherProfile.css';
 
 import axios from 'axios';
 
@@ -18,11 +18,10 @@ class Profile extends React.Component {
       postComponents : [],
       edit: false,
       go_edit : ()=>{
-       
         this.setState({edit:true})
       }
-      
     }
+    this.loadPostData = this.loadPostData.bind(this);
   }
 
   
@@ -30,7 +29,6 @@ class Profile extends React.Component {
     this.__isMounted = true;
     var id =  this.props.location.state.user.id
     var token = this.props.location.state.token
-    
     
     axios.get('https://cloud-align-server.herokuapp.com/users/'+id, {headers: {"Authorization": "Token "+ token}} )
         .then(
@@ -44,8 +42,28 @@ class Profile extends React.Component {
                 alert(err)
             }
         )
-   
-    
+    this.loadPostData()
+  }
+
+  loadPostData(){
+    var id =  this.props.location.state.user.id
+    var token = this.props.location.state.token
+    console.log(id)
+    axios.get("https://cloud-align-server.herokuapp.com/posts/user/"+id, {headers: {"Authorization": "Token "+ token}})
+      .then(response => {
+        console.log(response)
+        var tempPostList = []
+        for(let i=0; i<response.data.length; i++){
+          var eachPost = <CardContent key={response.data[i].id} post={response.data[i]}/>
+          tempPostList.push(eachPost)
+        }
+        this.setState({postComponents: tempPostList})
+
+      })
+      .catch((err)=>{
+        console.log(err)
+      }
+      )
   }
 
   
@@ -54,18 +72,18 @@ class Profile extends React.Component {
    
       if (this.state.the_post){
       return(
-      <div>
-       
-       <img id="profile_pic" alt='profile' src={require('../Images/profile.jpeg')} /><br></br>
-      {this.state.the_post.username}<br></br>
-      {this.state.the_post.email}<br></br>
-      {this.state.the_post.github}<br></br>
-      {this.state.the_post.bio}<br></br>
+      <div id="ProfileSection">     
+        <img id="profile_pic" alt='profile' src={require('../Images/profile.jpeg')} /><br></br>
+        <div id="profiletext">
+          {this.state.the_post.username}<br></br>
+          {this.state.the_post.email}<br></br>
+          {this.state.the_post.github}<br></br>
+          {this.state.the_post.bio}<br></br>
+        </div>
 
-      
-    
-      
-      
+        <div id="Posts">
+            {this.state.postComponents}
+        </div>
       </div>
       )
       }else{

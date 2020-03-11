@@ -1,0 +1,16 @@
+div#ProfileSection{
+    margin-left: 60pt;
+}
+
+#profiletext{
+    position: relative;
+    font-size: 16pt;
+    color: rgb(121, 49, 142);
+}
+
+
+img#profile_pic{
+    position:relative;
+    border-radius: 100%;
+}
+

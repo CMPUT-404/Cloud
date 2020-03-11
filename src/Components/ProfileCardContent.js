@@ -6,10 +6,12 @@ import { Card } from 'antd';
 import { Modal} from 'antd';
 import { Input } from 'antd';
 import  { Link } from 'react-router-dom'
+import axios from 'axios';
+
 
 
 const { TextArea } = Input;
-class CardContent extends React.Component{
+class ProfileCardContent extends React.Component{
     constructor(props){
         super(props)
         this.state = {   
@@ -31,6 +33,15 @@ class CardContent extends React.Component{
           visible: true,
         });
       };
+
+    deletePost =() => {
+      alert("🌬 Deleting your post.....")
+      axios.delete("https://cloud-align-server.herokuapp.com/posts/"+this.props.post.id)
+      .then(()=>{
+        window.location.reload()
+      })
+      
+    }
 
     handleOk = () => {
         this.setState({
@@ -70,15 +81,12 @@ class CardContent extends React.Component{
                         token: this.props.token,
                       } }}>{this.props.post.author_data.username}</Link>
 
-                    <Link to={{ pathname:'/OtherProfile/'+ this.props.post.author_data.id,
-                      state:{
-                        user:this.props.post.author_data,
-                        token: this.props.token,
-                      } }}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
-
+                    <Link to={'/Profile/'}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
 
                     <p>{this.props.post.content}</p>
                     <button onClick={this.addComment}>Add Comment</button>
+                    <button onClick={this.deletePost}>Delete</button>
+
                     <Modal
                         title={this.props.post.title}
                         visible={visible}
@@ -95,4 +103,4 @@ class CardContent extends React.Component{
     }
 }
 
-export default CardContent
+export default ProfileCardContent

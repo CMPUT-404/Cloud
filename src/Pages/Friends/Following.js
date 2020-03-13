@@ -3,7 +3,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './FriendsList.css';
 import axios from 'axios';
-import { List, Avatar, Button, Skeleton} from 'antd';
+import { List, Button, Skeleton} from 'antd';
 import { Link } from 'react-router-dom'
 
 class FollowingList extends React.Component {

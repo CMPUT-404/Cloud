@@ -3,7 +3,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './FriendsList.css';
 import axios from 'axios';
-import { List, Avatar, Button, Skeleton} from 'antd';
+import { List, Button, Skeleton} from 'antd';
 import { Link } from 'react-router-dom'
 
 
@@ -25,7 +25,7 @@ class FriendsList extends React.Component {
 
   fetchData =() => {
     axios.get('https://cloud-align-server.herokuapp.com/friend/user/'+this.props.userObject.id).then(res => {
-      console.log(res.data);
+      //console.log(res.data);
       this.setState({
         initLoading : false,
         data: res.data,

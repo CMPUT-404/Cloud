@@ -18,6 +18,8 @@ class App extends React.Component {
     super()
     this.state={
       isLoggedIn: false,
+      firstName: "",
+      lastName: "",
       username: "",
       password: "",
       github: "",
@@ -26,6 +28,8 @@ class App extends React.Component {
       userObject: {}
     }
     this.handleLogin = this.handleLogin.bind(this);
+    this.firstNameChange = this.firstNameChange.bind(this);
+    this.lastNameChange = this.lastNameChange.bind(this);
     this.usernameChange = this.usernameChange.bind(this);
     this.passwordChange = this.passwordChange.bind(this);
     this.githubChange = this.githubChange.bind(this);
@@ -33,10 +37,12 @@ class App extends React.Component {
     this.register = this.register.bind(this);
   }
 
+
+  //  THERE"S NO TOKEN AT THIS TIME 
   componentDidMount(){
+    console.log("COMPONENT DID MOUNT", this.state.token)
     axios.get(`https://cloud-align-server.herokuapp.com/users/validate`,{headers:{Authorization: "Token "+this.state.token}})
     .then(response=>{
-      //console.log(response)
       this.setState({isLoggedIn: true, userObject: response.data.user})
     })
     .catch(()=>{
@@ -53,6 +59,7 @@ class App extends React.Component {
 
         //console.log(response)
         if(response.status === 200){
+          console.log("HANDLE LOGIN", response.data.token)
           localStorage.setItem("token", response.data.token)
           this.setState({token: response.data.token, userObject:response.data.user})
           this.setState({isLoggedIn: true})
@@ -67,44 +74,62 @@ class App extends React.Component {
         }
       })
     }
-    register(){
-      axios.post(`https://cloud-align-server.herokuapp.com/users/register`,{
-        "username": this.state.username,
-        "password": this.state.password,
-        "email": this.state.email,
-        "github": this.state.github
-      }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
-      .then(response => {
-        localStorage.setItem("token", response.data.token)
-        this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
-        return response
-      }).catch(error => {
-        for(let k in error.response.data.errors){
-          alert(error.response.data.errors[k][0])
-        }
-      }) 
-    }
+
+  register(){
+    axios.post(`https://cloud-align-server.herokuapp.com/users/register`,{
+      "username": this.state.username,
+      "password": this.state.password,
+      "email": this.state.email,
+      "github": this.state.github
+    }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
+    .then(response => {
+      localStorage.setItem("token", response.data.token)
+      this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
+      return response
+    }).catch(error => {
+      for(let k in error.response.data.errors){
+        alert(error.response.data.errors[k][0])
+      }
+    }) 
+  }
+  
+  firstNameChange(e){
+    this.setState({firstname: e.target.value})
+  }
+
+  lastNameChange(e){
+    this.setState({lastname: e.target.value})
+  }
+
   usernameChange(e){
     this.setState({username: e.target.value})
   }
+
   passwordChange(e){
     this.setState({password: e.target.value})
   }
+
   emailChange(e){
     this.setState({email: e.target.value})
   }
+
   githubChange(e){
     this.setState({github: e.target.value})
   }
+
   render(){
     if (this.state.isLoggedIn===false){
       return (
         <Login
           handleLogin = {this.handleLogin}
           register = {this.register}
+          firstName = {this.state.firstName}
+          lastName = {this.state.lastName}
           username = {this.state.username}
           password = {this.state.password}
           github = {this.state.github}
+          firstNameChange = {this.firstNameChange}
+          lastNameChange = {this.lastNameChange}
           usernameChange = {this.usernameChange}
           passwordChange = {this.passwordChange}
           githubChange = {this.githubChange}

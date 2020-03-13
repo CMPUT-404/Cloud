@@ -94,11 +94,11 @@ class App extends React.Component {
   }
   
   firstNameChange(e){
-    this.setState({firstname: e.target.value})
+    this.setState({firstName: e.target.value})
   }
 
   lastNameChange(e){
-    this.setState({lastname: e.target.value})
+    this.setState({lastName: e.target.value})
   }
 
   usernameChange(e){

@@ -3,16 +3,21 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './FriendsList.css';
 import axios from 'axios';
-import { List, Avatar, Button, Skeleton} from 'antd';
+import { List, Button, Skeleton} from 'antd';
+import { Link } from 'react-router-dom'
 
 
 class FriendsList extends React.Component {
-  state = {
-    initLoading: true,
+
+  constructor(props){
+    super(props)
+    this.state= {
+      initLoading: true,
     loading: false,
     data: [],
     list: [],
-  };
+    }
+  }
 
   componentDidMount() {
     this.fetchData();
@@ -20,7 +25,7 @@ class FriendsList extends React.Component {
 
   fetchData =() => {
     axios.get('https://cloud-align-server.herokuapp.com/friend/user/'+this.props.userObject.id).then(res => {
-      console.log(res.data);
+      //console.log(res.data);
       this.setState({
         initLoading : false,
         data: res.data,
@@ -32,7 +37,7 @@ class FriendsList extends React.Component {
 
 
   dataPre = (data) => {
-    data.forEach((item, i) => {
+    data.forEach((item) => {
       item.authorID = item.author;
     });
     return data;
@@ -63,9 +68,20 @@ class FriendsList extends React.Component {
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
                 avatar={
-                  <Avatar src={require('../../Images/profile.jpeg')} />
+                  <Link to={{ pathname:'/OtherProfile/'+ item.id,
+                    state:{
+                      user:item,
+                      token: this.props.token,
+                    }}}>
+                    <img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} />
+                  </Link>                
                 }
-                title={<a href={'/Profile/'+item.id}>{item.displayName}</a>}
+                title={<Link to={{ pathname:'/OtherProfile/'+ item.id,
+                state:{
+                  user:item,
+                  token: this.props.token,
+                } }}>{item.displayName}</Link>}
+                description={'bio: '}
               />
 
             </Skeleton>

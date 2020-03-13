@@ -3,8 +3,8 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './FriendsList.css';
 import axios from 'axios';
-import { List, Avatar, Button, Skeleton} from 'antd';
-
+import { List, Button, Skeleton} from 'antd';
+import { Link } from 'react-router-dom'
 
 class FollowingList extends React.Component {
   state = {
@@ -62,10 +62,21 @@ class FollowingList extends React.Component {
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
                 avatar={
-                  <Avatar src={require('../../Images/profile.jpeg')} />
+                  <Link to={{ pathname:'/OtherProfile/'+ item.id,
+                    state:{
+                      user:item,
+                      token: this.props.token,
+                    }}}>
+                    <img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} />
+                  </Link>                
                 }
-                title={<a href={'/Profile/'+item.id}>{item.displayName}</a>}
-              />
+                title={<Link to={{ pathname:'/OtherProfile/'+ item.id,
+                state:{
+                  user:item,
+                  token: this.props.token,
+                } }}>{item.displayName}</Link>}
+                description={'bio: '}
+                />
 
             </Skeleton>
             <div >

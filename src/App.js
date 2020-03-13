@@ -18,6 +18,7 @@ class App extends React.Component {
     super()
     this.state={
       isLoggedIn: false,
+      displayName: "",
       firstName: "",
       lastName: "",
       username: "",
@@ -29,6 +30,7 @@ class App extends React.Component {
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.firstNameChange = this.firstNameChange.bind(this);
+    this.displayNameChange = this.displayNameChange.bind(this);
     this.lastNameChange = this.lastNameChange.bind(this);
     this.usernameChange = this.usernameChange.bind(this);
     this.passwordChange = this.passwordChange.bind(this);
@@ -93,12 +95,16 @@ class App extends React.Component {
     }) 
   }
   
+  displayNameChange(e){
+    this.setState({displayName: e.target.value})
+  }
+
   firstNameChange(e){
-    this.setState({firstname: e.target.value})
+    this.setState({firstName: e.target.value})
   }
 
   lastNameChange(e){
-    this.setState({lastname: e.target.value})
+    this.setState({lastName: e.target.value})
   }
 
   usernameChange(e){
@@ -121,13 +127,15 @@ class App extends React.Component {
     if (this.state.isLoggedIn===false){
       return (
         <Login
-          handleLogin = {this.handleLogin}
-          register = {this.register}
           firstName = {this.state.firstName}
           lastName = {this.state.lastName}
           username = {this.state.username}
           password = {this.state.password}
           github = {this.state.github}
+          displayName = {this.state.displayName}
+          handleLogin = {this.handleLogin}
+          register = {this.register}
+          displayNameChange = {this.displayNameChange}
           firstNameChange = {this.firstNameChange}
           lastNameChange = {this.lastNameChange}
           usernameChange = {this.usernameChange}

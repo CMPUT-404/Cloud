@@ -37,7 +37,7 @@ class ProfileCardContent extends React.Component{
 
     deletePost =() => {
       alert("🌬 Deleting your post.....")
-      axios.delete("https://cloud-align-server.herokuapp.com/posts/"+this.props.post.id)
+      axios.delete("https://cloud-align-server.herokuapp.com/posts/"+this.props.post.id, {headers:{Authorization: "Token "+this.props.token}})
       .then(()=>{
         window.location.reload()
       })

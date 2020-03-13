@@ -1,6 +1,7 @@
 import React from 'react';
 import {Card} from 'antd';
 import  { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 class Post extends React.Component{
@@ -18,8 +19,7 @@ class Post extends React.Component{
     componentDidMount(){
         var id = this.props.location.state.user
         this._isMounted = true        
-        const axios = require('axios')
-        axios.get('https://cloud-align-server.herokuapp.com/posts/'+id)
+        axios.get('https://cloud-align-server.herokuapp.com/posts/'+id, {headers:{Authorization: "Token "+localStorage.getItem("token")}})
         .then(
             (response) =>{
                 this.setState({the_post: response.data})

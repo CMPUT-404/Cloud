@@ -11,7 +11,8 @@ class CardRequest extends React.Component{
       super(props)
       this.state= {
         authorId: this.props.authorId,
-        requestorId: this.props.requestorId,
+        requestorId:this.props.requestorId,
+        requestor: this.props.requestor,
         displayName : this.props.displayName
       }
     }
@@ -64,16 +65,24 @@ class CardRequest extends React.Component{
 
     render(){
         
-        const {authorId,requestorId,displayName} = this.state;
-        
+        const {requestor,displayName} = this.state;
+        //alert(requestorId);
         return(
             <div>
-                <Card title={displayName}>
+                <Card title={<Link to={{ pathname:'/OtherProfile/'+ requestor.id,
+                      state:{
+                        user:requestor,
+                        token: this.props.token,
+                      } }}>{displayName}</Link>}>
+                <Link to={{ pathname:'/OtherProfile/'+ requestor.id,
+                  state:{
+                    user:requestor,
+                    token: this.props.token,
+                  }}}>
+                  <img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} />
+                </Link>
 
-                <Link to={'/Profile/'+authorId}><img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} /></Link>
                 <h2> {displayName} {'wants to add you as a friend'}</h2>
-                <hr/>
-                <Link to={'/Profile/'+requestorId}>Profile</Link>
                 <div style={{float: 'right'}}>
                 <Button onClick={this.accept}>accept</Button>
                 <Button onClick={this.decline}>decline</Button>

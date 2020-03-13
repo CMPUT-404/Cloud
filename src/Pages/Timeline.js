@@ -21,7 +21,7 @@ class Timeline extends React.Component {
   }
 
   loadPostData(){
-    axios.get("https://cloud-align-server.herokuapp.com/posts")
+    axios.get(this.state.url, {headers:{Authorization: "Token "+this.props.token}})
       .then(response => {
         var tempPostList = []
         for(let i=0; i<response.data.length; i++){
@@ -42,14 +42,14 @@ class Timeline extends React.Component {
     var text = document.getElementById("text").innerHTML
     console.log(this.props.userObject)
     
-    axios.post("https://cloud-align-server.herokuapp.com/posts/",{
+    axios.post(this.state.url,{
         "title":title, 
         "content":text, 
         "author": "https://cloud-align-server.herokuapp.com/users/"+this.props.userObject.id+"/",
         "visibilities": true,
         "description": "",
         "visible_to": ""
-      })
+      }, {headers:{Authorization: "Token "+this.props.token}})
       .then(()=>{
         window.location.reload()
       })

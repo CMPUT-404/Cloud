@@ -46,13 +46,17 @@ class Login extends React.Component {
             <span role="img" aria-label="cloud"> ⛅️</span>
           </h3>
           <FormGroup className='register-form'>
-            <Label>Enter Your Username </Label>
+            <Label> First Name </Label>
+            <Input id='firstnameInput' type='text' placeholder='First Name' value={this.props.firstName} onChange={this.props.firstNameChange}/>
+            <Label> Last Name </Label>
+            <Input id='lastnameInput' type='text' placeholder='Last Name' value={this.props.lastName} onChange={this.props.lastNameChange}/>
+            <Label> Username (used to login to your account) </Label>
             <Input id='nameInput' type='text' placeholder='Username' value={this.props.username} onChange={this.props.usernameChange}/>
-            <Label>Enter Your Password</Label>
+            <Label> Password </Label>
             <Input id='passwordInput' type='password' placeholder='Password' value={this.props.password} onChange={this.props.passwordChange}/>
-            <Label>Enter Your Email</Label>
+            <Label> Email </Label>
             <Input id='emailInput' type='text' placeholder='Email' value={this.props.email} onChange={this.props.emailChange}/>
-            <Label>Enter the Link to Your Github Account</Label>
+            <Label> Link to your Github Account </Label>
             <Input id='githubInput' type='text' placeholder='Github Link' value={this.props.github} onChange={this.props.githubChange}/>
             <button id='newAccountButton' onClick={this.props.register}>Register</button>
           </FormGroup>

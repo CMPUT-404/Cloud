@@ -57,7 +57,7 @@ class ProfileCardContent extends React.Component{
       var new_title = document.getElementById('edit_title').value 
       var new_text = document.getElementById('edit_content').value
 
-      if (new_title === "" && new_text == ""){
+      if (new_title === "" && new_text === ""){
         this.setState({editVisible:false})
         return
       }

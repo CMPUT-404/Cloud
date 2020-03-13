@@ -3,7 +3,7 @@ import CardContent from '../Components/CardContent';
 import './css/OtherProfile.css';
 
 import axios from 'axios';
-
+import { Button} from 'antd';
 
 class Profile extends React.Component {
 
@@ -66,6 +66,18 @@ class Profile extends React.Component {
       )
   }
 
+  addFriend =()=>{
+    let data = {
+       authorID : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.userObject.id+ '/',
+       friendID : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.location.state.user.id +'/',    
+    }
+    axios.post('https://cloud-align-server.herokuapp.com/friendrequest/',data)
+      .then(res =>{
+        }).catch(function (error) {
+            console.log(error);
+        })
+  }
+
   
 
   render(){
@@ -79,6 +91,9 @@ class Profile extends React.Component {
           {this.state.the_post.email}<br></br>
           {this.state.the_post.github}<br></br>
           {this.state.the_post.bio}<br></br>
+        </div>
+        <div>
+        <Button onClick={this.addFriend}>add friend</Button>
         </div>
 
         <div id="Posts">

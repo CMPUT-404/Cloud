@@ -3,8 +3,8 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './FriendsList.css';
 import axios from 'axios';
-import { List, Avatar, Button, Skeleton} from 'antd';
-
+import { List, Button, Skeleton} from 'antd';
+import { Link } from 'react-router-dom'
 
 class FollowingList extends React.Component {
   state = {
@@ -19,32 +19,29 @@ class FollowingList extends React.Component {
   }
   
   fetchData =() => {
-    axios.get(`https://cloud-align-server.herokuapp.com/following/`).then(res => {
+    axios.get(`https://cloud-align-server.herokuapp.com/following/user/`+this.props.userObject.id).then(res => {
       this.setState({
         initLoading : false,
         data: res.data,
-        list: this.dataPre(res.data)
+        authorId: res.data.author.id,
+        list: this.dataPre(res.data.followers)
       })
     })
   }
 
   dataPre = (data) => {
     data.forEach((item, i) => {
-      item.followingId = item.friendID.id;
-      item.authorId = item.authorID.id;
+      item.authorID = item.author;
     });
     return data;
   }
 
   unfollow =(item) =>{
-    const headers = {
-      'Content-Type': 'multipart/form-data',
-    }
     let data = {
-      author:item.authorID.id,
-      following:item.friendID.id
+      author:this.state.authorId,
+      following:item.id
     }
-    axios.post('https://cloud-align-server.herokuapp.com/following/delete/',data,{headers : headers}).then(res =>{
+    axios.post('https://cloud-align-server.herokuapp.com/following/delete/',data).then(res =>{
       this.fetchData();
       console.log(res)}
     )
@@ -65,10 +62,21 @@ class FollowingList extends React.Component {
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
                 avatar={
-                  <Avatar src={require('../../Images/profile.jpeg')} />
+                  <Link to={{ pathname:'/OtherProfile/'+ item.id,
+                    state:{
+                      user:item,
+                      token: this.props.token,
+                    }}}>
+                    <img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} />
+                  </Link>                
                 }
-                title={<a href={'/Profile/'+item.followingId}>{item.friendID.displayName}</a>}
-              />
+                title={<Link to={{ pathname:'/OtherProfile/'+ item.id,
+                state:{
+                  user:item,
+                  token: this.props.token,
+                } }}>{item.displayName}</Link>}
+                description={'bio: '}
+                />
 
             </Skeleton>
             <div >

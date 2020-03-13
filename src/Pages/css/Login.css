@@ -16,7 +16,7 @@ Label{
 }
 
 
-#emailInput, #passwordInput, #nameInput, #githubInput, #emailLabel, #passwordLabel{
+#displaynameInput, #firstnameInput, #lastnameInput, #emailInput, #passwordInput, #nameInput, #githubInput, #emailLabel, #passwordLabel{
     width: 100%;
     max-width: 330px;
     padding: 15px;

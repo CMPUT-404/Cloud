@@ -1,7 +1,7 @@
 import React from 'react';
 import CardRequest from './CardRequest';
 import 'antd/dist/antd.css';
-import { Badge,Button } from 'antd';
+import { Badge } from 'antd';
 import axios from 'axios';
 
 
@@ -16,25 +16,23 @@ class FriendRequest extends React.Component {
   }
 
   fetchData = () => {
-    axios.get(`https://cloud-align-server.herokuapp.com/friendrequest/`)
+    axios.get(`https://cloud-align-server.herokuapp.com/friendrequest/user/`+ this.props.userObject.id)
+      
       .then(res => {
-        let requests = res.data;
+        let author = res.data.author.id;
+        let requestors = res.data.requests;
         let tempRequests = [];
-        for(let i = 0;i<requests.length;i++){
-          let authorId = requests[i].authorID.id;
-          let friendId = requests[i].friendID.id;
-          let auid =  requests[i].authorID.id.split("/").slice(4)[0];
-          let frid =  requests[i].authorID.id.split("/").slice(4)[0];
+        for(let i = 0;i<requestors.length;i++){
+          let requestorId = requestors[i].id;       
   
-          let friendName = requests[i].authorID.displayName;
-
-          let eachRequest = <CardRequest key={friendId} onUpdate = {this.fetchData} displayName = {friendName} 
-          authorId = {authorId} friendId = {friendId} friendRequest={requests[i]} auid={auid} frid={frid}/>
+          let requestorName = requestors[i].displayName;
+          let eachRequest = <CardRequest key={requestorId} onUpdate = {this.fetchData} token={this.props.token} displayName = {requestorName} 
+          authorId = {author} requestor = {requestors[i]} requestorId={requestorId}/>
           tempRequests.push(eachRequest);
         }
         this.setState({
           friendRequests: tempRequests,
-          count: requests.length,
+          count: requestors.length,
         })
       })
   }
@@ -56,8 +54,7 @@ class FriendRequest extends React.Component {
       return (
         <div className="FriendRequest">
           <h2> Pending Friend Requests {<Badge count={this.state.count} />}</h2>
-          <Button onClick = {this.addFriend}>add a friend</Button>
-
+          
           {this.state.friendRequests}
         </div>
       )

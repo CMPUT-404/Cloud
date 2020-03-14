@@ -1,9 +1,10 @@
 
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Card, Button} from 'antd';
+import { Card, Button,message, Modal} from 'antd';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
+const {confirm} = Modal;
 
 class CardRequest extends React.Component{
 
@@ -26,7 +27,6 @@ class CardRequest extends React.Component{
         
       }
       axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
-
         .then(res =>{
           this.props.onUpdate();
           console.log(res);
@@ -37,31 +37,40 @@ class CardRequest extends React.Component{
             displayName : this.props.displayName
           })
         
-          })
+        })
+        message.success('"'+ this.props.displayName + '" has been successfully accepted!' );
     };
 
     decline = () => {
+      const outer = this;
 
       let data = {
         friend:this.state.requestorId,
         author:this.state.authorId,
         friendstatus:"decline"
       }
-      axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
 
-        .then(res =>{
-          this.props.onUpdate();
-          console.log(res);
-          this.setState({
-            authorId: this.props.authorId,
-            requestorId: this.props.requestorId,
-            displayName : this.props.displayName
-          })
+      confirm({
+      title: <div>Reject the friend request from  <br /> " {this.props.requestorId} " ?</div>, 
+        okText: 'Decline',
+        okType: 'danger',
+        cancelText: 'Cancel', 
+        onOk() {
+          axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
+            .then(res =>{
+              outer.props.onUpdate();
+              console.log(res);
+              outer.setState({
+                authorId: outer.props.authorId,
+                requestorId: outer.props.requestorId,
+                displayName : outer.props.displayName
+              })
 
+            })
+         }
 
-          })
-
-    };
+      });
+    }
 
     render(){
         

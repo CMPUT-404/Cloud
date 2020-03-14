@@ -1,4 +1,5 @@
 import React from 'react';
+import './css/Requests.css';
 import CardRequest from './CardRequest';
 import 'antd/dist/antd.css';
 import { Badge } from 'antd';
@@ -13,6 +14,17 @@ class FriendRequest extends React.Component {
       count: 0,
       username:''
     }
+  }
+
+  showFriendrequest =() =>{
+
+    if (this.state.count === 0){
+      return 'no friend request so far'
+    }
+    else{
+      return 'You have following friend requests'
+    }
+      
   }
 
   fetchData = () => {
@@ -53,7 +65,7 @@ class FriendRequest extends React.Component {
     render(){
       return (
         <div className="FriendRequest">
-          <h2> Pending Friend Requests {<Badge count={this.state.count} />}</h2>
+          <div id='showMessage'>{this.showFriendrequest()} {<Badge count={this.state.count}/>}</div> 
           
           {this.state.friendRequests}
         </div>

@@ -40,7 +40,6 @@ class CardContent extends React.Component{
         });
         
         var text = document.getElementById("comment").value
-        console.log(text)
         axios.post(`https://cloud-align-server.herokuapp.com/posts/`+ this.props.post.id + `/comments`,{
           "auth": localStorage.getItem("user"),
           "comment": text

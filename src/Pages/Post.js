@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {Card} from 'antd';
+import CommentCard from '../Components/CommentCard';
 import  { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -13,7 +14,10 @@ class Post extends React.Component{
             text:null,
             comments:null,
             the_post: null,
+            commentComponents: []
         }
+        this.loadCommentData = this.loadCommentData.bind(this);
+        this.loadCommentData();
     }
 
     componentDidMount(){
@@ -35,23 +39,44 @@ class Post extends React.Component{
         this._isMounted = false
     }
 
-   
+
+    loadCommentData(){
+        axios.get(`https://cloud-align-server.herokuapp.com/posts/90/comments`)
+        .then(response => {
+            console.log(response)
+            var tempPostList = []
+            for(let i=0; i<response.data.length; i++){
+                var eachPost = <CommentCard key={response.data[i].id} comment={response.data[i]}/>
+                tempPostList.push(eachPost)
+            }
+            this.setState({commentComponents: tempPostList})
+
+        })
+        .catch(()=>{
+            alert("Something went wrong, please try again")
+        })
+    }
     
     render(){
 
     if(this.state.the_post!==null){
     return(
     
-        <div>
-            <Card title= {this.state.the_post.title} 
-                extra={this.state.the_post.author_data.username}
-                > 
-                <Link to={'/Profile/'+this.state.the_post.author}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
-                {this.state.the_post.content}<br></br> 
-            </Card>
+        <Fragment>
+            <div>
+                <Card title= {this.state.the_post.title} 
+                    extra={this.state.the_post.author_data.username}
+                    > 
+                    <Link to={'/Profile/'+this.state.the_post.author}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
+                    {this.state.the_post.content}<br></br> 
+                </Card>
+                {this.state.commentComponents}
             </div>
-  
-    )}else{
+
+
+        </Fragment>
+    )
+    }else{
         return(<div></div>)
     }
     }

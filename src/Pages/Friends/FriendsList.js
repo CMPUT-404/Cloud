@@ -3,9 +3,10 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './FriendsList.css';
 import axios from 'axios';
-import { List, Button, Skeleton} from 'antd';
+import { List, Button, Skeleton,Modal,} from 'antd';
 import { Link } from 'react-router-dom'
-
+//import { ExclamationCircleOutlined } from '@ant-design/icons';
+const { confirm } = Modal;
 
 class FriendsList extends React.Component {
 
@@ -25,7 +26,6 @@ class FriendsList extends React.Component {
 
   fetchData =() => {
     axios.get('https://cloud-align-server.herokuapp.com/friend/user/'+this.props.userObject.id).then(res => {
-      //console.log(res.data);
       this.setState({
         initLoading : false,
         data: res.data,
@@ -44,13 +44,27 @@ class FriendsList extends React.Component {
   }
 
   unfriend =(item) =>{
+    const outer = this;
     let data = {
       author:this.state.authorId,
       friend:item.id
     }
-    axios.post('https://cloud-align-server.herokuapp.com/friend/delete/',data).then(res =>{
-      this.fetchData();
-    })
+    confirm({
+      title: <div>Unfriend  " {item.displayName} "  ? <br /> Unfriend this user will also unfollow the user.</div>,
+      okText: 'Unfriend',
+      okType: 'danger',
+      cancelText: 'Cancel', 
+      onOk() {
+        axios.post('https://cloud-align-server.herokuapp.com/friend/delete/',data).then(res =>{
+          outer.fetchData();
+        });
+        console.log('OK');
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+    
   } 
   
   render() {

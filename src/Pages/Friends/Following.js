@@ -3,9 +3,10 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './FriendsList.css';
 import axios from 'axios';
-import { List, Button, Skeleton} from 'antd';
+import { List, Button, Skeleton,Modal} from 'antd';
 import { Link } from 'react-router-dom'
 
+const { confirm } = Modal;
 class FollowingList extends React.Component {
   state = {
     initLoading: true,
@@ -37,14 +38,28 @@ class FollowingList extends React.Component {
   }
 
   unfollow =(item) =>{
+    const outer= this;
     let data = {
       author:this.state.authorId,
       following:item.id
     }
-    axios.post('https://cloud-align-server.herokuapp.com/following/delete/',data).then(res =>{
-      this.fetchData();
-      console.log(res)}
-    )
+    confirm({
+      title: 'Unfollow   "' + item.displayName + '" ?' ,
+      okText: 'Unfollow',
+      okType: 'danger',
+      cancelText: 'Cancel', 
+      onOk() {
+        axios.post('https://cloud-align-server.herokuapp.com/following/delete/',data).then(res =>{
+          outer.fetchData();
+          console.log(res)}
+        );
+        console.log('OK');
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+    
     
   } 
   

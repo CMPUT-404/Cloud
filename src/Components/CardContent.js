@@ -5,7 +5,8 @@ import './CardContent.css';
 import { Card } from 'antd';
 import { Modal} from 'antd';
 import { Input } from 'antd';
-import  { Link } from 'react-router-dom'
+import  { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 const { TextArea } = Input;
@@ -37,16 +38,25 @@ class CardContent extends React.Component{
           ModalText: 'Posting your comment',
           confirmLoading: true,
         });
-        setTimeout(() => {
+        
+        var text = document.getElementById("comment").value
+        axios.post(`https://cloud-align-server.herokuapp.com/posts/`+ this.props.post.id + `/comments`,{
+          "auth": localStorage.getItem("user"),
+          "comment": text
+        })
+        .then(()=>{
           this.setState({
             visible: false,
             confirmLoading: false,
           });
-        }, 2000);
+        })
+        .catch(()=>{
+          alert("You comment did not get uploaded successfully")
+        })
+
       };
 
     handleCancel = () => {
-        console.log('Clicked cancel button');
         this.setState({
           visible: false,
         });
@@ -86,7 +96,7 @@ class CardContent extends React.Component{
                         confirmLoading={confirmLoading}
                         onCancel={this.handleCancel}
                         >
-                        <TextArea rows={7} placeholder="Make a comment about this post"/>
+                        <TextArea id='comment' rows={7} placeholder="Make a comment about this post"/>
                         <p>{ModalText}</p>
                     </Modal>
                 </Card>

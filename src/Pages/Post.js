@@ -41,7 +41,8 @@ class Post extends React.Component{
 
 
     loadCommentData(){
-        axios.get(`https://cloud-align-server.herokuapp.com/posts/90/comments`)
+        var id = this.props.location.state.user
+        axios.get(`https://cloud-align-server.herokuapp.com/posts/`+id+`/comments`)
         .then(response => {
             console.log(response)
             var tempPostList = []

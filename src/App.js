@@ -45,6 +45,7 @@ class App extends React.Component {
     console.log("COMPONENT DID MOUNT", this.state.token)
     axios.get(`https://cloud-align-server.herokuapp.com/users/validate`,{headers:{Authorization: "Token "+this.state.token}})
     .then(response=>{
+      localStorage.setItem("user", response.data.user.id)
       this.setState({isLoggedIn: true, userObject: response.data.user})
     })
     .catch(()=>{
@@ -58,11 +59,10 @@ class App extends React.Component {
       "password": this.state.password
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
       .then(response => {
-
-        //console.log(response)
         if(response.status === 200){
           console.log("HANDLE LOGIN", response.data.token)
           localStorage.setItem("token", response.data.token)
+          localStorage.setItem("user", response.data.user.id)
           this.setState({token: response.data.token, userObject:response.data.user})
           this.setState({isLoggedIn: true})
 
@@ -86,6 +86,7 @@ class App extends React.Component {
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
     .then(response => {
       localStorage.setItem("token", response.data.token)
+      localStorage.setItem("user", response.data.user.id)
       this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
       return response
     }).catch(error => {

@@ -58,8 +58,8 @@ class Login extends React.Component {
             <Input id='displaynameInput' type='text' placeholder='Display Name' value={this.props.displayName} onChange={this.props.displayNameChange}></Input>
             <Label> Email </Label>
             <Input id='emailInput' type='text' placeholder='Email' value={this.props.email} onChange={this.props.emailChange}/>
-            <Label> Link to your Github Account </Label>
-            <Input id='githubInput' type='text' placeholder='Github Link' value={this.props.github} onChange={this.props.githubChange}/>
+            <Label> Github Username </Label>
+            <Input id='githubInput' type='text' placeholder='Github Username' value={this.props.github} onChange={this.props.githubChange}/>
             <button id='newAccountButton' onClick={this.props.register}>Register</button>
           </FormGroup>
         </div>

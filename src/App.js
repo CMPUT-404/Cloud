@@ -42,7 +42,6 @@ class App extends React.Component {
 
   //  THERE"S NO TOKEN AT THIS TIME 
   componentDidMount(){
-    console.log("COMPONENT DID MOUNT", this.state.token)
     axios.get(`https://cloud-align-server.herokuapp.com/users/validate`,{headers:{Authorization: "Token "+this.state.token}})
     .then(response=>{
       localStorage.setItem("user", response.data.user.id)
@@ -59,10 +58,12 @@ class App extends React.Component {
       "password": this.state.password
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
       .then(response => {
+        //console.log(response)
         if(response.status === 200){
-          console.log("HANDLE LOGIN", response.data.token)
+          localStorage.setItem("username", response.data.user.username)
           localStorage.setItem("token", response.data.token)
           localStorage.setItem("user", response.data.user.id)
+          localStorage.setItem("github", response.data.user.github)
           this.setState({token: response.data.token, userObject:response.data.user})
           this.setState({isLoggedIn: true})
 
@@ -85,9 +86,12 @@ class App extends React.Component {
       "github": this.state.github
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
     .then(response => {
+      localStorage.setItem("username", response.data.user.username)
       localStorage.setItem("token", response.data.token)
       localStorage.setItem("user", response.data.user.id)
-      this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
+      localStorage.setItem("github", response.data.github)
+      this.setState({token: response.data.token, userObject:response.data.user})
+      this.setState({isLoggedIn: true})
       return response
     }).catch(error => {
       for(let k in error.response.data.errors){

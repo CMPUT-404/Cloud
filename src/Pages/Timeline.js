@@ -21,11 +21,39 @@ class Timeline extends React.Component {
   }
 
   loadPostData(){
+
+    var tempPostList = []
+    //Fetching github events here 
+    // Get github username from local storage later 
+    axios.get(`https://api.github.com/users/Vanessa0122/events`)
+      .then(response => {
+        console.log(response)
+        var maxGithubEventsAllowed = 5
+        for(let i=0; i<maxGithubEventsAllowed; i++){
+          let eachPostJSON = {
+            "id": response.data[i].id,
+            "title": response.data[i].type,
+            "author": "https://cloud-align-server.herokuapp.com/users/" + localStorage.getItem("user") + "/",
+            "author_data": {
+              "id": localStorage.getItem("user"),
+              "username": localStorage.getItem("username")
+            },
+            "contentType": "text/plain",
+            "content": response.data[i].payload.commits[0].message
+          }
+          let eachPost = <CardContent key={eachPostJSON.id} post={eachPostJSON} token={this.props.token}/>
+          tempPostList.push(eachPost)
+        }
+      })
+
+      .catch(
+        alert("Unable to load github event")
+      )
+
     axios.get(this.state.url, {headers:{Authorization: "Token "+this.props.token}})
       .then(response => {
-        var tempPostList = []
         for(let i=0; i<response.data.length; i++){
-          var eachPost = <CardContent key={response.data[i].id} post={response.data[i]} token={this.props.token} />
+          let eachPost = <CardContent key={response.data[i].id} post={response.data[i]} token={this.props.token} />
           tempPostList.push(eachPost)
         }
         this.setState({postComponents: tempPostList})
@@ -34,6 +62,8 @@ class Timeline extends React.Component {
       .catch(()=>{
         alert("Something went wrong, please try again")
       })
+
+
   }
 
   submitPost(){

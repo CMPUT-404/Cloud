@@ -68,10 +68,10 @@ class Profile extends React.Component {
 
   addFriend =()=>{
     let data = {
-       authorID : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.userObject.id+ '/',
-       friendID : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.location.state.user.id +'/',    
+       sender : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.userObject.id+ '/',
+       receiver : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.location.state.user.id +'/',    
     }
-    axios.post('https://cloud-align-server.herokuapp.com/friendrequest/',data)
+    axios.post('https://cloud-align-server.herokuapp.com/newfollowing/',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
       .then(res =>{
         }).catch(function (error) {
             console.log(error);

@@ -20,28 +20,32 @@ class FollowingList extends React.Component {
   }
   
   fetchData =() => {
-    axios.get(`https://cloud-align-server.herokuapp.com/following/user/`+this.props.userObject.id).then(res => {
+    axios.get('https://cloud-align-server.herokuapp.com/newfollowing/',{headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res => {
       this.setState({
         initLoading : false,
         data: res.data,
-        authorId: res.data.author.id,
-        list: this.dataPre(res.data.followers)
+        list: this.dataPre(res.data)
       })
     })
   }
 
   dataPre = (data) => {
-    data.forEach((item, i) => {
-      item.authorID = item.author;
+    let processed_data = [];
+    data.forEach((item) => {
+      if (item.sender.id === this.props.userObject.id){
+        item.followingID = item.receiver.id;
+        item.displayName = item.receiver.displayName;
+        processed_data.push(item);
+      }
+      
     });
-    return data;
+    return processed_data;
   }
 
   unfollow =(item) =>{
     const outer= this;
-    let data = {
-      author:this.state.authorId,
-      following:item.id
+    let data = {   
+      following:item.followingID
     }
     confirm({
       title: 'Unfollow   "' + item.displayName + '" ?' ,
@@ -49,7 +53,7 @@ class FollowingList extends React.Component {
       okType: 'danger',
       cancelText: 'Cancel', 
       onOk() {
-        axios.post('https://cloud-align-server.herokuapp.com/following/delete/',data).then(res =>{
+        axios.post('https://cloud-align-server.herokuapp.com/deletefollowing',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res =>{
           outer.fetchData();
           console.log(res)}
         );
@@ -77,7 +81,7 @@ class FollowingList extends React.Component {
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
                 avatar={
-                  <Link to={{ pathname:'/OtherProfile/'+ item.id,
+                  <Link to={{ pathname:'/OtherProfile/'+ item.followingID,
                     state:{
                       user:item,
                       token: this.props.token,
@@ -85,7 +89,7 @@ class FollowingList extends React.Component {
                     <img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} />
                   </Link>                
                 }
-                title={<Link to={{ pathname:'/OtherProfile/'+ item.id,
+                title={<Link to={{ pathname:'/OtherProfile/'+ item.followingID,
                 state:{
                   user:item,
                   token: this.props.token,

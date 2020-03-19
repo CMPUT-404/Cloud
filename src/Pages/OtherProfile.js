@@ -13,6 +13,10 @@ class Profile extends React.Component {
     super(props)
     this.state = {
       Props: props,
+
+      //check friend request status
+      requestSent: false,
+      isFriend: false,
       
       path: "/Timeline",
       postComponents : [],
@@ -42,7 +46,8 @@ class Profile extends React.Component {
                 alert(err)
             }
         )
-    this.loadPostData()
+    this.loadPostData();
+    this.getFriendStatus()
   }
 
   loadPostData(){
@@ -66,6 +71,28 @@ class Profile extends React.Component {
       )
   }
 
+  getFriendStatus =()=>{
+    axios.get('https://cloud-align-server.herokuapp.com/newfollowing/',{headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res => {
+      for(let i=0;i<res.data.length;i++){
+        if(res.data[i].sender.id === this.props.location.state.user.id || 
+          res.data[i].receiver.id === this.props.location.state.user.id){
+          let status = res.data[i].status;
+          if (status === true){
+            this.setState({
+              isFriend: true,
+            })
+          }
+          else if (status === null){
+            this.setState({      
+              requestSent: true,
+            })
+          }  
+        }
+      }
+      
+    })
+  }
+
   addFriend =()=>{
     let data = {
        sender : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.userObject.id+ '/',
@@ -73,7 +100,10 @@ class Profile extends React.Component {
     }
     axios.post('https://cloud-align-server.herokuapp.com/newfollowing/',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
       .then(res =>{
-        }).catch(function (error) {
+        this.setState({
+          requestSent: true,
+        })
+      }).catch(function (error) {
             console.log(error);
         })
   }
@@ -93,7 +123,10 @@ class Profile extends React.Component {
           {this.state.the_post.bio}<br></br>
         </div>
         <div>
-        <Button onClick={this.addFriend}>add friend</Button>
+
+        {this.state.isFriend || this.state.requestSent?null:<Button onClick={()=>this.addFriend()}>add friend</Button>}
+        {this.state.isFriend? <Button disabled>Friend</Button>:null}
+        {this.state.requestSent? <Button disabled>friend request sent</Button>:null}
         </div>
 
         <div id="Posts">

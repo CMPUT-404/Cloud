@@ -18,6 +18,7 @@ class Timeline extends React.Component {
       url: 'https://cloud-align-server.herokuapp.com/posts/',
       visible: false,
       friends: null,
+      friendcomponent: null,
       postVisible: true,
       showVlist: true,
     
@@ -66,24 +67,17 @@ class Timeline extends React.Component {
 
       for(var i =0 ; i < this.state.friends.length ; i++){
        
-        if ((document.getElementById(this.state.friends[i][1].key).checked) === true){
-          newvis += this.state.friends[i][1].key +","
+        if ((document.getElementById(this.state.friends[i]).checked) === true){
+          newvis += this.state.friends[i] +","
+
+          
         }
       }
-
       
-
-      
-
-
 
     }
   
-  
-    
-    
 
-    
     axios.post(this.state.url,{
         "title":title, 
         "content":text, 
@@ -112,22 +106,31 @@ class Timeline extends React.Component {
     axios.get('https://cloud-align-server.herokuapp.com/friend/user/'+this.props.userObject.id)
     .then( res =>{
       // alert(JSON.stringify(res.data.authors,undefined,4))
+      // var friendlist = []
+      
+      
+      // for (var i of res.data.authors){
+      // friendlist.push( [ i.displayName, <input key ={i.id} id={i.id}  type="checkbox"/>,<br/> ])
+      
+      // }
+
       var friendlist = []
+      var friendisplay = []
+      var temp = ""
       for (var i of res.data.authors){
-      friendlist.push( [ i.displayName, <input key ={i.id} id={i.id}  type="checkbox"/>,<br/> ])
+        friendlist.push(i.id)
+        temp = i.id
+        friendisplay.push(<div key={temp}> {i.displayName} <input key ={i.id} id={i.id}  type="checkbox"/> </div>)
       }
       
+      this.setState({friendcomponent: friendisplay})
       this.setState({friends: friendlist})
       this.setState({visible: true})
       
     }
       
     )
-    
-    
-
-
-
+  
 
   }
 
@@ -164,7 +167,7 @@ class Timeline extends React.Component {
                    
                    
                   <div id="scroll"  >
-                    {this.state.friends}
+                    {this.state.friendcomponent}
                   
                   </div>
                   

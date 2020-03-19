@@ -81,7 +81,7 @@ class Timeline extends React.Component {
   
   
     
-    alert(newvis)
+    
 
     
     axios.post(this.state.url,{

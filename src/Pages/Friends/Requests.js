@@ -36,10 +36,9 @@ class FriendRequest extends React.Component {
           //console.log(res.data[i].status);
           //console.log(res.data[i].receiver);
           //console.log(this.props.userObject.id);
-          if (res.data[i].status == null && res.data[i].receiver == this.props.userObject.id){
-            console.log('reach');  
-            let requestorId = res.data[i].sender.id;  
-            console.log(res.data[i].receiver);     
+          if (res.data[i].status === null && res.data[i].receiver.id === this.props.userObject.id){
+            //console.log('reach');  
+            let requestorId = res.data[i].sender.id;      
             let requestorName = res.data[i].sender.displayName;
             let eachRequest = <CardRequest key={requestorId} onUpdate = {this.fetchData} token={this.props.token} displayName = {requestorName} 
             requestor = {res.data[i].sender} requestorId={requestorId}/>

@@ -49,7 +49,7 @@ class CardRequest extends React.Component{
       }
 
       confirm({
-      title: <div>Reject the friend request from  <br /> " {this.props.requestorId} " ?</div>, 
+      title: <div>Reject the friend request from  <br /> " {this.props.displayName} " ?</div>, 
         okText: 'Decline',
         okType: 'danger',
         cancelText: 'Cancel', 

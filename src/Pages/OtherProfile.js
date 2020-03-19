@@ -15,6 +15,7 @@ class Profile extends React.Component {
       Props: props,
 
       //check friend request status
+      isMyProfile:false,
       requestSent: false,
       isFriend: false,
       
@@ -72,6 +73,11 @@ class Profile extends React.Component {
   }
 
   getFriendStatus =()=>{
+    if (this.props.userObject.id===this.props.location.state.user.id){
+      this.setState({
+        isMyProfile:true,
+      })
+    } else{
     axios.get('https://cloud-align-server.herokuapp.com/newfollowing/',{headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res => {
       for(let i=0;i<res.data.length;i++){
         if(res.data[i].sender.id === this.props.location.state.user.id || 
@@ -91,6 +97,7 @@ class Profile extends React.Component {
       }
       
     })
+    }
   }
 
   addFriend =()=>{
@@ -124,7 +131,8 @@ class Profile extends React.Component {
         </div>
         <div>
 
-        {this.state.isFriend || this.state.requestSent?null:<Button onClick={()=>this.addFriend()}>add friend</Button>}
+        {this.state.isMyProfile|| this.state.isFriend || this.state.requestSent?null:<Button onClick={()=>this.addFriend()}>add friend</Button>}
+        {this.state.isMyProfile? <Button disabled>MyCustomProfile</Button>:null}
         {this.state.isFriend? <Button disabled>Friend</Button>:null}
         {this.state.requestSent? <Button disabled>friend request sent</Button>:null}
         </div>

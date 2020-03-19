@@ -138,6 +138,9 @@ class Timeline extends React.Component {
     if (this.state.showVlist === true){this.setState({showVlist: false})}
     else{this.setState({showVlist: true})}
   }
+  exitModal = () =>{
+    this.setState({visible: false})
+  }
 
   
 
@@ -161,14 +164,19 @@ class Timeline extends React.Component {
                 visible={this.state.visible}
                 onOk={this.submitPost}
                 // confirmLoading={confirmLoading}
-                // onCancel={this.handleCancel}
+                onCancel={this.exitModal}
                 >
-               <button onClick={this.showVisibleList}>Post visible to all users? {this.state.showVlist.toString()}</button>
-                   
+                
+               
+               Post visible to all users ?<br/>
+               <button onClick={this.showVisibleList}>Change</button><br/>
                    
                   <div id="scroll"  >
-                    {this.state.friendcomponent}
-                  
+                    {this.state.showVlist? ( "Currently: All visible")
+                    : this.state.friendcomponent}
+
+                   
+                       
                   </div>
                   
                   

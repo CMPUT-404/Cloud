@@ -21,7 +21,8 @@ class Post extends React.Component{
     }
 
     componentDidMount(){
-        var id = this.props.location.state.user
+        //console.log(this.props.match.params)
+        var id = this.props.match.params.Post
         this._isMounted = true        
         axios.get('https://cloud-align-server.herokuapp.com/posts/'+id, {headers:{Authorization: "Token "+localStorage.getItem("token")}})
         .then(
@@ -41,7 +42,7 @@ class Post extends React.Component{
 
 
     loadCommentData(){
-        var id = this.props.location.state.user
+        var id = this.props.match.params.Post
         axios.get(`https://cloud-align-server.herokuapp.com/posts/`+id+`/comments`)
         .then(response => {
             console.log(response)

@@ -65,12 +65,12 @@ class App extends React.Component {
           localStorage.setItem("user", response.data.user.id)
           this.setState({token: response.data.token, userObject:response.data.user})
           this.setState({isLoggedIn: true})
-
+          window.location.href = "/Timeline"
         }
           return response
         })
       .catch(error=>{
-        //console.log(error)
+    console.log(error)
         for(let k in error.response.data){
           alert(error.response.data[k])
         }

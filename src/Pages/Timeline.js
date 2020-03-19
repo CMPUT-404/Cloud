@@ -32,7 +32,7 @@ class Timeline extends React.Component {
 
       })
       .catch(()=>{
-        alert("Something went wrong, please try again")
+        alert("failed to load posts")
       })
   }
 

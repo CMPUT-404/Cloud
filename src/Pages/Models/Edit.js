@@ -21,16 +21,20 @@ class Edit extends React.Component{
     var auth = "Token "+props.token
 
    
-
-    
-    var name = document.getElementById('name').value
-    
+    var editdata = {}
     
 
-    var Email = document.getElementById('email').value
-    var Bio = document.getElementById('bio').value
 
-    axios.patch(props.url, {username: name, email:Email, bio:Bio}, {headers:{
+    editdata.username = document.getElementById('name').value
+    editdata.email = document.getElementById('email').value
+    editdata.bio = document.getElementById('bio').value
+    editdata.github = document.getElementById('github').value
+    editdata.firstName = document.getElementById('firstname').value
+    editdata.lastName = document.getElementById('lastname').value
+
+    
+
+    axios.patch(props.url, editdata, {headers:{
       "Authorization": auth,
     }
   }).then(function(response){
@@ -48,9 +52,15 @@ class Edit extends React.Component{
     
         <div id="form">
           <p className="form" id="changes">
-            <input type="text" id="name" placeholder="Name" ></input><br></br>
+            <input type="text" id="name" placeholder="UserName" ></input><br></br>
             <input type="text" id="email" placeholder="Email"></input><br></br>
-            <input type="text" id="bio" placeholder="Bio"></input><br></br>
+
+            <input type="text" id="firstname" placeholder="Firstname"></input><br></br>
+            <input type="text" id="lastname" placeholder="Lastname"></input><br></br>
+           
+
+            <input type="text" id="github" placeholder="github url"></input><br></br><br></br>
+            <textarea type="text" id="bio" rows="5" cols="50" placeholder="Bio"></textarea><br></br>
             
             <button type="submit" onClick={()=> this.save_change(this.props)}> 
             Save changes

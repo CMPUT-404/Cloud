@@ -170,11 +170,14 @@ class Timeline extends React.Component {
                 
                
                Post visible to all users ?<br/>
-               <button onClick={this.showVisibleList}>Change</button><br/>
+               <button onClick={this.showVisibleList}>Change Visibility</button><br/>
                    
                   <div id="scroll"  >
-                    {this.state.showVlist? ( "Currently: All visible")
-                    : this.state.friendcomponent}
+                    {this.state.showVlist? (""): "Who can see your post?"}
+                    {this.state.showVlist? ( "Post visible to all")
+                    :  this.state.friendcomponent}
+
+
 
                    
                        

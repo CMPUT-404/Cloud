@@ -1,9 +1,10 @@
 #basicProfile{
     margin-left: 5%;
+    display:inline-block;
 }
 
 #profiletext{
-    position: relative;
+    
     /* right: 50pt; */
     font-size: 16pt;
     color: rgb(121, 49, 142);

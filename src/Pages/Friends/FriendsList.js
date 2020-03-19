@@ -64,6 +64,7 @@ class FriendsList extends React.Component {
     let data = {
       friend:item.friendID
     }
+   
     confirm({
       title: <div>Unfriend  " {item.displayName} "  ? <br /> Unfriend this user will also unfollow the user.</div>,
       okText: 'Unfriend',

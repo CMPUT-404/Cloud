@@ -1,14 +1,12 @@
 import React from 'react';
 import CardContent from '../Components/CardContent';
+import GithubCardContent from '../Components/GithubCardContent';
 import axios from 'axios';
 import { Input } from 'antd';
 import {Modal } from 'antd';
 import './Timeline.css';
 
 const { TextArea } = Input;
-
-
-
 
 class Timeline extends React.Component {
   constructor(props){
@@ -21,25 +19,28 @@ class Timeline extends React.Component {
       friendcomponent: null,
       postVisible: true,
       showVlist: true,
-    
-
-
     }
     this.loadPostData = this.loadPostData.bind(this);
     this.submitPost = this.submitPost.bind(this);
-    this.loadPostData();
   }
 
-  loadPostData(){
+  componentDidMount() {
+    this.loadPostData()
+  }
 
+
+  loadPostData(){
     var tempPostList = []
     //Fetching github events here 
     // Get github username from local storage later 
-    axios.get(`https://api.github.com/users/Vanessa0122/events`)
+    axios.get(`https://api.github.com/users/uzamakihina/events`)
       .then(response => {
         console.log(response)
         var maxGithubEventsAllowed = 5
         for(let i=0; i<maxGithubEventsAllowed; i++){
+          if(response.data[i].payload.commits[0].message){
+            var content =  response.data[i].payload.commits[0].message
+          }
           let eachPostJSON = {
             "id": response.data[i].id,
             "title": response.data[i].type,
@@ -49,16 +50,16 @@ class Timeline extends React.Component {
               "username": localStorage.getItem("username")
             },
             "contentType": "text/plain",
-            "content": response.data[i].payload.commits[0].message
+            "content": content
           }
-          let eachPost = <CardContent key={eachPostJSON.id} post={eachPostJSON} token={this.props.token}/>
+          let eachPost = <GithubCardContent key={eachPostJSON.id} post={eachPostJSON} token={this.props.token}/>
           tempPostList.push(eachPost)
         }
       })
 
-      .catch(
-        alert("Unable to load github event")
-      )
+      .catch((err)=>{
+        console.log(err)
+      })
 
     axios.get(this.state.url, {headers:{Authorization: "Token "+this.props.token}})
       .then(response => {
@@ -80,15 +81,6 @@ class Timeline extends React.Component {
     
     var title = document.getElementById("title").innerHTML
     var text = document.getElementById("text").innerHTML
-    
-
-    
-    // alert(this.state.friends[0][1].key)
-
-
-   
-    // alert(document.getElementById(this.state.friends[0][1].key).checked)
-
     var newvis = ""
     var visibility = true
     if (this.state.showVlist === false){
@@ -99,14 +91,10 @@ class Timeline extends React.Component {
        
         if ((document.getElementById(this.state.friends[i]).checked) === true){
           newvis += this.state.friends[i] +","
-
           
         }
       }
-      
-
     }
-  
 
     axios.post(this.state.url,{
         "title":title, 
@@ -123,27 +111,12 @@ class Timeline extends React.Component {
       .catch((err)=>{
         alert(err)
       })
-    
-
   }
 
 
-  
-
   startPost = () =>{
-
-
     axios.get('https://cloud-align-server.herokuapp.com/friend/user/'+this.props.userObject.id)
     .then( res =>{
-      // alert(JSON.stringify(res.data.authors,undefined,4))
-      // var friendlist = []
-      
-      
-      // for (var i of res.data.authors){
-      // friendlist.push( [ i.displayName, <input key ={i.id} id={i.id}  type="checkbox"/>,<br/> ])
-      
-      // }
-
       var friendlist = []
       var friendisplay = []
       var temp = ""
@@ -158,29 +131,19 @@ class Timeline extends React.Component {
       this.setState({visible: true})
       
     }
-      
     )
-  
-
   }
-
   showVisibleList= ()=>{
     if (this.state.showVlist === true){this.setState({showVlist: false})}
     else{this.setState({showVlist: true})}
   }
 
-  
 
   render(){
     return(
 
       <div className="Timeline">
         <div id="inputBox">
-
-
-              
-       
-                  
 
               <TextArea id="title" rows={1} placeholder="Title of the Post"/>
               <TextArea id="text" rows={7} placeholder="Maximum 300 characters " maxLength="300"/>
@@ -194,17 +157,9 @@ class Timeline extends React.Component {
                 // onCancel={this.handleCancel}
                 >
                <button onClick={this.showVisibleList}>Post visible to all users? {this.state.showVlist.toString()}</button>
-                   
-                   
                   <div id="scroll"  >
-                    {this.state.friendcomponent}
-                  
+                    {this.state.friendcomponent}                 
                   </div>
-                  
-                  
-
-
-
               </Modal>
           </div>
         {this.state.postComponents}

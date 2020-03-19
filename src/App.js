@@ -72,7 +72,7 @@ class App extends React.Component {
         })
       .catch(error=>{
         alert(error)
-        //console.log(error)
+        console.log(error)
         // for(let k in error.response.data){
         //   alert(error.response.data[k])
         // }

@@ -103,7 +103,8 @@ class Timeline extends React.Component {
   startPost = () =>{
 
 
-    axios.get('https://cloud-align-server.herokuapp.com/friend/user/'+this.props.userObject.id)
+    axios.get('https://cloud-align-server.herokuapp.com/author/'+this.props.userObject.id+'/friends',
+    {headers:{"Authorization":"Token "+localStorage.getItem("token")}})
     .then( res =>{
       // alert(JSON.stringify(res.data.authors,undefined,4))
       // var friendlist = []
@@ -113,7 +114,7 @@ class Timeline extends React.Component {
       // friendlist.push( [ i.displayName, <input key ={i.id} id={i.id}  type="checkbox"/>,<br/> ])
       
       // }
-
+      
       var friendlist = []
       var friendisplay = []
       var temp = ""

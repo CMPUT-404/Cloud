@@ -66,15 +66,16 @@ class App extends React.Component {
           localStorage.setItem("github", response.data.user.github)
           this.setState({token: response.data.token, userObject:response.data.user})
           this.setState({isLoggedIn: true})
-
+          window.location.href = "/Timeline"
         }
           return response
         })
       .catch(error=>{
+        alert(error)
         //console.log(error)
-        for(let k in error.response.data){
-          alert(error.response.data[k])
-        }
+        // for(let k in error.response.data){
+        //   alert(error.response.data[k])
+        // }
       })
     }
 
@@ -94,9 +95,10 @@ class App extends React.Component {
       this.setState({isLoggedIn: true})
       return response
     }).catch(error => {
-      for(let k in error.response.data.errors){
-        alert(error.response.data.errors[k][0])
-      }
+      alert(error)
+      // for(let k in error.response.data.errors){
+      //   alert(error.response.data.errors[k][0])
+      // }
     }) 
   }
   

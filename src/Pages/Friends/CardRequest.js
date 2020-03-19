@@ -11,7 +11,7 @@ class CardRequest extends React.Component{
   constructor(props){
       super(props)
       this.state= {
-        authorId: this.props.authorId,
+        
         requestorId:this.props.requestorId,
         requestor: this.props.requestor,
         displayName : this.props.displayName
@@ -21,18 +21,17 @@ class CardRequest extends React.Component{
     accept = () => {
 
       let data = {
-        friend:this.state.requestorId,
-        author:this.state.authorId,
-        friendstatus:"accept",
+        sender:this.state.requestorId,
+        
         
       }
-      axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
+      axios.post('https://cloud-align-server.herokuapp.com/newfollowing/accept',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
         .then(res =>{
           this.props.onUpdate();
           console.log(res);
 
           this.setState({
-            authorId: this.props.authorId,
+            
             requestorId: this.props.requestorId,
             displayName : this.props.displayName
           })
@@ -45,23 +44,22 @@ class CardRequest extends React.Component{
       const outer = this;
 
       let data = {
-        friend:this.state.requestorId,
-        author:this.state.authorId,
-        friendstatus:"decline"
+        sender:this.state.requestorId,
+        
       }
 
       confirm({
-      title: <div>Reject the friend request from  <br /> " {this.props.requestorId} " ?</div>, 
+      title: <div>Reject the friend request from  <br /> " {this.props.displayName} " ?</div>, 
         okText: 'Decline',
         okType: 'danger',
         cancelText: 'Cancel', 
         onOk() {
-          axios.post('https://cloud-align-server.herokuapp.com/friend/requestprocess/',data)
+          axios.post('https://cloud-align-server.herokuapp.com/newfollowing/reject',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
             .then(res =>{
               outer.props.onUpdate();
               console.log(res);
               outer.setState({
-                authorId: outer.props.authorId,
+                
                 requestorId: outer.props.requestorId,
                 displayName : outer.props.displayName
               })

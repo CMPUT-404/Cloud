@@ -25,29 +25,42 @@ class FriendsList extends React.Component {
   }
 
   fetchData =() => {
-    axios.get('https://cloud-align-server.herokuapp.com/friend/user/'+this.props.userObject.id).then(res => {
+    axios.get('https://cloud-align-server.herokuapp.com/newfollowing/',{headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res => {
       this.setState({
         initLoading : false,
         data: res.data,
-        authorId : res.data.author.id,
-        list: this.dataPre(res.data.authors)
+        list: this.dataPre(res.data)
       })
     })
   }
 
 
   dataPre = (data) => {
+    let processed_data = [];
     data.forEach((item) => {
-      item.authorID = item.author;
+      if (item.status === true){
+        if(item.sender.id === this.props.userObject.id){
+          item.friend=item.receiver.id;
+          item.displayName=item.receiver.displayName;
+          processed_data.push(item);
+        }
+        else if (item.receiver.id === this.props.userObject.id){
+          item.friend = item.sender.id;
+          item.displayName = item.sender.displayName;
+          processed_data.push(item);
+        }
+        
+        
+      }
+      
     });
-    return data;
+    return processed_data;
   }
 
   unfriend =(item) =>{
     const outer = this;
     let data = {
-      author:this.state.authorId,
-      friend:item.id
+      friend:item.friend
     }
     confirm({
       title: <div>Unfriend  " {item.displayName} "  ? <br /> Unfriend this user will also unfollow the user.</div>,
@@ -55,7 +68,7 @@ class FriendsList extends React.Component {
       okType: 'danger',
       cancelText: 'Cancel', 
       onOk() {
-        axios.post('https://cloud-align-server.herokuapp.com/friend/delete/',data).then(res =>{
+        axios.post('https://cloud-align-server.herokuapp.com/deletefriend/',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res =>{
           outer.fetchData();
         });
         console.log('OK');
@@ -82,7 +95,7 @@ class FriendsList extends React.Component {
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
                 avatar={
-                  <Link to={{ pathname:'/OtherProfile/'+ item.id,
+                  <Link to={{ pathname:'/OtherProfile/'+ item.friend,
                     state:{
                       user:item,
                       token: this.props.token,
@@ -90,7 +103,7 @@ class FriendsList extends React.Component {
                     <img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} />
                   </Link>                
                 }
-                title={<Link to={{ pathname:'/OtherProfile/'+ item.id,
+                title={<Link to={{ pathname:'/OtherProfile/'+ item.friend,
                 state:{
                   user:item,
                   token: this.props.token,

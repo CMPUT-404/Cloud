@@ -70,10 +70,11 @@ class App extends React.Component {
           return response
         })
       .catch(error=>{
-    console.log(error)
-        for(let k in error.response.data){
-          alert(error.response.data[k])
-        }
+        alert(error)
+        //console.log(error)
+        // for(let k in error.response.data){
+        //   alert(error.response.data[k])
+        // }
       })
     }
 
@@ -90,9 +91,10 @@ class App extends React.Component {
       this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
       return response
     }).catch(error => {
-      for(let k in error.response.data.errors){
-        alert(error.response.data.errors[k][0])
-      }
+      alert(error)
+      // for(let k in error.response.data.errors){
+      //   alert(error.response.data.errors[k][0])
+      // }
     }) 
   }
   

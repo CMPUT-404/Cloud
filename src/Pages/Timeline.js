@@ -1,6 +1,5 @@
 import React from 'react';
 import CardContent from '../Components/CardContent';
-import GithubCardContent from '../Components/GithubCardContent';
 import axios from 'axios';
 import { Input } from 'antd';
 import {Modal } from 'antd';
@@ -33,44 +32,6 @@ class Timeline extends React.Component {
     var tempPostList = []
     //Fetching github events here 
     // Get github username from local storage later 
-    console.log(this.state.postComponents)
-    axios.get(`https://api.github.com/users/Vanessa0122/events`, {headers:{"If-Modified-Since": localStorage.getItem("lastModified")}})
-      .then(response => {
-        var maxGithubEventsAllowed = 5
-        
-        localStorage.setItem("lastModified", response.headers["last-modified"])
-
-        console.log(response.headers["last-modified"])
-
-        console.log(typeof(localStorage.getItem("lastModified")))
-
-        console.log(localStorage.getItem("lastModified"))
-
-
-
-        for(let i=0; i<maxGithubEventsAllowed; i++){
-          if(response.data[i].payload.commits[0].message){
-            var content =  response.data[i].payload.commits[0].message
-          }
-          let eachPostJSON = {
-            "id": response.data[i].id,
-            "title": response.data[i].type,
-            "author": "https://cloud-align-server.herokuapp.com/users/" + localStorage.getItem("user") + "/",
-            "author_data": {
-              "id": localStorage.getItem("user"),
-              "username": localStorage.getItem("username")
-            },
-            "contentType": "text/plain",
-            "content": content
-          }
-          let eachPost = <GithubCardContent key={eachPostJSON.id} post={eachPostJSON} token={this.props.token}/>
-          tempPostList.push(eachPost)
-        }
-      })
-
-      .catch((err)=>{
-        console.log(err)
-      })
 
     axios.get(this.state.url, {headers:{Authorization: "Token "+this.props.token}})
       .then(response => {
@@ -126,8 +87,12 @@ class Timeline extends React.Component {
 
 
   startPost = () =>{
-    axios.get('https://cloud-align-server.herokuapp.com/friend/user/'+this.props.userObject.id)
+
+
+    axios.get('https://cloud-align-server.herokuapp.com/author/'+this.props.userObject.id+'/friends',
+    {headers:{"Authorization":"Token "+localStorage.getItem("token")}})
     .then( res =>{
+      
       var friendlist = []
       var friendisplay = []
       var temp = ""
@@ -152,7 +117,6 @@ class Timeline extends React.Component {
 
   render(){
     return(
-
       <div className="Timeline">
         <div id="inputBox">
 

@@ -28,7 +28,7 @@ class CardRequest extends React.Component{
       axios.post('https://cloud-align-server.herokuapp.com/newfollowing/accept',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
         .then(res =>{
           this.props.onUpdate();
-          console.log(res);
+          //console.log(res);
 
           this.setState({
             
@@ -57,7 +57,7 @@ class CardRequest extends React.Component{
           axios.post('https://cloud-align-server.herokuapp.com/newfollowing/reject',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
             .then(res =>{
               outer.props.onUpdate();
-              console.log(res);
+              //console.log(res);
               outer.setState({
                 
                 requestorId: outer.props.requestorId,

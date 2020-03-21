@@ -14,6 +14,7 @@ function NavBar(){
             <ul className='nav-links'>
                 <Link style={navStyle} to='/Profile'><li>Profile</li></Link>
                 <Link style={navStyle} to='/Timeline'><li>Timeline</li></Link>
+                <Link style={navStyle} to='/GithubEvents'><li>Github</li></Link>
                 <Link style={navStyle} to='/Requests'><li>Requests</li></Link>
                 <Link style={navStyle} to='/FriendsList'><li>FriendsList</li></Link>
                 <Link style={navStyle} to='/Following'><li>Following</li></Link>

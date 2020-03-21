@@ -3,7 +3,7 @@ import CardContent from '../Components/CardContent';
 import './css/OtherProfile.css';
 
 import axios from 'axios';
-import { Button} from 'antd';
+import { Button,message} from 'antd';
 
 class Profile extends React.Component {
 
@@ -13,6 +13,12 @@ class Profile extends React.Component {
     super(props)
     this.state = {
       Props: props,
+
+      //check friend request status
+      isMyProfile:false,
+      requestSent: false,
+      isFriend: false,
+      isRejected: false,
       
       path: "/Timeline",
       postComponents : [],
@@ -42,7 +48,8 @@ class Profile extends React.Component {
                 alert(err)
             }
         )
-    this.loadPostData()
+    this.loadPostData();
+    this.getFriendStatus()
   }
 
   loadPostData(){
@@ -66,6 +73,38 @@ class Profile extends React.Component {
       )
   }
 
+  getFriendStatus =()=>{
+    if (this.props.userObject.id===this.props.location.state.user.id){
+      this.setState({
+        isMyProfile:true,
+      })
+    } else{
+    axios.get('https://cloud-align-server.herokuapp.com/newfollowing/',{headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res => {
+      for(let i=0;i<res.data.length;i++){
+        if(res.data[i].sender.id === this.props.location.state.user.id || 
+          res.data[i].receiver.id === this.props.location.state.user.id){
+          let status = res.data[i].status;
+          if (status === true){
+            this.setState({
+              isFriend: true,
+            })
+          }
+          else if (status === null){
+            this.setState({      
+              requestSent: true,
+            })
+          }
+          else if (status === false){
+            this.setState({
+              isRejected: true,
+            })
+          }  
+        }
+      }   
+    })
+    }
+  }
+
   addFriend =()=>{
     let data = {
        sender : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.userObject.id+ '/',
@@ -73,9 +112,26 @@ class Profile extends React.Component {
     }
     axios.post('https://cloud-align-server.herokuapp.com/newfollowing/',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
       .then(res =>{
-        }).catch(function (error) {
+        this.setState({
+          requestSent: true,
+        })
+      }).catch(function (error) {
             console.log(error);
         })
+    message.success('Friend Request Successfully Sent')
+  }
+
+  rejectMessage =()=>{
+    // last friend request was rejected, unfollow the user to retry adding friend
+    let data = {   
+      following:this.props.location.state.user.id
+    }
+    axios.post('https://cloud-align-server.herokuapp.com/deletefollowing',data,
+      {headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res =>{});
+    message.info('Your last friend request was rejected. You can try "add friend" again' )
+    this.setState({
+      isRejected: false,
+    })  
   }
 
   
@@ -93,7 +149,13 @@ class Profile extends React.Component {
           {this.state.the_post.bio}<br></br>
         </div>
         <div>
-        <Button onClick={this.addFriend}>add friend</Button>
+
+        {this.state.isMyProfile|| this.state.isFriend || this.state.requestSent|| this.state.isRejected?null:<Button onClick={()=>this.addFriend()}>add friend</Button>}
+        {this.state.isMyProfile? <Button disabled>MyCustomProfile</Button>:null}
+        {this.state.isFriend? <Button disabled>Friend</Button>:null}
+        {this.state.requestSent? <Button disabled>friend request sent</Button>:null}
+        {this.state.isRejected? <Button onClick={()=>this.rejectMessage()}>Friend Request Info</Button>:null}
+
         </div>
 
         <div id="Posts">

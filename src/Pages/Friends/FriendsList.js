@@ -1,7 +1,7 @@
 
 import React from 'react';
 import 'antd/dist/antd.css';
-import './FriendsList.css';
+import './css/FriendsList.css';
 import axios from 'axios';
 import { List, Button, Skeleton,Modal,} from 'antd';
 import { Link } from 'react-router-dom'

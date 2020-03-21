@@ -10,6 +10,7 @@ import Timeline from './Pages/Timeline';
 import Login from './Pages/Login';
 import axios from 'axios';
 import Post from './Pages/Post';
+import GithubEvents from './Pages/GithubEvents';
 import OtherProfile from './Pages/OtherProfile'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
@@ -42,8 +43,7 @@ class App extends React.Component {
 
   //  THERE"S NO TOKEN AT THIS TIME 
   componentDidMount(){
-    console.log("COMPONENT DID MOUNT", this.state.token)
-    axios.get(`https://cloud-align-server.herokuapp.com/users/validate`,{headers:{Authorization: "Token "+this.state.token}})
+    axios.get(`https://cloud-align-server.herokuapp.com/author/validate`,{headers:{Authorization: "Token "+this.state.token}})
     .then(response=>{
       localStorage.setItem("user", response.data.user.id)
       this.setState({isLoggedIn: true, userObject: response.data.user})
@@ -54,47 +54,49 @@ class App extends React.Component {
   }
 
   handleLogin(){
-    axios.post(`https://cloud-align-server.herokuapp.com/users/login`,{
+    axios.post(`https://cloud-align-server.herokuapp.com/author/login`,{
       "username": this.state.username,
       "password": this.state.password
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
       .then(response => {
+        console.log(response)
         if(response.status === 200){
-          console.log("HANDLE LOGIN", response.data.token)
+          localStorage.setItem("username", response.data.user.username)
           localStorage.setItem("token", response.data.token)
           localStorage.setItem("user", response.data.user.id)
+          localStorage.setItem("github", response.data.user.github)
           this.setState({token: response.data.token, userObject:response.data.user})
           this.setState({isLoggedIn: true})
-          window.location.href = "/Timeline"
         }
           return response
         })
       .catch(error=>{
         alert(error)
-        //console.log(error)
-        // for(let k in error.response.data){
-        //   alert(error.response.data[k])
-        // }
+        console.log(error)
       })
     }
 
   register(){
-    axios.post(`https://cloud-align-server.herokuapp.com/users/register`,{
+    axios.post(`https://cloud-align-server.herokuapp.com/author/register`,{
       "username": this.state.username,
       "password": this.state.password,
       "email": this.state.email,
       "github": this.state.github
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
     .then(response => {
-      localStorage.setItem("token", response.data.token)
-      localStorage.setItem("user", response.data.user.id)
-      this.setState({token: response.data.token, userObject:response.data.user, isLoggedIn: true})
-      return response
-    }).catch(error => {
-      alert(error)
-      // for(let k in error.response.data.errors){
-      //   alert(error.response.data.errors[k][0])
-      // }
+      console.log(response)
+      if(response.status === 201){
+        localStorage.setItem("username", response.data.user.username)
+        localStorage.setItem("token", response.data.token)
+        localStorage.setItem("user", response.data.user.id)
+        localStorage.setItem("github", response.data.user.github)
+        this.setState({token: response.data.token, userObject:response.data.user})
+        this.setState({isLoggedIn: true})
+      }
+        return response
+      })
+    .catch(error => {
+      console.log(error)
     }) 
   }
   
@@ -171,6 +173,7 @@ class App extends React.Component {
                 (props)=>(
                 <Timeline token={this.state.token} userObject={this.state.userObject} {...props}/>)
                 }/>
+              <Route path ="/GithubEvents" component={GithubEvents}/>
               <Route path ="/Timeline/:Post" component={Post}/>
               <Route path="/OtherProfile/:OtherProfile" render={
                 (props) =>(

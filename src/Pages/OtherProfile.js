@@ -3,7 +3,7 @@ import CardContent from '../Components/CardContent';
 import './css/OtherProfile.css';
 
 import axios from 'axios';
-import { Button} from 'antd';
+import { Button,message} from 'antd';
 
 class Profile extends React.Component {
 
@@ -18,6 +18,7 @@ class Profile extends React.Component {
       isMyProfile:false,
       requestSent: false,
       isFriend: false,
+      isRejected: false,
       
       path: "/Timeline",
       postComponents : [],
@@ -92,10 +93,14 @@ class Profile extends React.Component {
             this.setState({      
               requestSent: true,
             })
+          }
+          else if (status === false){
+            this.setState({
+              isRejected: true,
+            })
           }  
         }
-      }
-      
+      }   
     })
     }
   }
@@ -113,6 +118,20 @@ class Profile extends React.Component {
       }).catch(function (error) {
             console.log(error);
         })
+    message.success('Friend Request Successfully Sent')
+  }
+
+  rejectMessage =()=>{
+    // last friend request was rejected, unfollow the user to retry adding friend
+    let data = {   
+      following:this.props.location.state.user.id
+    }
+    axios.post('https://cloud-align-server.herokuapp.com/deletefollowing',data,
+      {headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res =>{});
+    message.info('Your last friend request was rejected. You can try "add friend" again' )
+    this.setState({
+      isRejected: false,
+    })  
   }
 
   
@@ -131,10 +150,12 @@ class Profile extends React.Component {
         </div>
         <div>
 
-        {this.state.isMyProfile|| this.state.isFriend || this.state.requestSent?null:<Button onClick={()=>this.addFriend()}>add friend</Button>}
+        {this.state.isMyProfile|| this.state.isFriend || this.state.requestSent|| this.state.isRejected?null:<Button onClick={()=>this.addFriend()}>add friend</Button>}
         {this.state.isMyProfile? <Button disabled>MyCustomProfile</Button>:null}
         {this.state.isFriend? <Button disabled>Friend</Button>:null}
         {this.state.requestSent? <Button disabled>friend request sent</Button>:null}
+        {this.state.isRejected? <Button onClick={()=>this.rejectMessage()}>Friend Request Info</Button>:null}
+
         </div>
 
         <div id="Posts">

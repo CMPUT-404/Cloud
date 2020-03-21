@@ -7,6 +7,7 @@ class GithubEvents extends React.Component {
   constructor(props){
     super(props)
     this.state = {
+      "Message": "",
       "postComponents": []
     }
   }
@@ -20,8 +21,12 @@ class GithubEvents extends React.Component {
     var tempPostList = []
     //Fetching github events here 
     // Get github username from local storage later 
-    //{headers:{"If-Modified-Since": localStorage.getItem("lastModified")}}
-    axios.get(`https://api.github.com/users/Vanessa0122/events`)
+    var githubAccount = localStorage.getItem("github")
+    if (githubAccount===""){
+      this.setState({Message:  
+        " 🌧️ You did not enter the username of your github when you registered an account. If you wish to view your github activities here, go to the Profile page, and add your github username. 🌧️ "})
+    }else{
+      axios.get(`https://api.github.com/users/`+githubAccount+`/events`)
       .then(response => {
         var content = ""
         for(let i=0; i<response.data.length; i++){
@@ -51,8 +56,7 @@ class GithubEvents extends React.Component {
       .catch((err)=>{
         console.log(err)
       })
-
-  
+    }
 
   }
 
@@ -61,6 +65,7 @@ class GithubEvents extends React.Component {
   render(){
     return(
       <div>
+        <h4>{this.state.Message}</h4>
         {this.state.postComponents}
       </div>
     )

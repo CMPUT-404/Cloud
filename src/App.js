@@ -92,15 +92,11 @@ class App extends React.Component {
       localStorage.setItem("token", response.data.token)
       localStorage.setItem("user", response.data.user.id)
       localStorage.setItem("github", response.data.github)
-      console.log("token")
       this.setState({token: response.data.token, userObject:response.data.user})
       this.setState({isLoggedIn: true})
       return response
     }).catch(error => {
-      alert(error)
-      // for(let k in error.response.data.errors){
-      //   alert(error.response.data.errors[k][0])
-      // }
+      console.log(error)
     }) 
   }
   

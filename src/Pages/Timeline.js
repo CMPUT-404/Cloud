@@ -18,7 +18,7 @@ class Timeline extends React.Component {
       friends: null,
       friendcomponent: null,
       postVisible: true,
-      showVlist: true,
+      showVlist: true
     }
     this.loadPostData = this.loadPostData.bind(this);
     this.submitPost = this.submitPost.bind(this);
@@ -33,10 +33,21 @@ class Timeline extends React.Component {
     var tempPostList = []
     //Fetching github events here 
     // Get github username from local storage later 
-    axios.get(`https://api.github.com/users/uzamakihina/events`)
+    console.log(this.state.postComponents)
+    axios.get(`https://api.github.com/users/Vanessa0122/events`, {headers:{"If-Modified-Since": localStorage.getItem("lastModified")}})
       .then(response => {
-        console.log(response)
         var maxGithubEventsAllowed = 5
+        
+        localStorage.setItem("lastModified", response.headers["last-modified"])
+
+        console.log(response.headers["last-modified"])
+
+        console.log(typeof(localStorage.getItem("lastModified")))
+
+        console.log(localStorage.getItem("lastModified"))
+
+
+
         for(let i=0; i<maxGithubEventsAllowed; i++){
           if(response.data[i].payload.commits[0].message){
             var content =  response.data[i].payload.commits[0].message

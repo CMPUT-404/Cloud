@@ -12,7 +12,7 @@ class Basic_profile extends React.Component{
     }
     
     componentWillUnmount(){
-        alert(JSON.stringify(this.props.object))
+        //alert(JSON.stringify(this.props.object))
         this._isMounted = false
     }
 

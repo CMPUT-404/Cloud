@@ -61,6 +61,7 @@ class App extends React.Component {
       .then(response => {
         console.log(response)
         if(response.status === 200){
+          localStorage.setItem("url", response.data.user.url)
           localStorage.setItem("username", response.data.user.username)
           localStorage.setItem("token", response.data.token)
           localStorage.setItem("user", response.data.user.id)

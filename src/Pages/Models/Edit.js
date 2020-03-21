@@ -23,9 +23,9 @@ class Edit extends React.Component{
    
     var editdata = {}
     
-
-
-    editdata.username = document.getElementById('name').value
+    if (document.getElementById('name').value!== ""){
+      editdata.username = document.getElementById('name').value
+    }
     editdata.email = document.getElementById('email').value
     editdata.bio = document.getElementById('bio').value
     editdata.github = document.getElementById('github').value

@@ -67,16 +67,12 @@ class App extends React.Component {
           localStorage.setItem("github", response.data.user.github)
           this.setState({token: response.data.token, userObject:response.data.user})
           this.setState({isLoggedIn: true})
-
         }
           return response
         })
       .catch(error=>{
         alert(error)
         console.log(error)
-        // for(let k in error.response.data){
-        //   alert(error.response.data[k])
-        // }
       })
     }
 
@@ -88,14 +84,18 @@ class App extends React.Component {
       "github": this.state.github
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
     .then(response => {
-      localStorage.setItem("username", response.data.user.username)
-      localStorage.setItem("token", response.data.token)
-      localStorage.setItem("user", response.data.user.id)
-      localStorage.setItem("github", response.data.github)
-      this.setState({token: response.data.token, userObject:response.data.user})
-      this.setState({isLoggedIn: true})
-      return response
-    }).catch(error => {
+      console.log(response)
+      if(response.status === 201){
+        localStorage.setItem("username", response.data.user.username)
+        localStorage.setItem("token", response.data.token)
+        localStorage.setItem("user", response.data.user.id)
+        localStorage.setItem("github", response.data.user.github)
+        this.setState({token: response.data.token, userObject:response.data.user})
+        this.setState({isLoggedIn: true})
+      }
+        return response
+      })
+    .catch(error => {
       console.log(error)
     }) 
   }

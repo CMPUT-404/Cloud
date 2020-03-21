@@ -19,8 +19,6 @@ class GithubEvents extends React.Component {
 
   loadPostData(){
     var tempPostList = []
-    //Fetching github events here 
-    // Get github username from local storage later 
     var githubAccount = localStorage.getItem("github")
     if (githubAccount===""){
       this.setState({Message:  

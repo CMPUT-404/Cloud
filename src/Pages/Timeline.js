@@ -5,6 +5,7 @@ import { Input } from 'antd';
 import {Modal } from 'antd';
 import './Timeline.css';
 
+
 const { TextArea } = Input;
 
 class Timeline extends React.Component {
@@ -19,7 +20,11 @@ class Timeline extends React.Component {
       friendcomponent: null,
       postVisible: true,
       showVlist: true,
-      token: localStorage.getItem("token")
+      token: localStorage.getItem("token"),
+      myImage: null,
+      loadImage: function(img){
+        this.setState(this.myImage)
+      }
     }
     this.loadPostData = this.loadPostData.bind(this);
     this.submitPost = this.submitPost.bind(this);
@@ -118,16 +123,41 @@ class Timeline extends React.Component {
     this.setState({visible: false})
   }
 
+  pictureHandler = () => {
+    var file = document.getElementById("uploadButton").files[0]
+    var reader = new FileReader()
+
+    var image = document.getElementById('userImg')
+  
+    reader.addEventListener("load", function(){
+      image.src = reader.result
+      
+      
+    },false)
+
+    reader.readAsDataURL(file)
+    
+    
+
+  }
+
 
   render(){
     return(
       <div className="Timeline">
+        
+        {/* here <img src='' id='test' alt=''/>
+        <p id='test2'>eee</p>
+        {this.state.myImage} */}
+
         <div id="inputBox">
 
               <TextArea id="title" rows={1} placeholder="Title of the Post"/>
+              <img id="userImg" alt ='' src='' />
               <TextArea id="text" rows={7} placeholder="Maximum 300 characters " maxLength="300"/>
               <button id="submitButton" onClick={this.startPost}>Submit</button>
-              <input id="uploadButton" type="file" alt="image uploaded by user" onChange={this.pictureHandler}/>
+              
+              <input id="uploadButton"  type="file" alt="image uploaded by user" onChange={this.pictureHandler}/>
               <Modal
                 title={"Who should this Post be Visible to?"}
                 visible={this.state.visible}

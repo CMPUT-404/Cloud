@@ -3,7 +3,7 @@ import CardContent from '../Components/CardContent';
 import './css/OtherProfile.css';
 
 import axios from 'axios';
-import { Button,message} from 'antd';
+import { Button} from 'antd';
 
 class Profile extends React.Component {
 

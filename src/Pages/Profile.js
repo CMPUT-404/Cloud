@@ -53,6 +53,8 @@ class Profile extends React.Component {
     if (this.state.edit === false){
       return(
         <div>
+          
+
           <BasicProfile object={this.props.userObject} edit={this.state.go_edit}/>
           <div id="myPosts">
             {this.state.postComponents}
@@ -62,6 +64,7 @@ class Profile extends React.Component {
     }else{ 
       return(
         <div id="B">
+          
           <BasicProfile object={this.props.userObject} edit={this.state.go_edit}/>
           <Edit object={this.props.userObject} token={this.state.token} url={"https://cloud-align-server.herokuapp.com/author/"+this.state.userID+"/"}/>
         </div>

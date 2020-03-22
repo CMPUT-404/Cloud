@@ -155,7 +155,7 @@ class App extends React.Component {
           <Router>
             <NavBar />
             <Switch>
-              <Route path="/profile" render={
+              <Route path="/Profile" render={
                 (props)=>(
                 <Profile token={this.state.token} userObject={this.state.userObject} {...props}/>)
                 }/>
@@ -171,16 +171,10 @@ class App extends React.Component {
                 (props)=>(
                 <Following token={this.state.token} userObject={this.state.userObject} {...props}/>)
                 }/>/>
-              <Route exact path="/timeline" render={
-                (props)=>(
-                <Timeline token={this.state.token} userObject={this.state.userObject} {...props}/>)
-                }/>
+              <Route path ="/Timeline" component={Timeline}/>
               <Route path ="/GithubEvents" component={GithubEvents}/>
               <Route path ="/Timeline/:Post" component={Post}/>
-              <Route path="/OtherProfile/:OtherProfile" render={
-                (props) =>(
-                  <OtherProfile token={this.state.token} userObject={this.state.userObject} {...props}/>)
-                }/>
+              <Route path ="/OtherProfile/:OtherProfile" component={OtherProfile}/>
               <Route path ="/LogOut" component={LogOut}/>
             </Switch>
           </Router>

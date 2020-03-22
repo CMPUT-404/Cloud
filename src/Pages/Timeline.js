@@ -18,7 +18,8 @@ class Timeline extends React.Component {
       friends: null,
       friendcomponent: null,
       postVisible: true,
-      showVlist: true
+      showVlist: true,
+      token: localStorage.getItem("token")
     }
     this.loadPostData = this.loadPostData.bind(this);
     this.submitPost = this.submitPost.bind(this);
@@ -34,10 +35,10 @@ class Timeline extends React.Component {
     //Fetching github events here 
     // Get github username from local storage later 
 
-    axios.get(this.state.url, {headers:{Authorization: "Token "+this.props.token}})
+    axios.get(this.state.url, {headers:{Authorization: "Token "+this.state.token}})
       .then(response => {
         for(let i=0; i<response.data.length; i++){
-          let eachPost = <CardContent key={response.data[i].id} post={response.data[i]} token={this.props.token} />
+          let eachPost = <CardContent key={response.data[i].id} post={response.data[i]} token={this.state.token} />
           tempPostList.push(eachPost)
         }
         this.setState({postComponents: tempPostList})

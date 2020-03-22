@@ -37,7 +37,7 @@ class Profile extends React.Component {
       .then(response => {
         var tempPostList = []
         for(let i=0; i<response.data.length; i++){
-          var eachPost = <CardContent key={response.data[i].id} token={this.props.token} post={response.data[i]}/>
+          var eachPost = <CardContent key={response.data[i].id} token={this.state.token} post={response.data[i]}/>
           tempPostList.push(eachPost)
         }
         this.setState({postComponents: tempPostList})

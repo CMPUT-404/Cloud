@@ -25,7 +25,10 @@ class Profile extends React.Component {
       edit: false,
       go_edit : ()=>{
         this.setState({edit:true})
-      }
+      },
+      authorID: this.props.location.state.author.id, //ID of the author of the post 
+      userID: localStorage.getItem("user"), //ID of the currently logged in user 
+      token: localStorage.getItem("token")
     }
     this.loadPostData = this.loadPostData.bind(this);
   }
@@ -33,10 +36,7 @@ class Profile extends React.Component {
   
   componentDidMount() {
     this.__isMounted = true;
-    var id =  this.props.location.state.user.id
-    var token = this.props.location.state.token
-    
-    axios.get('https://cloud-align-server.herokuapp.com/users/'+id, {headers: {"Authorization": "Token "+ token}} )
+    axios.get('https://cloud-align-server.herokuapp.com/author/'+this.state.authorID, {headers: {"Authorization": "Token "+ this.state.token}} )
         .then(
             (response) =>{
                 this.setState({the_post: response.data})
@@ -53,10 +53,7 @@ class Profile extends React.Component {
   }
 
   loadPostData(){
-    var id =  this.props.location.state.user.id
-    var token = this.props.location.state.token
-    console.log(id)
-    axios.get("https://cloud-align-server.herokuapp.com/posts/user/"+id, {headers: {"Authorization": "Token "+ token}})
+    axios.get("https://cloud-align-server.herokuapp.com/posts/author/"+this.state.authorID, {headers: {"Authorization": "Token "+ this.state.token}})
       .then(response => {
         console.log(response)
         var tempPostList = []
@@ -65,7 +62,6 @@ class Profile extends React.Component {
           tempPostList.push(eachPost)
         }
         this.setState({postComponents: tempPostList})
-
       })
       .catch((err)=>{
         console.log(err)
@@ -74,64 +70,64 @@ class Profile extends React.Component {
   }
 
   getFriendStatus =()=>{
-    if (this.props.userObject.id===this.props.location.state.user.id){
-      this.setState({
-        isMyProfile:true,
-      })
-    } else{
-    axios.get('https://cloud-align-server.herokuapp.com/newfollowing/',{headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res => {
-      for(let i=0;i<res.data.length;i++){
-        if(res.data[i].sender.id === this.props.location.state.user.id || 
-          res.data[i].receiver.id === this.props.location.state.user.id){
-          let status = res.data[i].status;
-          if (status === true){
-            this.setState({
-              isFriend: true,
-            })
-          }
-          else if (status === null){
-            this.setState({      
-              requestSent: true,
-            })
-          }
-          else if (status === false){
-            this.setState({
-              isRejected: true,
-            })
-          }  
-        }
-      }   
-    })
-    }
+    // if (this.props.userObject.id===this.state.authorID){
+    //   this.setState({
+    //     isMyProfile:true,
+    //   })
+    // } else{
+    // axios.get('https://cloud-align-server.herokuapp.com/newfollowing/',{headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res => {
+    //   for(let i=0;i<res.data.length;i++){
+    //     if(res.data[i].sender.id === this.props.location.state.user.id || 
+    //       res.data[i].receiver.id === this.props.location.state.user.id){
+    //       let status = res.data[i].status;
+    //       if (status === true){
+    //         this.setState({
+    //           isFriend: true,
+    //         })
+    //       }
+    //       else if (status === null){
+    //         this.setState({      
+    //           requestSent: true,
+    //         })
+    //       }
+    //       else if (status === false){
+    //         this.setState({
+    //           isRejected: true,
+    //         })
+    //       }  
+    //     }
+    //   }   
+    // })
+    // }
   }
 
   addFriend =()=>{
-    let data = {
-       sender : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.userObject.id+ '/',
-       receiver : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.location.state.user.id +'/',    
-    }
-    axios.post('https://cloud-align-server.herokuapp.com/newfollowing/',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
-      .then(res =>{
-        this.setState({
-          requestSent: true,
-        })
-      }).catch(function (error) {
-            console.log(error);
-        })
-    message.success('Friend Request Successfully Sent')
+    // let data = {
+    //    sender : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.userObject.id+ '/',
+    //    receiver : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.location.state.user.id +'/',    
+    // }
+    // axios.post('https://cloud-align-server.herokuapp.com/newfollowing/',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
+    //   .then(res =>{
+    //     this.setState({
+    //       requestSent: true,
+    //     })
+    //   }).catch(function (error) {
+    //         console.log(error);
+    //     })
+    // message.success('Friend Request Successfully Sent')
   }
 
   rejectMessage =()=>{
-    // last friend request was rejected, unfollow the user to retry adding friend
-    let data = {   
-      following:this.props.location.state.user.id
-    }
-    axios.post('https://cloud-align-server.herokuapp.com/deletefollowing',data,
-      {headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res =>{});
-    message.info('Your last friend request was rejected. You can try "add friend" again' )
-    this.setState({
-      isRejected: false,
-    })  
+    // // last friend request was rejected, unfollow the user to retry adding friend
+    // let data = {   
+    //   following:this.props.location.state.user.id
+    // }
+    // axios.post('https://cloud-align-server.herokuapp.com/deletefollowing',data,
+    //   {headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res =>{});
+    // message.info('Your last friend request was rejected. You can try "add friend" again' )
+    // this.setState({
+    //   isRejected: false,
+    // })  
   }
 
   

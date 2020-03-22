@@ -59,7 +59,7 @@ class App extends React.Component {
       "password": this.state.password
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
       .then(response => {
-        console.log(response)
+        //console.log(response)
         if(response.status === 200){
           localStorage.setItem("url", response.data.user.url)
           localStorage.setItem("username", response.data.user.username)
@@ -85,8 +85,9 @@ class App extends React.Component {
       "github": this.state.github
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
     .then(response => {
-      console.log(response)
+      //console.log(response)
       if(response.status === 201){
+        localStorage.setItem("url", response.data.user.url)
         localStorage.setItem("username", response.data.user.username)
         localStorage.setItem("token", response.data.token)
         localStorage.setItem("user", response.data.user.id)

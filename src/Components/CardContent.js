@@ -13,11 +13,27 @@ const { TextArea } = Input;
 class CardContent extends React.Component{
     constructor(props){
         super(props)
+        let authorID = this.props.post.author.split('/')
         this.state = {   
             ModalText: "display a list of comments",
             visible: false,
             confirmLoading: false,
+            authorURL: this.props.post.author,
+            authorID: authorID[authorID.length-2],
+            token: localStorage.getItem("token"),
+            authorObject: {}
           };
+
+        //console.log(this.state.authorURL)
+    }
+
+    componentDidMount(){
+      axios.get(this.state.authorURL, {headers:{Authorization: "Token " + this.state.token}})
+      .then((response)=>{
+        this.setState({authorObject: response.data})
+        //console.log(this.state.authorObject)
+      })
+
     }
 
     displayProfile(){
@@ -74,15 +90,15 @@ class CardContent extends React.Component{
                   } >
                     see more </Link> }> 
 
-                    <Link to={{ pathname:'/OtherProfile/'+ this.props.post.author_data.id,
+                    <Link to={{ pathname:'/OtherProfile/'+ this.state.authorObject.username,
                       state:{
-                        user:this.props.post.author_data,
+                        author:this.state.authorObject,
                         token: this.props.token,
                       } }}>{this.props.post.author_data.username}</Link>
 
-                    <Link to={{ pathname:'/OtherProfile/'+ this.props.post.author_data.id,
+                    <Link to={{ pathname:'/OtherProfile/'+ this.state.authorObject.username,
                       state:{
-                        user:this.props.post.author_data,
+                        author:this.state.authorObject,
                         token: this.props.token,
                       } }}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
 

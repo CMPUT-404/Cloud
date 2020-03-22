@@ -14,6 +14,7 @@ class Timeline extends React.Component {
       "postComponents": [],
       url: 'https://cloud-align-server.herokuapp.com/posts/',
       visible: false,
+      author: localStorage.getItem("url"), //https://cloud-align-server.herokuapp.com/author/author_id/ 
       friends: null,
       friendcomponent: null,
       postVisible: true,
@@ -71,7 +72,7 @@ class Timeline extends React.Component {
     axios.post(this.state.url,{
         "title":title, 
         "content":text, 
-        "author": "https://cloud-align-server.herokuapp.com/users/"+this.props.userObject.id+"/",
+        "author": localStorage.getItem("url"),
         "visibilities": visibility,
         "description": "",
         "visible_to": newvis,
@@ -88,8 +89,7 @@ class Timeline extends React.Component {
 
   startPost = () =>{
 
-
-    axios.get('https://cloud-align-server.herokuapp.com/author/'+this.props.userObject.id+'/friends',
+    axios.get(this.state.author+'friends',
     {headers:{"Authorization":"Token "+localStorage.getItem("token")}})
     .then( res =>{
       

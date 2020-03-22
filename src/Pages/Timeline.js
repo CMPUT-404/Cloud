@@ -77,7 +77,7 @@ class Timeline extends React.Component {
         "visibilities": visibility,
         "description": "",
         "visible_to": newvis,
-      }, {headers:{Authorization: "Token "+this.props.token}})
+      }, {headers:{Authorization: "Token "+this.state.token}})
       .then(()=>{
         window.location.reload()
       })

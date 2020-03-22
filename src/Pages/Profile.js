@@ -63,7 +63,7 @@ class Profile extends React.Component {
       return(
         <div id="B">
           <BasicProfile object={this.props.userObject} edit={this.state.go_edit}/>
-          <Edit object={this.props.userObject} token={this.props.token} url={"https://cloud-align-server.herokuapp.com/author/"+this.state.userID+"/"}/>
+          <Edit object={this.props.userObject} token={this.state.token} url={"https://cloud-align-server.herokuapp.com/author/"+this.state.userID+"/"}/>
         </div>
       )
     }

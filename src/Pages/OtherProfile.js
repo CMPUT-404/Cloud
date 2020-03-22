@@ -26,6 +26,7 @@ class Profile extends React.Component {
       go_edit : ()=>{
         this.setState({edit:true})
       },
+      authorURL: this.props.location.state.author.url, //URL of the author of the post
       authorID: this.props.location.state.author.id, //ID of the author of the post 
       userID: localStorage.getItem("user"), //ID of the currently logged in user 
       token: localStorage.getItem("token")
@@ -36,7 +37,7 @@ class Profile extends React.Component {
   
   componentDidMount() {
     this.__isMounted = true;
-    axios.get('https://cloud-align-server.herokuapp.com/author/'+this.state.authorID, {headers: {"Authorization": "Token "+ this.state.token}} )
+    axios.get(this.state.authorURL, {headers: {"Authorization": "Token "+ this.state.token}} )
         .then(
             (response) =>{
                 this.setState({the_post: response.data})

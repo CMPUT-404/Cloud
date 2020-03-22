@@ -171,9 +171,13 @@ class App extends React.Component {
                 (props)=>(
                 <Following token={this.state.token} userObject={this.state.userObject} {...props}/>)
                 }/>/>
+
+              <Route path="/Timeline/:Post" render={
+                (props)=>(
+                <Post token={this.state.token} userObject={this.state.userObject} {...props}/>)
+                }/>/>
               <Route path ="/Timeline" component={Timeline}/>
               <Route path ="/GithubEvents" component={GithubEvents}/>
-              <Route path ="/Timeline/:Post" component={Post}/>
               <Route path ="/OtherProfile/:OtherProfile" component={OtherProfile}/>
               <Route path ="/LogOut" component={LogOut}/>
             </Switch>

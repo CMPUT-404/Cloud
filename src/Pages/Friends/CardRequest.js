@@ -79,12 +79,12 @@ class CardRequest extends React.Component{
                 <Card title={<Link to={{ pathname:'/OtherProfile/'+ requestor.id,
                       state:{
                         user:requestor,
-                        token: this.props.token,
+                        token: this.state.token,
                       } }}>{displayName}</Link>}>
                 <Link to={{ pathname:'/OtherProfile/'+ requestor.id,
                   state:{
                     user:requestor,
-                    token: this.props.token,
+                    token: this.state.token,
                   }}}>
                   <img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} />
                 </Link>

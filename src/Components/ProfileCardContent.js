@@ -4,22 +4,20 @@ import 'antd/dist/antd.css';
 import './CardContent.css';
 import { Card } from 'antd';
 import { Modal} from 'antd';
-import { Input } from 'antd';
 import  { Link } from 'react-router-dom'
 import axios from 'axios';
 
 
-
-const { TextArea } = Input;
 class ProfileCardContent extends React.Component{
     constructor(props){
         super(props)
         this.state = {   
             ModalText: "display a list of comments",
-            visible: false,
             confirmLoading: false,
             editVisible: false,
+            token: localStorage.getItem("token")
           };
+
     }
 
     displayProfile(){
@@ -28,16 +26,9 @@ class ProfileCardContent extends React.Component{
         return <Link to={'/Profile'} >see more</Link>
     }
 
-
-    addComment = () => {
-        this.setState({
-          visible: true,
-        });
-      };
-
     deletePost =() => {
       alert("🌬 Deleting your post.....")
-      axios.delete("https://cloud-align-server.herokuapp.com/posts/"+this.props.post.id, {headers:{Authorization: "Token "+this.props.token}})
+      axios.delete("https://cloud-align-server.herokuapp.com/posts/"+this.props.post.id, {headers:{Authorization: "Token "+this.state.token}})
       .then(()=>{
         window.location.reload()
       })
@@ -45,11 +36,7 @@ class ProfileCardContent extends React.Component{
     }
 
     editPost = () =>{
-
         this.setState({editVisible:true})
-      
-
-    
     }
 
     save_edit = () =>{
@@ -66,7 +53,7 @@ class ProfileCardContent extends React.Component{
       axios.patch("https://cloud-align-server.herokuapp.com/posts/"+this.props.post.id+"/",
       {content:new_text,
         title:new_title}, {headers:{
-       "Authorization":"Token "+ this.props.token,
+       "Authorization":"Token "+ this.state.token,
      }
    })
      .then(()=>{
@@ -102,7 +89,6 @@ class ProfileCardContent extends React.Component{
 
 
     render(){
-        const { visible, confirmLoading, ModalText } = this.state;
         return(
             <div>
                 <Card title={this.props.post.title} 
@@ -118,32 +104,19 @@ class ProfileCardContent extends React.Component{
                     <Link to={{ pathname:'/OtherProfile/'+ this.props.post.author_data.id,
                       state:{
                         user:this.props.post.author_data,
-                        token: this.props.token,
+                        token: this.state.token,
                       } }}>{this.props.post.author_data.username}</Link>
 
                     <Link to={'/Profile/'}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
 
                     <p>{this.props.post.content}</p>
-                    <button onClick={this.addComment}>Add Comment</button>
                     <button onClick={this.deletePost}>Delete</button>
                     <button onClick={this.editPost}>Edit Post</button>
-
-                    <Modal
-                        title={this.props.post.title}
-                        visible={visible}
-                        onOk={this.handleOk}
-                        confirmLoading={confirmLoading}
-                        onCancel={this.handleCancel}
-                        >
-                        <TextArea rows={7} placeholder="Make a comment about this post"/>
-                        <p>{ModalText}</p>
-                    </Modal>
 
                     <Modal title={this.props.post.title}
                            visible={this.state.editVisible}
                            onOk ={this.save_edit}
                            onCancel={this.exit_edit}
-                           
                     >
                       <textarea rows="1" placeholder="new title" id="edit_title"></textarea><br></br>
                       <textarea rows="3" cols="45" placeholder="new content" id="edit_content"></textarea>

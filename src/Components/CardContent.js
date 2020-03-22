@@ -93,13 +93,13 @@ class CardContent extends React.Component{
                     <Link to={{ pathname:'/OtherProfile/'+ this.state.authorObject.username,
                       state:{
                         author:this.state.authorObject,
-                        token: this.props.token,
+                        token: this.state.token,
                       } }}>{this.props.post.author_data.username}</Link>
 
                     <Link to={{ pathname:'/OtherProfile/'+ this.state.authorObject.username,
                       state:{
                         author:this.state.authorObject,
-                        token: this.props.token,
+                        token: this.state.token,
                       } }}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
 
 

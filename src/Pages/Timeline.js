@@ -12,8 +12,9 @@ class Timeline extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      "postComponents": [],
-      url: 'https://cloud-align-server.herokuapp.com/posts/',
+      myPostComponents: [],
+      otherPostComponents: [],
+      url: 'https://cloud-align-server.herokuapp.com/author/posts',
       visible: false,
       author: localStorage.getItem("url"), //https://cloud-align-server.herokuapp.com/author/author_id/ 
       friends: null,
@@ -42,17 +43,31 @@ class Timeline extends React.Component {
 
     axios.get(this.state.url, {headers:{Authorization: "Token "+this.state.token}})
       .then(response => {
-        for(let i=0; i<response.data.length; i++){
-          let eachPost = <CardContent key={response.data[i].id} post={response.data[i]} token={this.state.token} />
+        console.log(response)
+        for(let i=0; i<response.data.posts.length; i++){
+          let eachPost = <CardContent key={response.data.posts[i].id} post={response.data.posts[i]} token={this.state.token} />
           tempPostList.push(eachPost)
         }
-        this.setState({postComponents: tempPostList})
+        this.setState({myPostComponents: tempPostList})
 
       })
       .catch(()=>{
         alert("failed to load posts")
       })
 
+      var otherPostList = []
+      axios.get(`https://spongebook.herokuapp.com/posts`)
+      .then(response => {
+        console.log(response)
+        for(let i=0; i<response.data.posts.length; i++){
+          let eachPost = <CardContent key={response.data.posts[i].id} post={response.data.posts[i]} token={this.state.token} />
+          otherPostList.push(eachPost)
+        }
+        this.setState({otherPostComponents: otherPostList})
+      })
+      .catch(()=>{
+        alert("failed to load posts")
+      })
 
   }
 
@@ -182,7 +197,8 @@ class Timeline extends React.Component {
                   </div>
               </Modal>
           </div>
-        {this.state.postComponents}
+        {this.state.myPostComponents}
+        {this.state.otherPostComponents}
       </div>
     )
   }

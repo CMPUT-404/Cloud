@@ -71,9 +71,8 @@ class App extends React.Component {
         }
           return response
         })
-      .catch(error=>{
-        alert(error)
-        console.log(error)
+      .catch((error)=>{
+        alert(error.response.data.errors)
       })
     }
 
@@ -98,7 +97,7 @@ class App extends React.Component {
         return response
       })
     .catch(error => {
-      console.log(error)
+      alert(error.response.data.errors.username[0])
     }) 
   }
   

@@ -5,7 +5,7 @@ import './css/OtherProfile.css';
 import axios from 'axios';
 import { Button} from 'antd';
 
-class Profile extends React.Component {
+class OtherProfile extends React.Component {
 
   _isMounted = false
 
@@ -46,10 +46,9 @@ class Profile extends React.Component {
         .catch(
             function(err){
                 console.log(err)
-                alert(err)
             }
         )
-    this.loadPostData();
+    //this.loadPostData();
     this.getFriendStatus()
   }
 
@@ -168,4 +167,4 @@ class Profile extends React.Component {
     }
   
 }}
-export default Profile
+export default OtherProfile

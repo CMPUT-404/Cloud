@@ -13,15 +13,16 @@ const { TextArea } = Input;
 class CardContent extends React.Component{
     constructor(props){
         super(props)
-        let authorID = this.props.post.author.split('/')
+
         this.state = {   
             ModalText: "display a list of comments",
             visible: false,
             confirmLoading: false,
-            authorURL: this.props.post.author,
-            authorID: authorID[authorID.length-2],
+            authorName: this.props.post.author.displayName,
+            authorURL: this.props.post.author.url,
+            authorID: this.props.post.author.id,
             token: localStorage.getItem("token"),
-            authorObject: {}
+            authorObject: this.props.post.author
           };
 
         //console.log(this.state.authorURL)
@@ -90,13 +91,13 @@ class CardContent extends React.Component{
                   } >
                     see more </Link> }> 
 
-                    <Link to={{ pathname:'/OtherProfile/'+ this.state.authorObject.username,
+                    <Link to={{ pathname:'/OtherProfile/'+ this.state.authorName,
                       state:{
                         author:this.state.authorObject,
                         token: this.state.token,
-                      } }}>{this.props.post.author_data.username}</Link>
+                      } }}>{this.state.authorName}</Link>
 
-                    <Link to={{ pathname:'/OtherProfile/'+ this.state.authorObject.username,
+                    <Link to={{ pathname:'/OtherProfile/'+ this.state.authorName,
                       state:{
                         author:this.state.authorObject,
                         token: this.state.token,

@@ -17,6 +17,11 @@ class FriendsList extends React.Component {
     loading: false,
     data: [],
     list: [],
+    authorURL: localStorage.getItem("url"),
+    authorDisplayName: localStorage.getItem("displayName"),
+    userID: localStorage.getItem("user"),
+    token: localStorage.getItem("token"),
+    host: "https://cloud-align-server.herokuapp.com",
     }
   }
 
@@ -25,53 +30,55 @@ class FriendsList extends React.Component {
   }
 
   fetchData =() => {
-    axios.get('https://cloud-align-server.herokuapp.com/newfollowing/',{headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res => {
+    axios.get('https://cloud-align-server.herokuapp.com/author/' + this.state.userID + '/friends',{headers:{Authorization: "Token "+ this.state.token}}).then(res => {
       this.setState({
         initLoading : false,
-        data: res.data,
-        list: this.dataPre(res.data)
+        data: res.data.authors,
+        list: this.fetchFriendName(res.data.authors)
       })
     })
   }
 
-
-  dataPre = (data) => {
-    let processed_data = [];
-    data.forEach((item) => {
-      if (item.status === true){
-        if(item.sender.id === this.props.userObject.id){
-          item.friend = item.receiver;
-          item.friendID=item.receiver.id;
-          item.displayName=item.receiver.displayName;
-          processed_data.push(item);
-        }
-        else if (item.receiver.id === this.props.userObject.id){
-          item.friend= item.sender;
-          item.friendID = item.sender.id;
-          item.displayName = item.sender.displayName;
-          processed_data.push(item);
-        }
-        
-        
-      }
-      
-    });
-    return processed_data;
+  fetchFriendName=(data)=>{
+    let temp = []
+    data.forEach(item =>{
+      axios.get(item,{headers:{Authorization: "Token "+ this.state.token}}).then(res=>{
+        //console.log(res.data)
+        let itemObject = {'id' : item, 'author' : res.data};
+        itemObject.friendURL = res.data.url;
+        itemObject.friendUsername = res.data.username;
+        itemObject.friendDisplayName = res.data.displayName;
+        temp.push(itemObject);
+      })
+    })
+    return temp;
   }
 
   unfriend =(item) =>{
     const outer = this;
     let data = {
-      friend:item.friendID
+      query: "deletefriend",
+      author: {
+        id: this.state.authorURL,    
+        host: this.state.host,
+        displayName: this.state.authorDisplayName,
+        url: this.state.authorURL
+      },
+      friend: {
+        id: item.friendURL,  
+        host: this.state.host,
+        displayName: item.friendDisplayName,
+        url: item.friendURL
+      }
     }
    
     confirm({
-      title: <div>Unfriend  " {item.displayName} "  ? <br /> Unfriend this user will also unfollow the user.</div>,
+      title: <div>Unfriend  " {item.friendDisplayName} "  ? <br /> Unfriend this user will also unfollow the user.</div>,
       okText: 'Unfriend',
       okType: 'danger',
       cancelText: 'Cancel', 
       onOk() {
-        axios.post('https://cloud-align-server.herokuapp.com/deletefriend/',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res =>{
+        axios.post('https://cloud-align-server.herokuapp.com/friendrequest/deletefriend/',data,{headers:{Authorization: "Token "+outer.state.token}}).then(res =>{
           outer.fetchData();
         });
         //console.log('OK');
@@ -85,7 +92,6 @@ class FriendsList extends React.Component {
   
   render() {
     const { initLoading,  list } = this.state;
-  
 
     return (
       <List
@@ -98,24 +104,26 @@ class FriendsList extends React.Component {
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
                 avatar={
-                  <Link to={{ pathname:'/OtherProfile/'+ item.friendID,
+                  <Link to={{ pathname:'/OtherProfile/'+ item.friendUsername,
                     state:{
-                      user:item.friend,
-                      token: this.props.token,
+                      author:item.author,
+                      token: this.state.token,
                     }}}>
                     <img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} />
                   </Link>                
                 }
-                title={<Link to={{ pathname:'/OtherProfile/'+ item.friendID,
+                title={<Link to={{ pathname:'/OtherProfile/'+ item.friendUsername,
                 state:{
-                  user:item.friend,
-                  token: this.props.token,
-                } }}>{item.displayName}</Link>}
+                  author:item.author,
+                  token: this.state.token,
+                } }}>{item.friendDisplayName}</Link>}
                 description={'bio: '}
               />
 
             </Skeleton>
+            
             <div >
+            {console.log(item.author)}
               <Button onClick={() => this.unfriend(item)}>Unfriend</Button>
             </div>
           </List.Item>

@@ -27,8 +27,12 @@ class OtherProfile extends React.Component {
       },
       authorURL: this.props.location.state.author.url, //URL of the author of the post
       authorID: this.props.location.state.author.id, //ID of the author of the post 
+      authorDisplayName: this.props.location.state.author.displayName,
       userID: localStorage.getItem("user"), //ID of the currently logged in user 
-      token: localStorage.getItem("token")
+      token: localStorage.getItem("token"),
+      loggedURL: localStorage.getItem("url"),
+      loggedDisplayName: localStorage.getItem("displayName"),
+      host: "https://cloud-align-server.herokuapp.com",
     }
   }
 
@@ -73,7 +77,7 @@ class OtherProfile extends React.Component {
     //     isMyProfile:true,
     //   })
     // } else{
-    // axios.get('https://cloud-align-server.herokuapp.com/newfollowing/',{headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res => {
+    // axios.get('https://cloud-align-server.herokuapp.com/newfollowing/',{headers:{Authorization: "Token "+ this.state.token}}).then(res => {
     //   for(let i=0;i<res.data.length;i++){
     //     if(res.data[i].sender.id === this.props.location.state.user.id || 
     //       res.data[i].receiver.id === this.props.location.state.user.id){
@@ -100,19 +104,30 @@ class OtherProfile extends React.Component {
   }
 
   addFriend =()=>{
-    // let data = {
-    //    sender : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.userObject.id+ '/',
-    //    receiver : 'https://cloud-align-server.herokuapp.com/users/'+ this.props.location.state.user.id +'/',    
-    // }
-    // axios.post('https://cloud-align-server.herokuapp.com/newfollowing/',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
-    //   .then(res =>{
-    //     this.setState({
+    let data = {
+      query: "friendrequest",
+      author: {
+        id: this.state.loggedURL,    
+        host: this.state.host,
+        displayName: this.state.loggedDisplayName,
+        url: this.state.loggedURL
+      },
+      friend: {
+        id: this.state.authorURL,  
+        host: this.state.host,
+        displayName: this.state.authorDisplayName,
+        url: this.state.authorURL
+      }  
+    }
+    axios.post('https://cloud-align-server.herokuapp.com/friendrequest/',data,{headers:{Authorization: "Token "+ this.state.token}})
+      .then(res =>{
+        this.setState({
     //       requestSent: true,
-    //     })
-    //   }).catch(function (error) {
-    //         console.log(error);
-    //     })
-    // message.success('Friend Request Successfully Sent')
+        })
+      }).catch(function (error) {
+      console.log(error);
+      })
+    message.success('Friend Request Successfully Sent')
   }
 
   rejectMessage =()=>{
@@ -143,13 +158,7 @@ class OtherProfile extends React.Component {
           {this.state.the_post.bio}<br></br>
         </div>
         <div>
-
-        {this.state.isMyProfile|| this.state.isFriend || this.state.requestSent|| this.state.isRejected?null:<Button onClick={()=>this.addFriend()}>add friend</Button>}
-        {this.state.isMyProfile? <Button disabled>MyCustomProfile</Button>:null}
-        {this.state.isFriend? <Button disabled>Friend</Button>:null}
-        {this.state.requestSent? <Button disabled>friend request sent</Button>:null}
-        {this.state.isRejected? <Button onClick={()=>this.rejectMessage()}>Friend Request Info</Button>:null}
-
+          <Button onClick={()=>this.addFriend()}>add friend</Button>
         </div>
 
         <div id="Posts">

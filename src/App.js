@@ -63,6 +63,7 @@ class App extends React.Component {
         if(response.status === 200){
           localStorage.setItem("url", response.data.user.url)
           localStorage.setItem("username", response.data.user.username)
+          localStorage.setItem("displayName", response.data.user.displayName)
           localStorage.setItem("token", response.data.token)
           localStorage.setItem("user", response.data.user.id)
           localStorage.setItem("github", response.data.user.github)
@@ -79,6 +80,7 @@ class App extends React.Component {
   register(){
     axios.post(`https://cloud-align-server.herokuapp.com/author/register`,{
       "username": this.state.username,
+      "displayName":this.state.displayName,
       "password": this.state.password,
       "email": this.state.email,
       "github": this.state.github
@@ -88,6 +90,7 @@ class App extends React.Component {
       if(response.status === 201){
         localStorage.setItem("url", response.data.user.url)
         localStorage.setItem("username", response.data.user.username)
+        localStorage.setItem("displayName", response.data.user.displayName)
         localStorage.setItem("token", response.data.token)
         localStorage.setItem("user", response.data.user.id)
         localStorage.setItem("github", response.data.user.github)

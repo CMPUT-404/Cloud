@@ -11,58 +11,66 @@ class CardRequest extends React.Component{
   constructor(props){
       super(props)
       this.state= {
-        
-        requestorId:this.props.requestorId,
+        token: this.props.token,
+        host: this.props.host,
         requestor: this.props.requestor,
-        displayName : this.props.displayName
+        authorURL: this.props.authorURL,
+        authorDisplayName: this.props.authorDisplayName
       }
     }
 
     accept = () => {
-
       let data = {
-        sender:this.state.requestorId,
-        
-        
+        query: "friendaccept",
+        author: {
+          id: this.state.authorURL,    
+          host: this.state.host,
+          displayName: this.state.authorDisplayName,
+          url: this.state.authorURL
+        },
+        friend: {
+          id: this.state.requestor.requestorURL,  
+          host: this.state.host,
+          displayName: this.state.requestor.requestorDisplayName,
+          url: this.state.requestor.requestorURL
+        }     
       }
-      axios.post('https://cloud-align-server.herokuapp.com/newfollowing/accept',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
+      axios.post('https://cloud-align-server.herokuapp.com/friendrequest/accept/',data,{headers:{Authorization: "Token "+this.state.token}})
         .then(res =>{
           this.props.onUpdate();
           //console.log(res);
-
-          this.setState({
-            
-            requestorId: this.props.requestorId,
-            displayName : this.props.displayName
-          })
         
         })
-        message.success('"'+ this.props.displayName + '" has been successfully accepted!' );
+        message.success('"'+ this.state.requestor.requestorDisplayName + '" has been successfully accepted!' );
     };
 
     decline = () => {
       const outer = this;
-
       let data = {
-        sender:this.state.requestorId,
-        
+        query: "friendreject",
+        author: {
+          id: this.state.authorURL,    
+          host: this.state.host,
+          displayName: this.state.authorDisplayName,
+          url: this.state.authorURL
+        },
+        friend: {
+          id: this.state.requestor.requestorURL,  
+          host: this.state.host,
+          displayName: this.state.requestor.requestorDisplayName,
+          url: this.state.requestor.requestorURL
+        }       
       }
-
       confirm({
-      title: <div>Reject the friend request from  <br /> " {this.props.displayName} " ?</div>, 
+      title: <div>Reject the friend request from  <br /> " {this.state.requestor.requestorDisplayName} " ?</div>, 
         okText: 'Decline',
         okType: 'danger',
         cancelText: 'Cancel', 
         onOk() {
-          axios.post('https://cloud-align-server.herokuapp.com/newfollowing/reject',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
+          axios.post('https://cloud-align-server.herokuapp.com/friendrequest/reject/',data,{headers:{Authorization: "Token "+localStorage.getItem("token")}})
             .then(res =>{
               outer.props.onUpdate();
               //console.log(res);
-              outer.setState({
-                
-                requestorId: outer.props.requestorId,
-                displayName : outer.props.displayName
-              })
 
             })
          }
@@ -71,25 +79,24 @@ class CardRequest extends React.Component{
     }
 
     render(){
-        
-        const {requestor,displayName} = this.state;
-        //alert(requestorId);
         return(
             <div>
-                <Card title={<Link to={{ pathname:'/OtherProfile/'+ requestor.id,
+                {console.log(this.state.requestor)}
+
+                <Card title={<Link to={{ pathname:'/OtherProfile/'+ this.state.requestor.requestorUsername,
                       state:{
-                        user:requestor,
+                        author:this.state.requestor,
                         token: this.state.token,
-                      } }}>{displayName}</Link>}>
-                <Link to={{ pathname:'/OtherProfile/'+ requestor.id,
+                      } }}>{this.state.requestor.requestorDisplayName}</Link>}>
+                <Link to={{ pathname:'/OtherProfile/'+ this.state.requestor.requestorUsername,
                   state:{
-                    user:requestor,
+                    author:this.state.requestor,
                     token: this.state.token,
                   }}}>
                   <img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} />
                 </Link>
 
-                <h2> {displayName} {'wants to add you as a friend'}</h2>
+                <h2> {this.state.requestor.requestorDisplayName} {'wants to add you as a friend'}</h2>
                 <div style={{float: 'right'}}>
                 <Button onClick={this.accept}>accept</Button>
                 <Button onClick={this.decline}>decline</Button>

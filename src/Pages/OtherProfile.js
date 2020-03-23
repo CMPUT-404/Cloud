@@ -1,5 +1,4 @@
 import React from 'react';
-import CardContent from '../Components/CardContent';
 import './css/OtherProfile.css';
 
 import axios from 'axios';
@@ -31,7 +30,6 @@ class OtherProfile extends React.Component {
       userID: localStorage.getItem("user"), //ID of the currently logged in user 
       token: localStorage.getItem("token")
     }
-    this.loadPostData = this.loadPostData.bind(this);
   }
 
   
@@ -52,22 +50,22 @@ class OtherProfile extends React.Component {
     this.getFriendStatus()
   }
 
-  loadPostData(){
-    axios.get("https://cloud-align-server.herokuapp.com/posts/author/"+this.state.authorID, {headers: {"Authorization": "Token "+ this.state.token}})
-      .then(response => {
-        console.log(response)
-        var tempPostList = []
-        for(let i=0; i<response.data.length; i++){
-          var eachPost = <CardContent key={response.data[i].id} post={response.data[i]}/>
-          tempPostList.push(eachPost)
-        }
-        this.setState({postComponents: tempPostList})
-      })
-      .catch((err)=>{
-        console.log(err)
-      }
-      )
-  }
+  // loadPostData(){
+  //   axios.get("https://cloud-align-server.herokuapp.com/posts/author/"+this.state.authorID, {headers: {"Authorization": "Token "+ this.state.token}})
+  //     .then(response => {
+  //       console.log(response)
+  //       var tempPostList = []
+  //       for(let i=0; i<response.data.length; i++){
+  //         var eachPost = <CardContent key={response.data[i].id} post={response.data[i]}/>
+  //         tempPostList.push(eachPost)
+  //       }
+  //       this.setState({postComponents: tempPostList})
+  //     })
+  //     .catch((err)=>{
+  //       console.log(err)
+  //     }
+  //     )
+  // }
 
   getFriendStatus =()=>{
     // if (this.props.userObject.id===this.state.authorID){

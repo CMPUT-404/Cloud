@@ -43,7 +43,7 @@ class Timeline extends React.Component {
 
     axios.get(this.state.url, {headers:{Authorization: "Token "+this.state.token}})
       .then(response => {
-        console.log(response)
+        //console.log(response)
         for(let i=0; i<response.data.posts.length; i++){
           let eachPost = <CardContent key={response.data.posts[i].id} post={response.data.posts[i]} token={this.state.token} />
           tempPostList.push(eachPost)
@@ -58,7 +58,7 @@ class Timeline extends React.Component {
       var otherPostList = []
       axios.get(`https://spongebook.herokuapp.com/posts`)
       .then(response => {
-        console.log(response)
+        //console.log(response)
         for(let i=0; i<response.data.posts.length; i++){
           let eachPost = <CardContent key={response.data.posts[i].id} post={response.data.posts[i]} token={this.state.token} />
           otherPostList.push(eachPost)

@@ -29,7 +29,7 @@ class CardContent extends React.Component{
     }
 
     componentDidMount(){
-      axios.get(this.state.authorURL, {headers:{Authorization: "Token " + this.state.token}})
+      axios.get(this.state.authorURL)
       .then((response)=>{
         this.setState({authorObject: response.data})
         //console.log(this.state.authorObject)

@@ -43,7 +43,7 @@ class FriendsList extends React.Component {
     let temp = []
     data.forEach(item =>{
       axios.get(item,{headers:{Authorization: "Token "+ this.state.token}}).then(res=>{
-        console.log(res.data)
+        //console.log(res.data)
         let itemObject = {'id' : item, 'author' : res.data};
         itemObject.friendURL = res.data.url;
         itemObject.friendUsername = res.data.username;
@@ -106,7 +106,7 @@ class FriendsList extends React.Component {
                 avatar={
                   <Link to={{ pathname:'/OtherProfile/'+ item.friendUsername,
                     state:{
-                      user:item.author,
+                      author:item.author,
                       token: this.state.token,
                     }}}>
                     <img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} />
@@ -114,14 +114,16 @@ class FriendsList extends React.Component {
                 }
                 title={<Link to={{ pathname:'/OtherProfile/'+ item.friendUsername,
                 state:{
-                  user:item.author,
+                  author:item.author,
                   token: this.state.token,
                 } }}>{item.friendDisplayName}</Link>}
                 description={'bio: '}
               />
 
             </Skeleton>
+            
             <div >
+            {console.log(item.author)}
               <Button onClick={() => this.unfriend(item)}>Unfriend</Button>
             </div>
           </List.Item>

@@ -81,11 +81,13 @@ class CardRequest extends React.Component{
     render(){
         return(
             <div>
+                {console.log(this.state.requestor)}
+
                 <Card title={<Link to={{ pathname:'/OtherProfile/'+ this.state.requestor.requestorUsername,
                       state:{
                         author:this.state.requestor,
                         token: this.state.token,
-                      } }}>{this.state.requestorDisplayName}</Link>}>
+                      } }}>{this.state.requestor.requestorDisplayName}</Link>}>
                 <Link to={{ pathname:'/OtherProfile/'+ this.state.requestor.requestorUsername,
                   state:{
                     author:this.state.requestor,

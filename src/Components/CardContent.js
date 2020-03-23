@@ -84,6 +84,7 @@ class CardContent extends React.Component{
         const { visible, confirmLoading, ModalText } = this.state;
         return(
             <div>
+             
                 <Card title={this.props.post.title} 
                   extra={ <Link to={  { pathname:'/Timeline/' + this.props.post.id,
                   state:{user: this.props.post.id,
@@ -95,7 +96,7 @@ class CardContent extends React.Component{
                       state:{
                         author:this.state.authorObject,
                         token: this.state.token,
-                      } }}>{this.state.authorName}</Link>
+                      } }}>{this.state.authorObject.username}</Link>
 
                     <Link to={{ pathname:'/OtherProfile/'+ this.state.authorName,
                       state:{

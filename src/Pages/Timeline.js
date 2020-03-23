@@ -75,19 +75,19 @@ class Timeline extends React.Component {
     
     var title = document.getElementById("title").innerHTML
     var text = document.getElementById("text").innerHTML
-    var newvis = ""
+    // var newvis = ""
     var visibility = true
     if (this.state.showVlist === false){
       visibility = false
       
 
-      for(var i =0 ; i < this.state.friends.length ; i++){
+      // for(var i =0 ; i < this.state.friends.length ; i++){
        
-        if ((document.getElementById(this.state.friends[i]).checked) === true){
-          newvis += this.state.friends[i] +","
+      //   if ((document.getElementById(this.state.friends[i]).checked) === true){
+      //     newvis += this.state.friends[i] +","
           
-        }
-      }
+      //   }
+      // }
     }
 
     axios.post(this.state.url,{
@@ -96,7 +96,7 @@ class Timeline extends React.Component {
         "author": localStorage.getItem("url"),
         "visibilities": visibility,
         "description": "",
-        "visible_to": newvis,
+        // "visible_to": newvis,
       }, {headers:{Authorization: "Token "+this.state.token}})
       .then(()=>{
         window.location.reload()
@@ -186,9 +186,11 @@ class Timeline extends React.Component {
                <button onClick={this.showVisibleList}>Change Visibility</button><br/>
                    
                   <div id="scroll"  >
-                    {this.state.showVlist? (""): "Who can see your post?"}
+                    {/* {this.state.showVlist? (""): "Who can see your post?"}
                     {this.state.showVlist? ( "Post visible to all")
-                    :  this.state.friendcomponent}
+                    :  this.state.friendcomponent} */}
+                    {this.state.showVlist? ( "Post visible to all, click to change")
+                    :  "Post private, click to change"}
 
 
 

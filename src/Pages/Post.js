@@ -24,6 +24,7 @@ class Post extends React.Component{
         //console.log(this.props.match.params)
         var id = this.props.match.params.Post
         this._isMounted = true        
+        // alert(localStorage.getItem("token"))
         axios.get('https://cloud-align-server.herokuapp.com/posts/'+id, {headers:{Authorization: "Token "+localStorage.getItem("token")}})
         .then(
             (response) =>{
@@ -54,8 +55,8 @@ class Post extends React.Component{
             this.setState({commentComponents: tempPostList})
 
         })
-        .catch(()=>{
-            alert("Something went wrong, please try again")
+        .catch((err)=>{
+            alert(err)
         })
     }
     

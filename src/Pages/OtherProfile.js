@@ -2,7 +2,7 @@ import React from 'react';
 import './css/OtherProfile.css';
 
 import axios from 'axios';
-import { Button} from 'antd';
+import { Button,message} from 'antd';
 
 class OtherProfile extends React.Component {
 

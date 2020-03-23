@@ -114,7 +114,6 @@ class FollowingList extends React.Component {
                 } }}>{item.followingDisplayName}</Link>}
                 description={'bio: '}
                 />
-
             </Skeleton>
             <div >
               <Button onClick={() => this.unfollow(item)}>Unfollow</Button>

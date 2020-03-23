@@ -37,7 +37,7 @@ class OtherProfile extends React.Component {
   
   componentDidMount() {
     this.__isMounted = true;
-    axios.get(this.state.authorURL, {headers: {"Authorization": "Token "+ this.state.token}} )
+    axios.get(this.state.authorURL)
         .then(
             (response) =>{
                 this.setState({the_post: response.data})

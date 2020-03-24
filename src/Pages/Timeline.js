@@ -9,6 +9,7 @@ import './Timeline.css';
 const { TextArea } = Input;
 
 class Timeline extends React.Component {
+  
   constructor(props){
     super(props)
     this.state = {
@@ -26,24 +27,27 @@ class Timeline extends React.Component {
       loadImage: function(img){
         this.setState(this.myImage)
       }
+      
     }
-    this.loadPostData = this.loadPostData.bind(this);
+    
+    // this.loadPostData = this.loadPostData.bind(this);
     this.submitPost = this.submitPost.bind(this);
   }
 
-  componentDidMount() {
+  
+  UNSAFE_componentWillMount = ()=>{
     this.loadPostData()
   }
 
-
-  loadPostData(){
+  loadPostData = ()=>{
     var tempPostList = []
     //Fetching github events here 
     // Get github username from local storage later 
 
-    axios.get(this.state.url, {headers:{Authorization: "Token "+this.state.token}})
-      .then(response => {
-        //console.log(response)
+    
+    axios.get(this.state.url, {headers:{Authorization: "Token "+localStorage.getItem("token")}})
+      .then(   (response)=>{
+        
         for(let i=0; i<response.data.posts.length; i++){
           let eachPost = <CardContent key={response.data.posts[i].id} post={response.data.posts[i]} token={this.state.token} />
           tempPostList.push(eachPost)
@@ -51,9 +55,11 @@ class Timeline extends React.Component {
         this.setState({myPostComponents: tempPostList})
 
       })
-      .catch(()=>{
-        alert("failed to load posts")
+      .catch((err)=>{
+        alert("failed getting cloud alighn data")
+        
       })
+     
 
       var otherPostList = []
       axios.get(`https://spongebook.herokuapp.com/posts`)
@@ -76,11 +82,10 @@ class Timeline extends React.Component {
     var title = document.getElementById("title").innerHTML
     var text = document.getElementById("text").innerHTML
     // var newvis = ""
-    var visibility = true
+    var visibility = "PUBLIC"
     if (this.state.showVlist === false){
-      visibility = false
+      visibility = "PRIVATE"
       
-
       // for(var i =0 ; i < this.state.friends.length ; i++){
        
       //   if ((document.getElementById(this.state.friends[i]).checked) === true){
@@ -89,22 +94,37 @@ class Timeline extends React.Component {
       //   }
       // }
     }
-
-    axios.post(this.state.url,{
+   
+      axios.post("https://cloud-align-server.herokuapp.com/posts/",{
         "title":title, 
         "content":text, 
+        "author_obj": localStorage.getItem("url"),
         "author": localStorage.getItem("url"),
         "visibilities": visibility,
         "description": "",
-        // "visible_to": newvis,
+        "visibleTo": '',
       }, {headers:{Authorization: "Token "+this.state.token}})
       .then(()=>{
         window.location.reload()
-      })
-      
-      .catch((err)=>{
+      }).catch((err)=>{
         alert(err)
       })
+
+  //   axios({method:"POST",
+  //   url:"https://cloud-align-server.herokuapp.com/posts/", 
+  //   headers:{Authorization: "Token "+this.state.token},
+  //   body:{
+  //     "title": "a test ccbat", 
+  //     "author_obj": 'https://cloud-align-server.herokuapp.com/author/d32795b8-bc67-49b5-bb33-61bec906aa95/',
+  //   }
+  // })
+  //     .then(()=>{
+  //       window.location.reload()
+  //     })
+      
+  //     .catch((err)=>{
+  //       alert(err)
+  //     })
   }
 
 

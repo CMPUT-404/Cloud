@@ -58,14 +58,14 @@ class CardContent extends React.Component{
         
         var text = document.getElementById("comment").value
         
-        axios({method:"POST",
-        url: "https://cloud-align-server.herokuapp.com/posts/"+ this.props.post.id + "/comments", 
-        headers:{},
-        body:{
+        axios.post(
+        "https://cloud-align-server.herokuapp.com/posts/"+ this.props.post.id + "/comments", 
+      
+        {
           "auth": localStorage.getItem("user"),
           "comment": text
         }
-      })
+      )
         .then(()=>{
           this.setState({
             visible: false,

@@ -123,7 +123,7 @@ class FriendsList extends React.Component {
             </Skeleton>
             
             <div >
-            {console.log(item.author)}
+            
               <Button onClick={() => this.unfriend(item)}>Unfriend</Button>
             </div>
           </List.Item>

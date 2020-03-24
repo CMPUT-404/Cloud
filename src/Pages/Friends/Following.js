@@ -34,7 +34,7 @@ class FollowingList extends React.Component {
       let temp = [];
       Promise.all(promises).then(responses => responses.forEach(
         response => {
-          console.log(response)
+          //console.log(response)
           authors.forEach(item => {
             let itemObject = {'id' : item, 'author' : response.data};
             itemObject.followingURL = response.data.url;
@@ -88,7 +88,7 @@ class FollowingList extends React.Component {
   } 
   
   render() {
-    console.log(this.state.list)
+  
     const {  list } = this.state;
     return (
       <List

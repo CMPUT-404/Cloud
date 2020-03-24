@@ -35,13 +35,13 @@ class FollowingList extends React.Component {
       Promise.all(promises).then(responses => responses.forEach(
         response => {
           //console.log(response)
-          authors.forEach(item => {
-            let itemObject = {'id' : item, 'author' : response.data};
+          
+            let itemObject = {'id' : response.data.id, 'author' : response.data};
             itemObject.followingURL = response.data.url;
             itemObject.followingUsername = response.data.username;
             itemObject.followingDisplayName = response.data.displayName;
             temp.push(itemObject);
-          })
+
         })).then(() => {
           this.setState({
             data: res.data.authors,

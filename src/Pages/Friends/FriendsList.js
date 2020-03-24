@@ -38,13 +38,13 @@ class FriendsList extends React.Component {
       let temp = [];
       Promise.all(promises).then(responses=>responses.forEach(
         response =>{
-          authors.forEach(item=>{
-            let itemObject = {'id' : item, 'author' : response.data};
+          
+            let itemObject = {'id' : response.data.id, 'author' : response.data};
             itemObject.friendURL = response.data.url;
             itemObject.friendUsername = response.data.username;
             itemObject.friendDisplayName = response.data.displayName;
             temp.push(itemObject);       
-          })
+          
         }
       )).then(()=>{
         this.setState({
@@ -92,6 +92,7 @@ class FriendsList extends React.Component {
   } 
   
   render() {
+    console.log(this.state.list)
     const {   list } = this.state;
     return (
       <List

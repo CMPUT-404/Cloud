@@ -35,17 +35,16 @@ class FriendRequest extends React.Component {
     axios.get('https://cloud-align-server.herokuapp.com/author/'+ this.state.userID +'/friendrequests' ,{headers:{Authorization: "Token "+this.state.token}} )    
       .then(res => { 
         let promises = res.data.requests.map(author => axios.get(author,{headers:{Authorization: "Token "+ this.state.token}}));
-        let requests = res.data.requests;
+        //let requests = res.data.requests;
         let tempRequests = [];
         Promise.all(promises).then(responses => responses.forEach(
           response => {
-            requests.forEach(item => {
+            
               
               let eachRequest = <CardRequest key={response.data.id} onUpdate = {this.fetchData} token={this.state.token} host={this.state.host}
               authorURL = {this.state.authorURL} authorDisplayName ={this.state.authorDisplayName}
               requestor={response.data}/>
-              tempRequests.push(eachRequest);
-            })
+              tempRequests.push(eachRequest)
           }
         )).then(() => {
           this.setState({

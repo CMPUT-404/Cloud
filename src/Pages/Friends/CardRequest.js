@@ -29,10 +29,10 @@ class CardRequest extends React.Component{
           url: this.state.authorURL
         },
         friend: {
-          id: this.state.requestor.requestorURL,  
+          id: this.state.requestor.url,  
           host: this.state.host,
-          displayName: this.state.requestor.requestorDisplayName,
-          url: this.state.requestor.requestorURL
+          displayName: this.state.requestor.displayName,
+          url: this.state.requestor.url
         }     
       }
       axios.post('https://cloud-align-server.herokuapp.com/friendrequest/accept/',data,{headers:{Authorization: "Token "+this.state.token}})
@@ -87,7 +87,7 @@ class CardRequest extends React.Component{
                       state:{
                         author:this.state.requestor,
                         token: this.state.token,
-                      } }}>{this.state.requestor.requestorDisplayName}</Link>}>
+                      } }}>{this.state.requestor.displayName}</Link>}>
                 <Link to={{ pathname:'/OtherProfile/'+ this.state.requestor.requestorUsername,
                   state:{
                     author:this.state.requestor,
@@ -96,7 +96,7 @@ class CardRequest extends React.Component{
                   <img id="cardProfile" alt='profile' align="left" src={require('../../Images/profile.jpeg')} />
                 </Link>
 
-                <h2> {this.state.requestor.requestorDisplayName} {'wants to add you as a friend'}</h2>
+                <h2> {this.state.requestor.displayName} {'wants to add you as a friend'}</h2>
                 <div style={{float: 'right'}}>
                 <Button onClick={this.accept}>accept</Button>
                 <Button onClick={this.decline}>decline</Button>

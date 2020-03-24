@@ -57,8 +57,6 @@ class OtherProfile extends React.Component {
   loadPostData(){
     axios.get("https://cloud-align-server.herokuapp.com/posts/author/"+this.state.authorID, {headers: {"Authorization": "Token "+ this.state.token}})
       .then(response => {
-        
-        console.log(response)
         var tempPostList = []
         for(let i=0; i<response.data.posts.length; i++){
           var eachPost = <CardContent key={response.data.posts[i].id} post={response.data.posts[i]}/>

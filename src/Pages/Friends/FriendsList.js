@@ -37,12 +37,12 @@ class FriendsList extends React.Component {
       );
       let temp = [];
       Promise.all(promises).then(responses=>responses.forEach(
-        reponse =>{
+        response =>{
           authors.forEach(item=>{
-            let itemObject = {'id' : item, 'author' : res.data};
-            itemObject.friendURL = reponse.data.url;
-            itemObject.friendUsername = reponse.data.username;
-            itemObject.friendDisplayName = reponse.data.displayName;
+            let itemObject = {'id' : item, 'author' : response.data};
+            itemObject.friendURL = response.data.url;
+            itemObject.friendUsername = response.data.username;
+            itemObject.friendDisplayName = response.data.displayName;
             temp.push(itemObject);       
           })
         }
@@ -74,7 +74,7 @@ class FriendsList extends React.Component {
     }
    
     confirm({
-      title: <div>Unfriend  " {item.friendDisplayName} "  ? <br /> </div>,
+      title: <div>Unfriend  " {item.friendDisplayName} "  ? <br />Unfriend will unfollow the user as well. </div>,
       okText: 'Unfriend',
       okType: 'danger',
       cancelText: 'Cancel', 
@@ -93,7 +93,6 @@ class FriendsList extends React.Component {
   
   render() {
     const {   list } = this.state;
-
     return (
       <List
         className="demo-loadmore-list"

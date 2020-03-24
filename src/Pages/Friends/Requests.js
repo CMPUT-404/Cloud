@@ -41,14 +41,14 @@ class FriendRequest extends React.Component {
           response => {
             requests.forEach(item => {
               let itemObject = {'id' : item, 'author' : response.data};
-            itemObject.requestorID = response.data.id;
-            itemObject.requestorURL = response.data.url;
-            itemObject.requestorDisplayName = response.data.displayName;
-            itemObject.requestorUsername = response.data.username;
-            let eachRequest = <CardRequest key={itemObject.requestorID} onUpdate = {this.fetchData} token={this.state.token} host={this.state.host}
-            authorURL = {this.state.authorURL} authorDisplayName ={this.state.authorDisplayName}
-            requestor={itemObject}/>
-            tempRequests.push(eachRequest);
+              itemObject.requestorID = response.data.id;
+              itemObject.requestorURL = response.data.url;
+              itemObject.requestorDisplayName = response.data.displayName;
+              itemObject.requestorUsername = response.data.username;
+              let eachRequest = <CardRequest key={itemObject.requestorID} onUpdate = {this.fetchData} token={this.state.token} host={this.state.host}
+              authorURL = {this.state.authorURL} authorDisplayName ={this.state.authorDisplayName}
+              requestor={itemObject}/>
+              tempRequests.push(eachRequest);
             })
           }
         )).then(() => {

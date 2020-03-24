@@ -11,6 +11,13 @@ class Profile extends React.Component {
 
   constructor(props){
     super(props)
+    var authID = this.props.userObject.id.split('/')
+    var authArray = [] 
+    for(let i=0; i<authID.length; i++){
+      if(authID[i]!==""){
+        authArray.push(authID[i])
+      }
+    }
     this.state = {
       Props: props,
       path: "/Timeline",
@@ -19,7 +26,7 @@ class Profile extends React.Component {
       go_edit : ()=>{
         this.setState({edit:true})
       },
-      userID: localStorage.getItem("user"),    
+      userID: authArray[authArray.length-1],    
       token: localStorage.getItem("token")
     }
   }

@@ -65,7 +65,6 @@ class App extends React.Component {
           localStorage.setItem("username", response.data.user.username)
           localStorage.setItem("displayName", response.data.user.displayName)
           localStorage.setItem("token", response.data.token)
-          localStorage.setItem("user", response.data.user.id)
           localStorage.setItem("github", response.data.user.github)
           this.setState({token: response.data.token, userObject:response.data.user})
           this.setState({isLoggedIn: true})

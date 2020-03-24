@@ -13,7 +13,7 @@ class FriendsList extends React.Component {
   constructor(props){
     super(props)
     this.state= {
-      initLoading: true,
+    
     loading: false,
     data: [],
     list: [],
@@ -31,27 +31,28 @@ class FriendsList extends React.Component {
 
   fetchData =() => {
     axios.get('https://cloud-align-server.herokuapp.com/author/' + this.state.userID + '/friends',{headers:{Authorization: "Token "+ this.state.token}}).then(res => {
-      this.setState({
-        initLoading : false,
-        data: res.data.authors,
-        list: this.fetchFriendName(res.data.authors)
-      })
+      let authors = res.data.authors;
+      let promises = authors.map(author=>
+        axios.get(author)
+      );
+      let temp = [];
+      Promise.all(promises).then(responses=>responses.forEach(
+        reponse =>{
+          authors.forEach(item=>{
+            let itemObject = {'id' : item, 'author' : res.data};
+            itemObject.friendURL = reponse.data.url;
+            itemObject.friendUsername = reponse.data.username;
+            itemObject.friendDisplayName = reponse.data.displayName;
+            temp.push(itemObject);       
+          })
+        }
+      )).then(()=>{
+        this.setState({
+          data: res.data.authors,
+          list: temp
+        })
+      })  
     })
-  }
-
-  fetchFriendName=(data)=>{
-    let temp = []
-    data.forEach(item =>{
-      axios.get(item,{headers:{Authorization: "Token "+ this.state.token}}).then(res=>{
-        //console.log(res.data)
-        let itemObject = {'id' : item, 'author' : res.data};
-        itemObject.friendURL = res.data.url;
-        itemObject.friendUsername = res.data.username;
-        itemObject.friendDisplayName = res.data.displayName;
-        temp.push(itemObject);
-      })
-    })
-    return temp;
   }
 
   unfriend =(item) =>{
@@ -91,12 +92,11 @@ class FriendsList extends React.Component {
   } 
   
   render() {
-    const { initLoading,  list } = this.state;
+    const {   list } = this.state;
 
     return (
       <List
         className="demo-loadmore-list"
-        loading={initLoading}
         itemLayout="horizontal"
         dataSource={list}
         renderItem={item => (

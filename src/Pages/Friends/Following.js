@@ -27,9 +27,9 @@ class FollowingList extends React.Component {
   fetchData =() => {
     axios.get('https://cloud-align-server.herokuapp.com/author/'+this.state.userID+ '/followers',{headers:{Authorization: "Token "+this.state.token}})
     .then(res => {
-      let authors = res.data.authors.slice(0,1);
+      let authors = res.data.authors;
       let promises = authors.map(author => 
-        axios.get(author,{headers:{Authorization: "Token "+ this.state.token}})
+        axios.get(author)
       );
       let temp = [];
       Promise.all(promises).then(responses => responses.forEach(

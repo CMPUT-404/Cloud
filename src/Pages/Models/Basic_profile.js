@@ -1,7 +1,6 @@
 import React from 'react';
 import '../css/Basic_profile.css'
 
-import axios from 'axios';
 class Basic_profile extends React.Component{
     _isMounted = false
     constructor(props){

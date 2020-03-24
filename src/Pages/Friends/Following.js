@@ -25,7 +25,7 @@ class FollowingList extends React.Component {
   }
   
   fetchData =() => {
-    axios.get('https://cloud-align-server.herokuapp.com/author/'+this.state.userID+ '/followers',{headers:{Authorization: "Token "+this.state.token}})
+    axios.get(this.state.userID+ 'followers',{headers:{Authorization: "Token "+this.state.token}})
     .then(res => {
       let authors = res.data.authors;
       let promises = authors.map(author => 
@@ -40,6 +40,7 @@ class FollowingList extends React.Component {
             itemObject.followingURL = response.data.url;
             itemObject.followingUsername = response.data.username;
             itemObject.followingDisplayName = response.data.displayName;
+            itemObject.followingBio = response.data.bio;
             temp.push(itemObject);
 
         })).then(() => {
@@ -113,7 +114,7 @@ class FollowingList extends React.Component {
                   author:item.author,
                   token: this.state.token,
                 } }}>{item.followingDisplayName}</Link>}
-                description={'bio: '}
+                description={item.followingBio}
                 />
             </Skeleton>
             <div >

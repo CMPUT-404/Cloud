@@ -32,7 +32,7 @@ class FriendRequest extends React.Component {
   }
 
   fetchData = () => {
-    axios.get('https://cloud-align-server.herokuapp.com/author/'+ this.state.userID +'/friendrequests' ,{headers:{Authorization: "Token "+this.state.token}} )    
+    axios.get(this.state.userID +'friendrequests' ,{headers:{Authorization: "Token "+this.state.token}} )    
       .then(res => { 
         let promises = res.data.requests.map(author => axios.get(author,{headers:{Authorization: "Token "+ this.state.token}}));
         //let requests = res.data.requests;

@@ -30,7 +30,7 @@ class FriendsList extends React.Component {
   }
 
   fetchData =() => {
-    axios.get('https://cloud-align-server.herokuapp.com/author/' + this.state.userID + '/friends',{headers:{Authorization: "Token "+ this.state.token}}).then(res => {
+    axios.get(this.state.userID+ 'friends',{headers:{Authorization: "Token "+ this.state.token}}).then(res => {
       let authors = res.data.authors;
       let promises = authors.map(author=>
         axios.get(author)
@@ -43,6 +43,7 @@ class FriendsList extends React.Component {
             itemObject.friendURL = response.data.url;
             itemObject.friendUsername = response.data.username;
             itemObject.friendDisplayName = response.data.displayName;
+            itemObject.friendBio = response.data.bio;
             temp.push(itemObject);       
           
         }
@@ -117,7 +118,7 @@ class FriendsList extends React.Component {
                   author:item.author,
                   token: this.state.token,
                 } }}>{item.friendDisplayName}</Link>}
-                description={'bio: '}
+                description={item.friendBio}
               />
 
             </Skeleton>

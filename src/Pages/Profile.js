@@ -36,8 +36,9 @@ class Profile extends React.Component {
     axios.get("https://cloud-align-server.herokuapp.com/posts/author/"+this.state.userID, {headers:{Authorization: "Token "+this.state.token}})
       .then(response => {
         var tempPostList = []
-        for(let i=0; i<response.data.length; i++){
-          var eachPost = <CardContent key={response.data[i].id} token={this.state.token} post={response.data[i]}/>
+        
+        for(let i=0; i<response.data.posts.length; i++){
+          var eachPost = <CardContent key={response.data.posts[i].id} token={this.state.token} post={response.data.posts[i]}/>
           tempPostList.push(eachPost)
         }
         this.setState({postComponents: tempPostList})

@@ -101,11 +101,11 @@ class ProfileCardContent extends React.Component{
                    
                  
 
-                    <Link to={{ pathname:'/OtherProfile/'+ this.props.post.author_data.id,
+                    <Link to={{ pathname:'/OtherProfile/'+ this.props.post.author.displayName,
                       state:{
-                        user:this.props.post.author_data,
+                        author:this.props.post.author,
                         token: this.state.token,
-                      } }}>{this.props.post.author_data.username}</Link>
+                      } }}>{this.props.post.author.displayName}</Link>
 
                     <Link to={'/Profile/'}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
 

@@ -25,29 +25,30 @@ class FollowingList extends React.Component {
   }
   
   fetchData =() => {
-    axios.get('https://cloud-align-server.herokuapp.com/author/'+this.state.userID+ '/followers',{headers:{Authorization: "Token "+this.state.token}}).then(res => {
-      this.setState({
-        data: res.data.authors,
-        list: this.fetchFollowingName(res.data.authors)
-      })
+    axios.get('https://cloud-align-server.herokuapp.com/author/'+this.state.userID+ '/followers',{headers:{Authorization: "Token "+this.state.token}})
+    .then(res => {
+      let authors = res.data.authors.slice(0,1);
+      let promises = authors.map(author => 
+        axios.get(author,{headers:{Authorization: "Token "+ this.state.token}})
+      );
+      let temp = [];
+      Promise.all(promises).then(responses => responses.forEach(
+        response => {
+          console.log(response)
+          authors.forEach(item => {
+            let itemObject = {'id' : item, 'author' : response.data};
+            itemObject.followingURL = response.data.url;
+            itemObject.followingUsername = response.data.username;
+            itemObject.followingDisplayName = response.data.displayName;
+            temp.push(itemObject);
+          })
+        })).then(() => {
+          this.setState({
+            data: res.data.authors,
+            list: temp
+          })
+        })
     })
-  }
-
-  // get all following info
-  fetchFollowingName =(data)=>{
-    let temp = []
-    data.forEach(item => {
-      axios.get(item,{headers:{Authorization: "Token "+ this.state.token}}).then(res=>{
-        let itemObject = {'id' : item, 'author' : res.data};
-        itemObject.followingURL = res.data.url;
-        itemObject.followingUsername = res.data.username;
-        itemObject.followingDisplayName = res.data.displayName;
-        temp.push(itemObject);
-      })
-      
-    })
-    this.setState({initLoading : false})
-    return temp;
   }
 
   unfollow =(item) =>{
@@ -87,11 +88,11 @@ class FollowingList extends React.Component {
   } 
   
   render() {
-    const { initLoading,  list } = this.state;
+    console.log(this.state.list)
+    const {  list } = this.state;
     return (
       <List
         className="demo-loadmore-list"
-        loading={initLoading}
         itemLayout="horizontal"
         dataSource={list}
         renderItem={item => (

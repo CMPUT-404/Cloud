@@ -10,9 +10,15 @@ class OtherProfile extends React.Component {
 
   constructor(props){
     super(props)
+    var authID = this.props.location.state.author.url.split('/')
+    var authArray = [] 
+    for(let i=0; i<authID.length; i++){
+      if(authID[i]!==""){
+        authArray.push(authID[i])
+      }
+    }
     this.state = {
       Props: props,
-
       //check friend request status
       isMyProfile:false,
       requestSent: false,
@@ -26,7 +32,7 @@ class OtherProfile extends React.Component {
         this.setState({edit:true})
       },
       authorURL: this.props.location.state.author.url, //URL of the author of the post
-      authorID: this.props.location.state.author.id, //ID of the author of the post 
+      authorID: authArray[authArray.length-1], //ID of the author of the post 
       authorDisplayName: this.props.location.state.author.displayName,
       userID: localStorage.getItem("user"), //ID of the currently logged in user 
       token: localStorage.getItem("token"),
@@ -34,6 +40,7 @@ class OtherProfile extends React.Component {
       loggedDisplayName: localStorage.getItem("displayName"),
       host: "https://cloud-align-server.herokuapp.com",
     }
+    console.log(this.state.authorID)
   }
 
   

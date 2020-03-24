@@ -13,19 +13,24 @@ const { TextArea } = Input;
 class CardContent extends React.Component{
     constructor(props){
         super(props)
-
+        var authID = this.props.post.author.url.split('/')
+        var authArray = [] 
+        for(let i=0; i<authID.length; i++){
+          if(authID[i]!==""){
+            authArray.push(authID[i])
+          }
+        }
         this.state = {   
             ModalText: "display a list of comments",
             visible: false,
             confirmLoading: false,
             authorName: this.props.post.author.displayName,
             authorURL: this.props.post.author.url,
-            authorID: this.props.post.author.id,
+            authorID: authArray[authArray.length-1],
             token: localStorage.getItem("token"),
             authorObject: this.props.post.author
           };
-
-        //console.log(this.state.authorURL)
+        //console.log(this.state.authorID)
     }
 
     componentDidMount(){

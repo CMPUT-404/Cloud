@@ -4,11 +4,20 @@ import '../css/Basic_profile.css'
 import axios from 'axios';
 class Basic_profile extends React.Component{
     _isMounted = false
-
     constructor(props){
         super(props)
+
+        var authID = this.props.object.id.split('/')
+        var authArray = [] 
+        for(let i=0; i<authID.length; i++){
+          if(authID[i]!==""){
+            authArray.push(authID[i])
+          }
+        }
         this.state = {
+            authorID: authArray[authArray.length-1], //ID of the author of the post 
         } 
+
     }
     
     componentWillUnmount(){
@@ -22,8 +31,8 @@ class Basic_profile extends React.Component{
 
     addFriend =()=>{
         let data = {
-           authorID : 'https://cloud-align-server.herokuapp.com/users/' + this.props.object.id + '/',
-           friendID : 'https://cloud-align-server.herokuapp.com/users/' + this.props.object.id + '/',    
+           authorID : 'https://cloud-align-server.herokuapp.com/users/' + this.state.authorID + '/',
+           friendID : 'https://cloud-align-server.herokuapp.com/users/' + this.state.authID + '/',    
         }
         axios.post('https://cloud-align-server.herokuapp.com/friendrequest/',data)
           .then(res =>{

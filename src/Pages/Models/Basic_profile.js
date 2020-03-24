@@ -29,18 +29,6 @@ class Basic_profile extends React.Component{
         this._isMounted = true
     }
 
-    addFriend =()=>{
-        let data = {
-           authorID : 'https://cloud-align-server.herokuapp.com/users/' + this.state.authorID + '/',
-           friendID : 'https://cloud-align-server.herokuapp.com/users/' + this.state.authID + '/',    
-        }
-        axios.post('https://cloud-align-server.herokuapp.com/friendrequest/',data)
-          .then(res =>{
-            }).catch(function (error) {
-                console.log(error);
-            })
-      }
-
     render(){
         
 

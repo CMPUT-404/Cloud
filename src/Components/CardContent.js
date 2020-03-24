@@ -64,7 +64,8 @@ class CardContent extends React.Component{
         {
           "auth": localStorage.getItem("user"),
           "comment": text
-        }
+        },
+        {}
       )
         .then(()=>{
           this.setState({

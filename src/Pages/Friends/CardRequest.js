@@ -41,7 +41,7 @@ class CardRequest extends React.Component{
           //console.log(res);
         
         })
-        message.success('"'+ this.state.requestor.requestorDisplayName + '" has been successfully accepted!' );
+        message.success('"'+ this.state.requestor.displayName + '" has been successfully accepted!' );
     };
 
     decline = () => {
@@ -55,14 +55,14 @@ class CardRequest extends React.Component{
           url: this.state.authorURL
         },
         friend: {
-          id: this.state.requestor.requestorURL,  
+          id: this.state.requestor.url,  
           host: this.state.host,
-          displayName: this.state.requestor.requestorDisplayName,
-          url: this.state.requestor.requestorURL
+          displayName: this.state.requestor.displayName,
+          url: this.state.requestor.url
         }       
       }
       confirm({
-      title: <div>Reject the friend request from  <br /> " {this.state.requestor.requestorDisplayName} " ?</div>, 
+      title: <div>Reject the friend request from  <br /> " {this.state.requestor.displayName} " ?</div>, 
         okText: 'Decline',
         okType: 'danger',
         cancelText: 'Cancel', 

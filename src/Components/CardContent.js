@@ -57,18 +57,23 @@ class CardContent extends React.Component{
         });
         
         var text = document.getElementById("comment").value
-        axios.post(`https://cloud-align-server.herokuapp.com/posts/`+ this.props.post.id + `/comments`,{
+        
+        axios({method:"POST",
+        url: "https://cloud-align-server.herokuapp.com/posts/"+ this.props.post.id + "/comments", 
+        headers:{},
+        body:{
           "auth": localStorage.getItem("user"),
           "comment": text
-        })
+        }
+      })
         .then(()=>{
           this.setState({
             visible: false,
             confirmLoading: false,
           });
         })
-        .catch(()=>{
-          alert("You comment did not get uploaded successfully")
+        .catch((err)=>{
+          alert(err)
         })
 
       };
@@ -96,7 +101,7 @@ class CardContent extends React.Component{
                       state:{
                         author:this.state.authorObject,
                         token: this.state.token,
-                      } }}>{this.state.authorObject.username}</Link>
+                      } }}>{this.state.authorObject.displayName}</Link>
 
                     <Link to={{ pathname:'/OtherProfile/'+ this.state.authorName,
                       state:{

@@ -8,8 +8,10 @@ import { Card } from 'antd';
 
 class CommentCard extends React.Component{
 
+    
+
     render(){
-        var author = this.props.comment.author_data.username
+        var author = this.props.comment.author.displayName
         return(
             <div>
                 <Card title={author}>

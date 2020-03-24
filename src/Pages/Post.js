@@ -20,14 +20,18 @@ class Post extends React.Component{
         this.loadCommentData();
     }
 
-    componentDidMount(){
+    componentDidMount= ()=>{
         //console.log(this.props.match.params)
         var id = this.props.match.params.Post
         this._isMounted = true        
         // alert(localStorage.getItem("token"))
+
+        
+        
         axios.get('https://cloud-align-server.herokuapp.com/posts/'+id, {headers:{Authorization: "Token "+localStorage.getItem("token")}})
         .then(
             (response) =>{
+               
                 this.setState({the_post: response.data})
             })
         .catch(
@@ -42,16 +46,18 @@ class Post extends React.Component{
     }
 
 
-    loadCommentData(){
+    loadCommentData= ()=>{
         var id = this.props.match.params.Post
+   
         axios.get(`https://cloud-align-server.herokuapp.com/posts/`+id+`/comments`)
         .then(response => {
-            console.log(response)
+            
             var tempPostList = []
-            for(let i=0; i<response.data.length; i++){
-                var eachPost = <CommentCard key={response.data[i].id} comment={response.data[i]}/>
+            for(let i=0; i<response.data.comments.length; i++){
+                var eachPost = <CommentCard key={response.data.comments[i].id} comment={response.data.comments[i]}/>
                 tempPostList.push(eachPost)
             }
+            
             this.setState({commentComponents: tempPostList})
 
         })
@@ -67,11 +73,11 @@ class Post extends React.Component{
     
         <Fragment>
             <div>
-                <Card title= {this.state.the_post.title} 
-                    extra={this.state.the_post.author_data.username}
+                <Card title= {this.state.the_post.posts[0].title} 
+                    extra={this.state.the_post.posts[0].author.displayName}
                     > 
-                    <Link to={'/Profile/'+this.state.the_post.author}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
-                    {this.state.the_post.content}<br></br> 
+                    <Link to={'/Profile/'+this.state.the_post.posts[0].author.displayName}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
+                    {this.state.the_post.posts[0].content}<br></br> 
                 </Card>
                 {this.state.commentComponents}
             </div>

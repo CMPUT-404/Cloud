@@ -73,7 +73,7 @@ class App extends React.Component {
           return response
         })
       .catch((error)=>{
-        alert(error.response.data.errors)
+        alert(error)
       })
     }
 

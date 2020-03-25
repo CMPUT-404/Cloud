@@ -197,7 +197,7 @@ class Timeline extends React.Component {
               
               <button id="submitButton" onClick={this.startPost}>Submit</button>
               
-              <input id="uploadButton"  type="file" alt="image uploaded by user" onChange={this.pictureHandler}/>
+              <input id="uploadButton"  accept="image/*" type="file" alt="image uploaded by user" onChange={this.pictureHandler}/>
            
               <Modal
                 title={"Who should this Post be Visible to?"}

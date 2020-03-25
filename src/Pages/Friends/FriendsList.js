@@ -93,7 +93,6 @@ class FriendsList extends React.Component {
   } 
   
   render() {
-    console.log(this.state.list)
     const {   list } = this.state;
     return (
       <List

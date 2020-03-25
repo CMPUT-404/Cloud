@@ -46,7 +46,7 @@ class OtherProfile extends React.Component {
   
   componentDidMount() {
     this.__isMounted = true;
-    alert(this.state.authorURL)
+   
     axios.get(this.state.authorURL)
         .then(
             (response) =>{

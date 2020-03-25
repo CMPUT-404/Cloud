@@ -78,35 +78,38 @@ class OtherProfile extends React.Component {
   }
 
   getFriendStatus =()=>{
-    // if (this.props.userObject.id===this.state.authorID){
-    //   this.setState({
-    //     isMyProfile:true,
-    //   })
-    // } else{
-    // axios.get('https://cloud-align-server.herokuapp.com/newfollowing/',{headers:{Authorization: "Token "+ this.state.token}}).then(res => {
-    //   for(let i=0;i<res.data.length;i++){
-    //     if(res.data[i].sender.id === this.props.location.state.user.id || 
-    //       res.data[i].receiver.id === this.props.location.state.user.id){
-    //       let status = res.data[i].status;
-    //       if (status === true){
-    //         this.setState({
-    //           isFriend: true,
-    //         })
-    //       }
-    //       else if (status === null){
-    //         this.setState({      
-    //           requestSent: true,
-    //         })
-    //       }
-    //       else if (status === false){
-    //         this.setState({
-    //           isRejected: true,
-    //         })
-    //       }  
-    //     }
-    //   }   
-    // })
-    // }
+      if (this.state.loggedURL === this.state.authorURL){
+        this.setState({
+          isMyProfile:true,
+        })
+      } else{
+      axios.get('https://cloud-align-server.herokuapp.com/friendrequest/',{headers:{Authorization: "Token "+ this.state.token}}).then(res => {
+        
+        for(let i=0;i<res.data.length;i++){
+          let sender = res.data[i].sender;
+          let receiver = res.data[i].receiver;
+          let status = res.data[i].status;
+          if(( sender === this.state.loggedURL && receiver === this.state.authorURL)||
+            (receiver === this.state.loggedURL && sender === this.state.authorURL)){
+            if (status === true){
+              this.setState({
+               isFriend: true,
+              })
+            }
+            else if (status === null){
+              this.setState({      
+               requestSent: true,
+              })
+            }
+            else if (status === false){
+             this.setState({
+               isRejected: true,
+             })
+           }  
+          }
+       }   
+     })
+     }
   }
 
   addFriend =()=>{
@@ -128,7 +131,7 @@ class OtherProfile extends React.Component {
     axios.post('https://cloud-align-server.herokuapp.com/friendrequest/',data,{headers:{Authorization: "Token "+ this.state.token}})
       .then(res =>{
         this.setState({
-    //       requestSent: true,
+          requestSent: true,
         })
       }).catch(function (error) {
       console.log(error);
@@ -137,16 +140,28 @@ class OtherProfile extends React.Component {
   }
 
   rejectMessage =()=>{
-    // // last friend request was rejected, unfollow the user to retry adding friend
-    // let data = {   
-    //   following:this.props.location.state.user.id
-    // }
-    // axios.post('https://cloud-align-server.herokuapp.com/deletefollowing',data,
-    //   {headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(res =>{});
-    // message.info('Your last friend request was rejected. You can try "add friend" again' )
-    // this.setState({
-    //   isRejected: false,
-    // })  
+    // last friend request was rejected, unfollow the user to retry adding friend
+    let data = {   
+      query: "deletefollow",
+      author: {
+        id: this.state.loggedURL,    
+        host: this.state.host,
+        displayName: this.state.loggedDisplayName,
+        url: this.state.loggedURL
+      },
+      friend: {
+        id: this.state.authorURL,  
+        host: this.state.host,
+        displayName: this.state.authorDisplayName,
+        url: this.state.authorURL
+      }  
+    }
+    axios.post('https://cloud-align-server.herokuapp.com/friendrequest/deletefollowing/',data,
+    {headers:{Authorization: "Token "+this.state.token}}).then(res =>{});
+      message.info('Your last friend request was rejected. You can try "add friend" again' )
+      this.setState({
+       isRejected: false,
+      })  
   }
 
   
@@ -164,7 +179,11 @@ class OtherProfile extends React.Component {
           {this.state.the_post.bio}<br></br>
         </div>
         <div>
-          <Button onClick={()=>this.addFriend()}>add friend</Button>
+        {this.state.isMyProfile|| this.state.isFriend || this.state.requestSent|| this.state.isRejected?null:<Button onClick={()=>this.addFriend()}>add friend</Button>}
+        {this.state.isMyProfile? <Button disabled>MyCustomProfile</Button>:null}
+        {this.state.isFriend? <Button disabled>Friend</Button>:null}
+        {this.state.requestSent? <Button disabled>friend request sent</Button>:null}
+        {this.state.isRejected? <Button onClick={()=>this.rejectMessage()}>Friend Request Info</Button>:null}
         </div>
 
         <div id="Posts">

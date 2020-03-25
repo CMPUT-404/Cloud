@@ -107,7 +107,7 @@ class CardContent extends React.Component{
                       state:{
                         author:this.state.authorObject,
                         token: this.state.token,
-                      } }}>{this.state.authorObject.displayName}</Link>
+                      } }}> {this.state.authorObject.displayName} </Link>
 
                     <Link to={{ pathname:'/OtherProfile/'+ this.state.authorName,
                       state:{
@@ -115,8 +115,9 @@ class CardContent extends React.Component{
                         token: this.state.token,
                       } }}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
 
-
+ 
                     <p>{this.props.post.content}</p>
+                    <img alt = '' src={this.props.post.image}/><br/>
                     <button onClick={this.addComment}>Add Comment</button>
                     <Modal
                         title={this.props.post.title}
@@ -135,3 +136,5 @@ class CardContent extends React.Component{
 }
 
 export default CardContent
+
+

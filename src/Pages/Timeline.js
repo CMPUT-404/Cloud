@@ -23,10 +23,7 @@ class Timeline extends React.Component {
       postVisible: true,
       showVlist: true,
       token: localStorage.getItem("token"),
-      myImage: null,
-      loadImage: function(img){
-        this.setState(this.myImage)
-      }
+      
       
     }
     
@@ -51,6 +48,7 @@ class Timeline extends React.Component {
         for(let i=0; i<response.data.posts.length; i++){
           let eachPost = <CardContent key={response.data.posts[i].id} post={response.data.posts[i]} token={this.state.token} />
           tempPostList.push(eachPost)
+          
         }
         this.setState({myPostComponents: tempPostList})
 
@@ -94,38 +92,31 @@ class Timeline extends React.Component {
       //   }
       // }
     }
-   
+
+      // var image = document.getElementById('userImg').src
+      // alert(image)
+
+      
+      var imgString = document.getElementById('userImg').src
+     
       axios.post("https://cloud-align-server.herokuapp.com/posts/",{
         "title":title, 
         "content":text, 
         "author_obj": localStorage.getItem("url"),
         "author": localStorage.getItem("url"),
-        "visibilities": visibility,
+        "visibility": visibility,
         "description": "",
         "visibleTo": '',
+        "image": imgString,
       }, {headers:{Authorization: "Token "+this.state.token}})
       .then(()=>{
         window.location.reload()
       }).catch((err)=>{
         alert(err)
       })
+    }
 
-  //   axios({method:"POST",
-  //   url:"https://cloud-align-server.herokuapp.com/posts/", 
-  //   headers:{Authorization: "Token "+this.state.token},
-  //   body:{
-  //     "title": "a test ccbat", 
-  //     "author_obj": 'https://cloud-align-server.herokuapp.com/author/d32795b8-bc67-49b5-bb33-61bec906aa95/',
-  //   }
-  // })
-  //     .then(()=>{
-  //       window.location.reload()
-  //     })
-      
-  //     .catch((err)=>{
-  //       alert(err)
-  //     })
-  }
+ 
 
 
   startPost = () =>{
@@ -159,13 +150,20 @@ class Timeline extends React.Component {
   }
 
   pictureHandler = () => {
-    var file = document.getElementById("uploadButton").files[0]
+    var loader = document.getElementById("uploadButton")
+    var file = loader.files[0]
+    if(file.size > 25000){
+      alert("this image is too large")
+      loader.value =""
+      return
+    }
     var reader = new FileReader()
 
     var image = document.getElementById('userImg')
   
     reader.addEventListener("load", function(){
       image.src = reader.result
+      
       
       
     },false)
@@ -188,11 +186,19 @@ class Timeline extends React.Component {
         <div id="inputBox">
 
               <TextArea id="title" rows={1} placeholder="Title of the Post"/>
-              <img id="userImg" alt ='' src='' />
-              <TextArea id="text" rows={7} placeholder="Maximum 300 characters " maxLength="300"/>
+              
+
+              <div id="wordAndPic">
+              <img id="userImg" alt ='' src="" />
+              <TextArea id="text" rows={7} placeholder="Maximum 300 characters " maxLength="300">
+    
+              </TextArea>
+              </div>
+              
               <button id="submitButton" onClick={this.startPost}>Submit</button>
               
               <input id="uploadButton"  type="file" alt="image uploaded by user" onChange={this.pictureHandler}/>
+           
               <Modal
                 title={"Who should this Post be Visible to?"}
                 visible={this.state.visible}

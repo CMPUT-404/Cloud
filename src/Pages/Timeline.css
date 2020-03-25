@@ -21,3 +21,7 @@ button#submitButton{
     height: 100pt;
     border: 1px black;
 }
+
+#wordAndPic{
+    background-color: white;
+}

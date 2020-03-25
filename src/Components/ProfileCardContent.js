@@ -110,6 +110,7 @@ class ProfileCardContent extends React.Component{
                     <Link to={'/Profile/'}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
 
                     <p>{this.props.post.content}</p>
+                    <img alt = '' src={this.props.post.image}/><br/>
                     <button onClick={this.deletePost}>Delete</button>
                     <button onClick={this.editPost}>Edit Post</button>
 

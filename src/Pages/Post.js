@@ -17,28 +17,39 @@ class Post extends React.Component{
             commentComponents: []
         }
         this.loadCommentData = this.loadCommentData.bind(this);
-        this.loadCommentData();
+        
     }
 
     componentDidMount= ()=>{
-        //console.log(this.props.match.params)
+   
         var id = this.props.match.params.Post
-        this._isMounted = true        
-        // alert(localStorage.getItem("token"))
+        this._isMounted = true    
+        
+   
+        
+        if (this.props.location.state.post.source.includes("https")){
 
+            this.setState({the_post: this.props.location.state.post})
+            
+        }else{
         
-        
-        axios.get('https://cloud-align-server.herokuapp.com/posts/'+id, {headers:{Authorization: "Token "+localStorage.getItem("token")}})
+
+        axios.get('https://cloud-align-server.herokuapp.com/posts/'+id+'/', {headers:{Authorization: "Token "+localStorage.getItem("token")}})
         .then(
             (response) =>{
                
-                this.setState({the_post: response.data})
+             
+                this.setState({the_post: response.data.post})
+                this.loadCommentData();
             })
         .catch(
             function(err){
                 alert(err)
+                
             }
         )
+        }
+        
     }
 
     componentWillUnmount(){
@@ -73,12 +84,12 @@ class Post extends React.Component{
     
         <Fragment>
             <div>
-                <Card title= {this.state.the_post.posts[0].title} 
-                    extra={this.state.the_post.posts[0].author.displayName}
+                <Card title= {this.state.the_post.title} 
+                    extra={this.state.the_post.author.displayName}
                     > 
-                    <Link to={'/Profile/'+this.state.the_post.posts[0].author.displayName}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
-                    {this.state.the_post.posts[0].content}<br></br> 
-                    <img alt='' src={this.state.the_post.posts[0].image} />
+                    <Link to={'/Profile/'+this.state.the_post.author.displayName}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
+                    {this.state.the_post.content}<br></br> 
+                    <img alt='' src={this.state.the_post.image} />
                 </Card>
                 
             

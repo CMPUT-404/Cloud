@@ -94,9 +94,6 @@ class Timeline extends React.Component {
       // }
     }
 
-      // var image = document.getElementById('userImg').src
-      // alert(image)
-
       
       var imgString = document.getElementById('userImg').src
      

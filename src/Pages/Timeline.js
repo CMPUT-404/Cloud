@@ -15,7 +15,7 @@ class Timeline extends React.Component {
     this.state = {
       myPostComponents: [],
       otherPostComponents: [],
-      url: 'https://cloud-align-server.herokuapp.com/author/posts',
+      url: 'https://cloud-align-server.herokuapp.com/posts',
       visible: false,
       author: localStorage.getItem("url"), //https://cloud-align-server.herokuapp.com/author/author_id/ 
       friends: null,
@@ -46,7 +46,8 @@ class Timeline extends React.Component {
       .then(   (response)=>{
         
         for(let i=0; i<response.data.posts.length; i++){
-          let eachPost = <CardContent key={response.data.posts[i].id} post={response.data.posts[i]} token={this.state.token} />
+          
+          let eachPost = <CardContent url={response.data.posts[i].source} key={response.data.posts[i].id} post={response.data.posts[i]} token={this.state.token} />
           tempPostList.push(eachPost)
           
         }
@@ -54,24 +55,24 @@ class Timeline extends React.Component {
 
       })
       .catch((err)=>{
-        alert("failed getting cloud alighn data")
+        alert(err)
         
       })
      
 
-      var otherPostList = []
-      axios.get(`https://spongebook.herokuapp.com/posts`)
-      .then(response => {
-        //console.log(response)
-        for(let i=0; i<response.data.posts.length; i++){
-          let eachPost = <CardContent key={response.data.posts[i].id} post={response.data.posts[i]} token={this.state.token} />
-          otherPostList.push(eachPost)
-        }
-        this.setState({otherPostComponents: otherPostList})
-      })
-      .catch(()=>{
-        alert("failed to load posts")
-      })
+      // var otherPostList = []
+      // axios.get(`https://spongebook.herokuapp.com/posts`)
+      // .then(response => {
+      //   //console.log(response)
+      //   for(let i=0; i<response.data.posts.length; i++){
+      //     let eachPost = <CardContent key={response.data.posts[i].id} post={response.data.posts[i]} token={this.state.token} />
+      //     otherPostList.push(eachPost)
+      //   }
+      //   this.setState({otherPostComponents: otherPostList})
+      // })
+      // .catch(()=>{
+      //   alert("failed to load posts")
+      // })
 
   }
 
@@ -121,25 +122,27 @@ class Timeline extends React.Component {
 
   startPost = () =>{
 
-    axios.get(this.state.author+'friends',
-    {headers:{"Authorization":"Token "+localStorage.getItem("token")}})
-    .then( res =>{
+    this.setState({visible: true})
+
+    // axios.get(this.state.author+'friends',
+    // {headers:{"Authorization":"Token "+localStorage.getItem("token")}})
+    // .then( res =>{
       
-      var friendlist = []
-      var friendisplay = []
-      var temp = ""
-      for (var i of res.data.authors){
-        friendlist.push(i.id)
-        temp = i.id
-        friendisplay.push(<div key={temp}> {i.displayName} <input key ={i.id} id={i.id}  type="checkbox"/> </div>)
-      }
+    //   var friendlist = []
+    //   var friendisplay = []
+    //   var temp = ""
+    //   for (var i of res.data.authors){
+    //     friendlist.push(i.id)
+    //     temp = i.id
+    //     friendisplay.push(<div key={temp}> {i.displayName} <input key ={i.id} id={i.id}  type="checkbox"/> </div>)
+    //   }
       
-      this.setState({friendcomponent: friendisplay})
-      this.setState({friends: friendlist})
-      this.setState({visible: true})
+    //   this.setState({friendcomponent: friendisplay})
+    //   this.setState({friends: friendlist})
+    //   this.setState({visible: true})
       
-    }
-    )
+    // }
+    // )
   }
   showVisibleList= ()=>{
     if (this.state.showVlist === true){this.setState({showVlist: false})}

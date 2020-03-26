@@ -61,6 +61,7 @@ class App extends React.Component {
       .then(response => {
         //console.log(response)
         if(response.status === 200){
+          localStorage.setItem("user", response.data.user.id)
           localStorage.setItem("url", response.data.user.url)
           localStorage.setItem("username", response.data.user.username)
           localStorage.setItem("displayName", response.data.user.displayName)
@@ -85,6 +86,7 @@ class App extends React.Component {
       "github": this.state.github
     }, {headers: {"Content-Type": "application/json;charset=UTF-8"}})
     .then(response => {
+      
       //console.log(response)
       if(response.status === 201){
         localStorage.setItem("url", response.data.user.url)

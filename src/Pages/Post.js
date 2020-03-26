@@ -78,7 +78,10 @@ class Post extends React.Component{
                     > 
                     <Link to={'/Profile/'+this.state.the_post.posts[0].author.displayName}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
                     {this.state.the_post.posts[0].content}<br></br> 
+                    <img alt='' src={this.state.the_post.posts[0].image} />
                 </Card>
+                
+            
                 {this.state.commentComponents}
             </div>
 

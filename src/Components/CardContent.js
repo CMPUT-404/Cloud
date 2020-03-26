@@ -62,12 +62,23 @@ class CardContent extends React.Component{
         });
         
         var text = document.getElementById("comment").value
+        var url = null
+        if (this.props.url !== ""){
+           url= this.props.url
+        }
+        else{
+          url = "https://cloud-align-server.herokuapp.com/posts/"+ this.props.post.id+'/'
+        }
+        
+        
+        var hash = localStorage.getItem("user").split('/')
+        
+
         
         axios.post(
-        "https://cloud-align-server.herokuapp.com/posts/"+ this.props.post.id + "/comments", 
-      
+        url+ "comments", 
         {
-          "auth": localStorage.getItem("user"),
+          "auth": hash[hash.length-2],
           "comment": text
         },
         {}
@@ -99,7 +110,8 @@ class CardContent extends React.Component{
                 <Card title={this.props.post.title} 
                   extra={ <Link to={  { pathname:'/Timeline/' + this.props.post.id,
                   state:{user: this.props.post.id,
-                          text: this.props.post.plainText}}
+                          text: this.props.post.plainText,
+                        url: this.props.post.source}}
                   } >
                     see more </Link> }> 
 
@@ -136,5 +148,7 @@ class CardContent extends React.Component{
 }
 
 export default CardContent
+
+
 
 

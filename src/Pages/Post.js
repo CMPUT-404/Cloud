@@ -30,9 +30,8 @@ class Post extends React.Component{
         if (this.props.location.state !== undefined){
 
             this.setState({the_post: this.props.location.state.post})
-            if ( this.props.location.state.post.author.id.includes("cloud-align") ){
-                this.loadCommentData()
-            }
+            if(this.props.location.state.post.comments !== undefined){
+            this.loadFromLocation()}
             
         }else{
         
@@ -59,6 +58,15 @@ class Post extends React.Component{
         this._isMounted = false
     }
 
+    loadFromLocation = () =>{
+        var tempPostList = []
+        for (let i = 0 ; i < this.props.location.state.post.comments.length; i++){
+            
+            var eachPost = <CommentCard key={this.props.location.state.post.comments[i].id} comment={this.props.location.state.post.comments[i]}/>
+                tempPostList.push(eachPost)
+        }
+        this.setState({commentComponents: tempPostList})
+    }
 
     loadCommentData= ()=>{
         var id = this.props.match.params.Post

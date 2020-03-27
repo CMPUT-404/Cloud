@@ -30,6 +30,8 @@ class Post extends React.Component{
         if (this.props.location.state !== undefined){
 
             this.setState({the_post: this.props.location.state.post})
+            if(this.props.location.state.post.comments !== undefined){
+            this.loadFromLocation()}
             
         }else{
         
@@ -56,10 +58,19 @@ class Post extends React.Component{
         this._isMounted = false
     }
 
+    loadFromLocation = () =>{
+        var tempPostList = []
+        for (let i = 0 ; i < this.props.location.state.post.comments.length; i++){
+            
+            var eachPost = <CommentCard key={this.props.location.state.post.comments[i].id} comment={this.props.location.state.post.comments[i]}/>
+                tempPostList.push(eachPost)
+        }
+        this.setState({commentComponents: tempPostList})
+    }
 
     loadCommentData= ()=>{
         var id = this.props.match.params.Post
-   
+        
         axios.get(`https://cloud-align-server.herokuapp.com/posts/`+id+`/comments`)
         .then(response => {
             
@@ -85,8 +96,11 @@ class Post extends React.Component{
         <Fragment>
             <div>
                 <Card title= {this.state.the_post.title} 
-                    extra={this.state.the_post.author.displayName}
+                    extra={this.state.the_post.author.displayName }
+
+                    
                     > 
+                    Source: {this.state.the_post.source}<br></br><br></br>
                     <Link to={'/Profile/'+this.state.the_post.author.displayName}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
                     {this.state.the_post.content}<br></br> 
                     <img alt='' src={this.state.the_post.image} />

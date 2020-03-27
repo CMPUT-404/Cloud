@@ -120,6 +120,7 @@ class CardContent extends React.Component{
                       state:{
                         author:this.state.authorObject,
                         token: this.state.token,
+                        post: this.props.post
                       } }}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
 
  

@@ -47,7 +47,7 @@ class Timeline extends React.Component {
         
         for(let i=0; i<response.data.posts.length; i++){
           
-          let eachPost = <CardContent url={response.data.posts[i].source} key={response.data.posts[i].id} post={response.data.posts[i]} token={this.state.token} />
+          let eachPost = <CardContent url={response.data.posts[i].source} key={i} post={response.data.posts[i]} token={this.state.token} />
           tempPostList.push(eachPost)
           
         }

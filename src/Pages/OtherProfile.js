@@ -10,6 +10,7 @@ class OtherProfile extends React.Component {
 
   constructor(props){
     super(props)
+    console.log(this.props)
     var authID = this.props.location.state.author.url.split('/')
     var authArray = [] 
     for(let i=0; i<authID.length; i++){
@@ -39,18 +40,26 @@ class OtherProfile extends React.Component {
       loggedURL: localStorage.getItem("url"),
       loggedDisplayName: localStorage.getItem("displayName"),
       host: "https://cloud-align-server.herokuapp.com",
+      sourceHost: this.props.location.state.author.host
     }
-    console.log(this.state.authorID)
+    console.log(this.state.sourceHost)
+
   }
 
   
   componentDidMount() {
     this.__isMounted = true;
+    let requestURL = ""
+    if (this.state.sourceHost !== "https://cloud-align-server.herokuapp.com"){
+      requestURL = `https://cloud-align-server.herokuapp.com/author/`+this.state.authorID+'/?host='+this.state.sourceHost
+    }else{
+      requestURL = this.state.authorURL
+    }
    
-    axios.get(this.state.authorURL)
+    axios.get(requestURL)
         .then(
             (response) =>{
-             
+                console.log(response)
                 this.setState({the_post: response.data})
                 
             })
@@ -60,7 +69,7 @@ class OtherProfile extends React.Component {
                 console.log(err)
             }
         )
-    this.loadPostData();
+    //this.loadPostData();
     this.getFriendStatus()
   }
 

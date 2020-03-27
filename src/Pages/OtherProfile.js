@@ -65,6 +65,7 @@ class OtherProfile extends React.Component {
   }
 
   loadPostData(){
+
     axios.get("https://cloud-align-server.herokuapp.com/posts/author/"+this.state.authorID, {headers: {"Authorization": "Token "+ this.state.token}})
       .then(response => {
         var tempPostList = []
@@ -78,6 +79,8 @@ class OtherProfile extends React.Component {
         console.log(err)
       }
       )
+    
+    
   }
 
   getFriendStatus =()=>{

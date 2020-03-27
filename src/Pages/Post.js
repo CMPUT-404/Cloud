@@ -27,7 +27,7 @@ class Post extends React.Component{
         
    
         
-        if (this.props.location.state.post.source.includes("https")){
+        if (this.props.location.state !== undefined){
 
             this.setState({the_post: this.props.location.state.post})
             

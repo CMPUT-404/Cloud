@@ -113,6 +113,7 @@ class CardContent extends React.Component{
                       state:{
                         author:this.state.authorObject,
                         token: this.state.token,
+                        post: this.props.post,
                       } }}> {this.state.authorObject.displayName} </Link>
 
                     <Link to={{ pathname:'/OtherProfile/'+ this.state.authorName,

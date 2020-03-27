@@ -50,11 +50,13 @@ class OtherProfile extends React.Component {
   componentDidMount() {
     this.__isMounted = true;
     let requestURL = ""
-    if (this.state.sourceHost !== "https://cloud-align-server.herokuapp.com"){
+    if (this.state.sourceHost !== "https://cloud-align-server.herokuapp.com/"){
       requestURL = `https://cloud-align-server.herokuapp.com/author/`+this.state.authorID+'/?host='+this.state.sourceHost
     }else{
       requestURL = this.state.authorURL
     }
+
+
    
     axios.get(requestURL)
         .then(
@@ -188,7 +190,7 @@ class OtherProfile extends React.Component {
       <div id="ProfileSection">     
         <img id="profile_pic" alt='profile' src={require('../Images/profile.jpeg')} /><br></br>
         <div id="profiletext">
-          {this.state.the_post.username}<br></br>
+          {this.state.the_post.displayName}<br></br>
           {this.state.the_post.email}<br></br>
           {this.state.the_post.github}<br></br>
           {this.state.the_post.bio}<br></br>

@@ -85,8 +85,11 @@ class Post extends React.Component{
         <Fragment>
             <div>
                 <Card title= {this.state.the_post.title} 
-                    extra={this.state.the_post.author.displayName}
+                    extra={this.state.the_post.author.displayName }
+
+                    
                     > 
+                    Source: {this.state.the_post.source}<br></br><br></br>
                     <Link to={'/Profile/'+this.state.the_post.author.displayName}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
                     {this.state.the_post.content}<br></br> 
                     <img alt='' src={this.state.the_post.image} />

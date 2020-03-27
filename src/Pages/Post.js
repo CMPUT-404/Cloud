@@ -30,6 +30,9 @@ class Post extends React.Component{
         if (this.props.location.state !== undefined){
 
             this.setState({the_post: this.props.location.state.post})
+            if ( this.props.location.state.post.author.id.includes("cloud-align") ){
+                this.loadCommentData()
+            }
             
         }else{
         
@@ -59,7 +62,7 @@ class Post extends React.Component{
 
     loadCommentData= ()=>{
         var id = this.props.match.params.Post
-   
+        
         axios.get(`https://cloud-align-server.herokuapp.com/posts/`+id+`/comments`)
         .then(response => {
             

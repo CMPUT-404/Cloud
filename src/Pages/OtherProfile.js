@@ -52,8 +52,11 @@ class OtherProfile extends React.Component {
     let requestURL = ""
     if (this.state.sourceHost !== "https://cloud-align-server.herokuapp.com/"){
       requestURL = `https://cloud-align-server.herokuapp.com/author/`+this.state.authorID+'/?host='+this.state.sourceHost
+      
+      this.loadPostData();
     }else{
       requestURL = this.state.authorURL
+      this.loadPostData();
     }
 
 
@@ -71,14 +74,16 @@ class OtherProfile extends React.Component {
                 console.log(err)
             }
         )
-    //this.loadPostData();
+    
     this.getFriendStatus()
   }
 
   loadPostData(){
 
+    
     axios.get("https://cloud-align-server.herokuapp.com/posts/author/"+this.state.authorID, {headers: {"Authorization": "Token "+ this.state.token}})
       .then(response => {
+        alert(JSON.stringify(response.data.posts))
         var tempPostList = []
         for(let i=0; i<response.data.posts.length; i++){
           var eachPost = <CardContent key={response.data.posts[i].id} post={response.data.posts[i]}/>

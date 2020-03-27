@@ -33,14 +33,14 @@ class CardContent extends React.Component{
         //console.log(this.state.authorID)
     }
 
-    componentDidMount(){
-      axios.get(this.state.authorURL)
-      .then((response)=>{
-        this.setState({authorObject: response.data})
-        //console.log(this.state.authorObject)
-      })
+   // componentDidMount(){
+   //   axios.get(this.state.authorURL)
+   //   .then((response)=>{
+   //     this.setState({authorObject: response.data})
+   //       console.log(this.state.authorObject)
+   //   })
 
-    }
+   // }
 
     displayProfile(){
         //Route to profile 

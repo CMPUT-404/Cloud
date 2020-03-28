@@ -30,7 +30,7 @@ class CardRequest extends React.Component{
         },
         friend: {
           id: this.state.requestor.url,  
-          host: this.state.host,
+          host: this.state.requestor.host,
           displayName: this.state.requestor.displayName,
           url: this.state.requestor.url
         }     
@@ -56,7 +56,7 @@ class CardRequest extends React.Component{
         },
         friend: {
           id: this.state.requestor.url,  
-          host: this.state.host,
+          host: this.state.requestor.host,
           displayName: this.state.requestor.displayName,
           url: this.state.requestor.url
         }       

@@ -41,6 +41,7 @@ class FollowingList extends React.Component {
             itemObject.followingUsername = response.data.username;
             itemObject.followingDisplayName = response.data.displayName;
             itemObject.followingBio = response.data.bio;
+            itemObject.followingHost = response.data.host;
             temp.push(itemObject);
 
         })).then(() => {
@@ -64,7 +65,7 @@ class FollowingList extends React.Component {
       },
       friend: {
         id: item.followingURL,  
-        host: this.state.host,
+        host: item.followingHost,
         displayName: item.followingDisplayName,
         url: item.followingURL
       }

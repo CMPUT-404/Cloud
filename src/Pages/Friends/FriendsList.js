@@ -44,6 +44,7 @@ class FriendsList extends React.Component {
             itemObject.friendUsername = response.data.username;
             itemObject.friendDisplayName = response.data.displayName;
             itemObject.friendBio = response.data.bio;
+            itemObject.friendHost = response.data.host;
             temp.push(itemObject);       
           
         }
@@ -68,7 +69,7 @@ class FriendsList extends React.Component {
       },
       friend: {
         id: item.friendURL,  
-        host: this.state.host,
+        host: item.friendHost,
         displayName: item.friendDisplayName,
         url: item.friendURL
       }

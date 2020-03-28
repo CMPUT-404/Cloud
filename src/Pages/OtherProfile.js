@@ -145,7 +145,7 @@ class OtherProfile extends React.Component {
       },
       friend: {
         id: this.state.authorURL,  
-        host: this.state.host,
+        host: this.state.sourceHost,
         displayName: this.state.authorDisplayName,
         url: this.state.authorURL
       }  
@@ -173,7 +173,7 @@ class OtherProfile extends React.Component {
       },
       friend: {
         id: this.state.authorURL,  
-        host: this.state.host,
+        host: this.state.sourceHost,
         displayName: this.state.authorDisplayName,
         url: this.state.authorURL
       }  

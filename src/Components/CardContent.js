@@ -6,6 +6,7 @@ import { Card } from 'antd';
 import { Modal} from 'antd';
 import { Input } from 'antd';
 import  { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 
 
@@ -128,7 +129,8 @@ class CardContent extends React.Component{
                       } }}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
 
  
-                    <p>{this.props.post.content}</p>
+                    <ReactMarkdown source={this.props.post.content} />
+
                     <img alt = '' src={this.props.post.image}/><br/>
                     <button onClick={this.addComment}>Add Comment</button>
                     <Modal

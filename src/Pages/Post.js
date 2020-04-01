@@ -3,6 +3,7 @@ import {Card} from 'antd';
 import CommentCard from '../Components/CommentCard';
 import  { Link } from 'react-router-dom';
 import axios from 'axios';
+import ReactMarkdown from "react-markdown";
 
 
 class Post extends React.Component{
@@ -96,13 +97,14 @@ class Post extends React.Component{
         <Fragment>
             <div>
                 <Card title= {this.state.the_post.title} 
-                    extra={this.state.the_post.author.displayName }
+                    extra={<Link to={'/Profile/'+this.state.the_post.author.displayName}>{this.state.the_post.author.displayName }</Link>}
 
                     
                     > 
                     Source: {this.state.the_post.source}<br></br><br></br>
-                    <Link to={'/Profile/'+this.state.the_post.author.displayName}><img alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
-                    {this.state.the_post.content}<br></br> 
+                    <ReactMarkdown source={this.state.the_post.content} />
+                    <br/>
+                    <br/>
                     <img alt='' src={this.state.the_post.image} />
                 </Card>
                 

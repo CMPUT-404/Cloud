@@ -183,6 +183,7 @@ class App extends React.Component {
               <Route path ="/GithubEvents" component={GithubEvents}/>
               <Route path ="/OtherProfile/:OtherProfile" component={OtherProfile}/>
               <Route path ="/LogOut" component={LogOut}/>
+              <Route path ="/" component={Timeline}/>
             </Switch>
           </Router>
       );

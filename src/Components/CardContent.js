@@ -2,7 +2,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import './CardContent.css';
-import { Card } from 'antd';
+import { Card,Button} from 'antd';
 import { Modal} from 'antd';
 import { Input } from 'antd';
 import  { Link } from 'react-router-dom';
@@ -109,7 +109,7 @@ class CardContent extends React.Component{
                         post: this.props.post}}
                   } >
                     see more <br></br>
-                    Source of Post { this.props.post.source}
+                    Source of Post: { this.props.post.source}
                     </Link>
                     
                    }> 
@@ -132,7 +132,7 @@ class CardContent extends React.Component{
                     <ReactMarkdown source={this.props.post.content} />
 
                     <img alt = '' src={this.props.post.image}/><br/>
-                    <button onClick={this.addComment}>Add Comment</button>
+                    <Button onClick={this.addComment}>Add Comment</Button>
                     <Modal
                         title={this.props.post.title}
                         visible={visible}

@@ -1,7 +1,7 @@
 import React from 'react';
 import CardContent from '../Components/CardContent';
 import axios from 'axios';
-import { Input } from 'antd';
+import { Input,Button} from 'antd';
 import {Modal } from 'antd';
 import './Timeline.css';
 
@@ -13,7 +13,7 @@ class Timeline extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      myPostComponents: [],
+      myPostComponents: -1,
       otherPostComponents: [],
       url: 'https://cloud-align-server.herokuapp.com/posts',
       visible: false,
@@ -60,19 +60,7 @@ class Timeline extends React.Component {
       })
      
 
-      // var otherPostList = []
-      // axios.get(`https://spongebook.herokuapp.com/posts`)
-      // .then(response => {
-      //   //console.log(response)
-      //   for(let i=0; i<response.data.posts.length; i++){
-      //     let eachPost = <CardContent key={response.data.posts[i].id} post={response.data.posts[i]} token={this.state.token} />
-      //     otherPostList.push(eachPost)
-      //   }
-      //   this.setState({otherPostComponents: otherPostList})
-      // })
-      // .catch(()=>{
-      //   alert("failed to load posts")
-      // })
+      
 
   }
 
@@ -85,13 +73,7 @@ class Timeline extends React.Component {
     if (this.state.showVlist === false){
       visibility = "PRIVATE"
       
-      // for(var i =0 ; i < this.state.friends.length ; i++){
-       
-      //   if ((document.getElementById(this.state.friends[i]).checked) === true){
-      //     newvis += this.state.friends[i] +","
-          
-      //   }
-      // }
+      
     }
 
       
@@ -121,25 +103,7 @@ class Timeline extends React.Component {
 
     this.setState({visible: true})
 
-    // axios.get(this.state.author+'friends',
-    // {headers:{"Authorization":"Token "+localStorage.getItem("token")}})
-    // .then( res =>{
-      
-    //   var friendlist = []
-    //   var friendisplay = []
-    //   var temp = ""
-    //   for (var i of res.data.authors){
-    //     friendlist.push(i.id)
-    //     temp = i.id
-    //     friendisplay.push(<div key={temp}> {i.displayName} <input key ={i.id} id={i.id}  type="checkbox"/> </div>)
-    //   }
-      
-    //   this.setState({friendcomponent: friendisplay})
-    //   this.setState({friends: friendlist})
-    //   this.setState({visible: true})
-      
-    // }
-    // )
+  
   }
   showVisibleList= ()=>{
     if (this.state.showVlist === true){this.setState({showVlist: false})}
@@ -195,9 +159,12 @@ class Timeline extends React.Component {
               </TextArea>
               </div>
               
-              <button id="submitButton" onClick={this.startPost}>Submit</button>
+              <Button id="submitButton" onClick={this.startPost}>Submit</Button>
               
+              <label class="file-upload">
+                upload image
               <input id="uploadButton"  accept="image/*" type="file" alt="image uploaded by user" onChange={this.pictureHandler}/>
+              </label>
            
               <Modal
                 title={"Who should this Post be Visible to?"}
@@ -212,9 +179,7 @@ class Timeline extends React.Component {
                <button onClick={this.showVisibleList}>Change Visibility</button><br/>
                    
                   <div id="scroll"  >
-                    {/* {this.state.showVlist? (""): "Who can see your post?"}
-                    {this.state.showVlist? ( "Post visible to all")
-                    :  this.state.friendcomponent} */}
+                    
                     {this.state.showVlist? ( "Post visible to all, click to change")
                     :  "Post private, click to change"}
 
@@ -225,7 +190,10 @@ class Timeline extends React.Component {
                   </div>
               </Modal>
           </div>
-        {this.state.myPostComponents}
+        
+        {this.state.myPostComponents !== -1? this.state.myPostComponents:
+        <p id="loading-message">Loading my posts ...</p>}
+        {/* // {this.state.myPostComponents} */}
         {this.state.otherPostComponents}
       </div>
     )

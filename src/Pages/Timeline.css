@@ -7,10 +7,23 @@
 
 #uploadButton{
     float: right;
+    display:none
+   
 }
 
+.file-upload {
+    color: rgb(121, 121, 121);
+    background-color: white;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 3px 3px;
+    cursor: pointer;
+    
+}
+
+
 button#submitButton{
-    float: right;
+    float: left;
     margin-top: auto;
 }
 
@@ -24,4 +37,11 @@ button#submitButton{
 
 #wordAndPic{
     background-color: white;
+}
+
+#loading-message{
+    margin-left: 10%;
+    font-size: 16pt;
+    color: rgb(99, 98, 98);
+    
 }

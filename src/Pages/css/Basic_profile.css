@@ -3,25 +3,21 @@
     display:inline-block;
 }
 
-#profiletext{
+#ProfileDisplay{
+   
     
-    /* right: 50pt; */
-    font-size: 16pt;
-    color: rgb(121, 49, 142);
+    /* background-color: white; */
+    color: rgb(97, 97, 97);
+    font-size: 14pt;
 }
+
 .smallimg { 
     position: relative;
     /* top: 100pt; */
     
 
 }
-#edit_button{
-    position: relative;
-    
-    height: 15%;
-    width: auto;
 
-}
 .container {
  
     left: 50pt;

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/Basic_profile.css'
+import {Button} from 'antd'
 
 class Basic_profile extends React.Component{
     _isMounted = false
@@ -33,17 +34,18 @@ class Basic_profile extends React.Component{
 
         return(
             <div id="basicProfile" className="container">                
-                <img id="profile_pic" alt='profile' src={require('../../Images/profile.jpeg')} />
-                <button id="edit_button" onClick={this.props.edit}>
-                    <span role="img" aria-label="cloud"> ✏️ Edit </span>
-                </button>
-                <div id="profiletext">
-                    {this.props.object.username}<br></br>
-                    {this.props.object.firstName}<br></br>
-                    {this.props.object.lastName}<br></br>
-                    {this.props.object.email}<br></br>
-                    {this.props.object.github}<br></br>
-                    {this.props.object.bio}<br></br>
+                <img id="profile_pic" alt='profile' src={require('../../Images/profile.jpeg')} /><br></br>
+                <Button id="edit_button" onClick={this.props.edit}>
+                    <span role="img" aria-label="cloud"> ✏️ Edit profile</span>
+                </Button>
+                <br></br>
+                <div id="ProfileDisplay">
+                    Username: {this.props.object.username}<br></br>
+                    Firstname: {this.props.object.firstName}<br></br>
+                    Lastname: {this.props.object.lastName}<br></br>
+                    Email: {this.props.object.email}<br></br>
+                    Github: {this.props.object.github}<br></br>
+                    Bio: {this.props.object.bio}<br></br>
                 </div>
             </div>
         )

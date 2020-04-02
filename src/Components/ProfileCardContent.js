@@ -2,7 +2,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import './CardContent.css';
-import { Card } from 'antd';
+import { Card,Button } from 'antd';
 import { Modal} from 'antd';
 import  { Link } from 'react-router-dom'
 import axios from 'axios';
@@ -111,8 +111,8 @@ class ProfileCardContent extends React.Component{
 
                     <p>{this.props.post.content}</p>
                     <img alt = '' src={this.props.post.image}/><br/>
-                    <button onClick={this.deletePost}>Delete</button>
-                    <button onClick={this.editPost}>Edit Post</button>
+                    <Button onClick={this.deletePost}>Delete</Button>
+                    <Button onClick={this.editPost}>Edit Post</Button>
 
                     <Modal title={this.props.post.title}
                            visible={this.state.editVisible}

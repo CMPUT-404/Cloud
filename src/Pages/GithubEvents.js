@@ -1,6 +1,7 @@
 import React from 'react';
 import GithubCardContent from '../Components/GithubCardContent';
 import axios from 'axios';
+import {Alert, Typography} from "antd";
 
 
 class GithubEvents extends React.Component {
@@ -63,7 +64,10 @@ class GithubEvents extends React.Component {
   render(){
     return(
       <div>
-        <h4>{this.state.Message}</h4>
+        { this.state.Message && <Alert style={{margin: "15%"}} message={this.state.Message} type="warning" />}
+        <Typography.Title style={{marginLeft: "15%"}}>
+          My github events
+        </Typography.Title>
         {this.state.postComponents}
       </div>
     )

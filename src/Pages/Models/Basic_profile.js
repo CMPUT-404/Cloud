@@ -34,18 +34,20 @@ class Basic_profile extends React.Component{
 
         return(
             <div id="basicProfile" className="container">                
-                <img id="profile_pic" alt='profile' src={require('../../Images/profile.jpeg')} /><br></br>
+                <img id="profile_pic" alt='profile' src={require('../../Images/profile.jpeg')} />
+                <br/>
+                <br/>
                 <Button id="edit_button" onClick={this.props.edit}>
                     <span role="img" aria-label="cloud"> ✏️ Edit profile</span>
                 </Button>
                 <br></br>
                 <div id="ProfileDisplay">
-                    Username: {this.props.object.username}<br></br>
-                    Firstname: {this.props.object.firstName}<br></br>
-                    Lastname: {this.props.object.lastName}<br></br>
-                    Email: {this.props.object.email}<br></br>
-                    Github: {this.props.object.github}<br></br>
-                    Bio: {this.props.object.bio}<br></br>
+                    <b>Username:</b> {this.props.object.username}<br/>
+                    <b>Firstname:</b> {this.props.object.firstName}<br/>
+                    <b>Lastname:</b> {this.props.object.lastName}<br/>
+                    <b>Email:</b> {this.props.object.email}<br/>
+                    <b>Github:</b> {this.props.object.github}<br/>
+                    <b>Bio:</b> {this.props.object.bio}<br/>
                 </div>
             </div>
         )

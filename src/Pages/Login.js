@@ -2,6 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import {FormGroup, Label, Input} from 'reactstrap';
 import './css/Login.css';
+import {Button} from "antd";
 
 class Login extends React.Component {
   constructor(){
@@ -30,8 +31,8 @@ class Login extends React.Component {
             <Input id='passwordInput' type='password' placeholder='Password' value={this.props.password} onChange={this.props.passwordChange}/>
             <Label>Don't have an account? Click on the register button</Label>
             <div className='buttonDiv'>
-              <button id='registerButton' onClick={() => this.register()}>Register</button>
-              <button id='submitButton' onClick={this.props.handleLogin}>Login</button>
+              <Button id='registerButton' onClick={() => this.register()}>Register</Button>
+              <Button id='submitButton' onClick={this.props.handleLogin}>Login</Button>
             </div>
           </FormGroup>
         </div>

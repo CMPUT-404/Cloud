@@ -1,7 +1,7 @@
 import React from 'react';
 import CardContent from '../Components/CardContent';
 import axios from 'axios';
-import { Input,Button} from 'antd';
+import {Input, Button, Typography, Icon, Divider} from 'antd';
 import {Modal } from 'antd';
 import './Timeline.css';
 
@@ -11,7 +11,7 @@ const { TextArea } = Input;
 class Timeline extends React.Component {
   
   constructor(props){
-    super(props)
+    super(props);
     this.state = {
       myPostComponents: -1,
       otherPostComponents: [],
@@ -23,9 +23,7 @@ class Timeline extends React.Component {
       postVisible: true,
       showVlist: true,
       token: localStorage.getItem("token"),
-      
-      
-    }
+    };
     
     // this.loadPostData = this.loadPostData.bind(this);
     this.submitPost = this.submitPost.bind(this);
@@ -65,21 +63,21 @@ class Timeline extends React.Component {
   }
 
   submitPost = () => {
-    
-    var title = document.getElementById("title").innerHTML
-    var text = document.getElementById("text").innerHTML
+
+    const title = this.state.title;
+    const text = this.state.text;
     // var newvis = ""
-    var visibility = "PUBLIC"
+    let visibility = "PUBLIC";
     if (this.state.showVlist === false){
       visibility = "PRIVATE"
       
       
     }
 
-      
-      var imgString = document.getElementById('userImg').src
-     
-      axios.post("https://cloud-align-server.herokuapp.com/posts/",{
+
+    const imgString = document.getElementById('userImg').src;
+
+    axios.post("https://cloud-align-server.herokuapp.com/posts/",{
         "title":title, 
         "content":text, 
         "author_obj": localStorage.getItem("url"),
@@ -94,7 +92,7 @@ class Timeline extends React.Component {
       }).catch((err)=>{
         alert(err)
       })
-    }
+    };
 
  
 
@@ -146,25 +144,42 @@ class Timeline extends React.Component {
         {/* here <img src='' id='test' alt=''/>
         <p id='test2'>eee</p>
         {this.state.myImage} */}
+        <Typography.Title style={{marginLeft: "15%"}}>
+          TimeLine
+        </Typography.Title>
 
         <div id="inputBox">
+              <Typography.Title level={2} style={{color: "deepskyblue"}}>
+                Share your Post
+              </Typography.Title>
+              <Input
+                  id="title"
+                  placeholder="Title of the Post"
+                  addonBefore="Title"
+                  value={this.state.title}
+                  onChange={(e)=>(this.setState({title: e.target.value}))}
 
-              <TextArea id="title" rows={1} placeholder="Title of the Post"/>
+              />
               
 
               <div id="wordAndPic">
               <img id="userImg" alt ='' src="" />
-              <TextArea id="text" rows={7} placeholder="Maximum 300 characters " maxLength="300">
-    
-              </TextArea>
+              <TextArea
+                  id="text"
+                  rows={7}
+                  placeholder="Contents" maxLength="300"
+                  value={this.state.text}
+                  onChange={(e)=>(this.setState({text: e.target.value}))}
+              />
               </div>
-              
+              <Button.Group>
               <Button id="submitButton" onClick={this.startPost}>Submit</Button>
               
-              <label class="file-upload">
-                upload image
-              <input id="uploadButton"  accept="image/*" type="file" alt="image uploaded by user" onChange={this.pictureHandler}/>
+              <label className="file-upload">
+                <Icon type="picture" style={{position: "relative", "top": "-4px"}}/> Upload
+                <input id="uploadButton"  accept="image/*" type="file" alt="image uploaded by user" onChange={this.pictureHandler}/>
               </label>
+              </Button.Group>
            
               <Modal
                 title={"Who should this Post be Visible to?"}
@@ -190,6 +205,7 @@ class Timeline extends React.Component {
                   </div>
               </Modal>
           </div>
+
         
         {this.state.myPostComponents !== -1? this.state.myPostComponents:
         <p id="loading-message">Loading my posts ...</p>}

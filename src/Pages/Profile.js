@@ -1,7 +1,7 @@
 import React from 'react';
 import BasicProfile from './Models/Basic_profile';
 import './css/Profile.css';
-import CardContent from '../Components/ProfileCardContent';
+import CardContent from '../Components/ProfileCardContentNew';
 import Edit from './Models/Edit';
 import axios from 'axios';
 
@@ -24,7 +24,11 @@ class Profile extends React.Component {
       postComponents : [],
       edit: false,
       go_edit : ()=>{
+        if (this.state.edit === false){
         this.setState({edit:true})
+        }else{
+          this.setState({edit:false})
+        }
       },
       userID: authArray[authArray.length-1],    
       token: localStorage.getItem("token")
@@ -61,9 +65,7 @@ class Profile extends React.Component {
     if (this.state.edit === false){
       return(
         <div>
-          
-
-          <BasicProfile object={this.props.userObject} edit={this.state.go_edit}/>
+          <BasicProfile object={this.props.userObject} edit={this.state.go_edit}/><br></br>
           <div id="myPosts">
             {this.state.postComponents}
           </div>

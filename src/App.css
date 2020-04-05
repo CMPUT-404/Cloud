@@ -1,4 +1,10 @@
 @import '~antd/dist/antd.css';
+@import url('https://fonts.googleapis.com/css?family=Comic+Neue&display=swap');
+/*Created by Craig Rozynski under Open Font License https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL*/
+
+body  {
+  font-family: 'Comic Neue', cursive !important;
+}
 
 .App {
   text-align: center;

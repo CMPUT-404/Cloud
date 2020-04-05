@@ -2,11 +2,13 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import './CardContent.css';
-import { Card } from 'antd';
+import {Card, Button, Tag, Switch, Divider} from 'antd';
 import { Modal} from 'antd';
 import { Input } from 'antd';
 import  { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import axios from 'axios';
+import CommentCard from "./CommentCard";
 
 
 const { TextArea } = Input;
@@ -61,20 +63,18 @@ class CardContent extends React.Component{
           confirmLoading: true,
         });
         
-        var text = document.getElementById("comment").value
-     
-        
-        
-        
-        var hash = localStorage.getItem("user").split('/')
-        
+        var text = document.getElementById("comment").value;
 
-        axios.post(
-          "https://cloud-align-server.herokuapp.com/posts/"+ this.props.post.id+'/comments', 
-        {
-          "auth": hash[hash.length-2],
-          "comment": text
-        },
+        const data = {
+            "query": "addComment",
+            "post": this.props.post.source,
+            "comment": {
+                "author": this.props.userObject,
+                "comment": text,
+                "contentType": this.state.markdown?"text/markdown":"text/plain",
+            },
+        };
+        axios.post("https://cloud-align-server.herokuapp.com/posts/"+ this.props.post.id+'/comments', data,
         {}
       )
         .then(()=>{
@@ -98,20 +98,22 @@ class CardContent extends React.Component{
 
     render(){
         const { visible, confirmLoading, ModalText } = this.state;
+        const date = new Date(this.props.post.published);
+        console.log(this.props.post)
         return(
             <div>
              
-                <Card title={this.props.post.title} 
-                  extra={ <Link to={  { pathname:'/Timeline/' + this.props.post.id,
-                  state:{postId: this.props.post.id,
-                          text: this.props.post.plainText,
-                        post: this.props.post}}
-                  } >
-                    see more <br></br>
-                    Source of Post { this.props.post.source}
+                <Card title={
+                    <Link to={{ pathname:'/Timeline/' + this.props.post.id,}}>
+                        {this.props.post.title}
                     </Link>
-                    
-                   }> 
+                }
+                  extra={
+                      <div>
+                          <Tag color={"geekblue"}>{date.toLocaleString()}</Tag>
+                      </div>
+                   }
+                >
 
                     <Link to={{ pathname:'/OtherProfile/'+ this.state.authorName,
                       state:{
@@ -127,20 +129,40 @@ class CardContent extends React.Component{
                         post: this.props.post
                       } }}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
 
- 
-                    <p>{this.props.post.content}</p>
+                    {this.props.post.contentType==="text/markdown"?
+                        <ReactMarkdown source={this.props.post.content} />
+                        :
+                        <p>{this.props.post.content}</p>
+                    }
+
+
                     <img alt = '' src={this.props.post.image}/><br/>
-                    <button onClick={this.addComment}>Add Comment</button>
-                    <Modal
-                        title={this.props.post.title}
-                        visible={visible}
-                        onOk={this.handleOk}
-                        confirmLoading={confirmLoading}
-                        onCancel={this.handleCancel}
-                        >
-                        <TextArea id='comment' rows={7} placeholder="Make a comment about this post"/>
-                        <p>{ModalText}</p>
-                    </Modal>
+                    {
+                    // <Button onClick={this.addComment}>Add Comment</Button>
+                    // <Modal
+                    //     title={this.props.post.title}
+                    //     visible={visible}
+                    //     onOk={this.handleOk}
+                    //     confirmLoading={confirmLoading}
+                    //     onCancel={this.handleCancel}
+                    //     >
+                    //     <TextArea id='comment' rows={7} placeholder="Make a comment about this post"/>
+                    //     <span style={{float: "right"}}>
+                    //         <Tag color={"magenta"}>Markdown</Tag>
+                    //         <Switch
+                    //
+                    //             checked={this.state.markdown}
+                    //             onChange={e=>(this.setState({markdown: e}))}
+                    //         />
+                    //     </span>
+                    //     {this.props.post.comments.map(comment => (
+                    //         <div>
+                    //             <Divider/>
+                    //             <CommentCard key={comment.id} comment={comment} style={{marginLeft: "0", marginRight: "0"}}/>
+                    //         </div>
+                    //     ))}
+                    // </Modal>
+                    }
                 </Card>
             </div>
         )

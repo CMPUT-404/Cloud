@@ -42,7 +42,7 @@ class Basic_profile extends React.Component{
                 </Button>
                 <br></br>
                 <div id="ProfileDisplay">
-                    <b>Username:</b> {this.props.object.username}<br/>
+                    <b>Displayname:</b> {this.props.object.displayName}<br/>
                     <b>Firstname:</b> {this.props.object.firstName}<br/>
                     <b>Lastname:</b> {this.props.object.lastName}<br/>
                     <b>Email:</b> {this.props.object.email}<br/>

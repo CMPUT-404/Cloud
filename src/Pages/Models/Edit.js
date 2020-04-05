@@ -24,14 +24,36 @@ class Edit extends React.Component{
    
     var editdata = {}
     
-    if (document.getElementById('name').value!== ""){
-      editdata.username = document.getElementById('name').value
+
+    
+
+  
+    
+    if (document.getElementById('displayname').value!== ""){
+      editdata.displayName = document.getElementById('displayname').value
     }
-    editdata.email = document.getElementById('email').value
-    editdata.bio = document.getElementById('bio').value
-    editdata.github = document.getElementById('github').value
+
+    if (document.getElementById('email').value !== ""){
+      editdata.email = document.getElementById('email').value
+    }
+
+    if (document.getElementById('bio').value!==""){
+      
+      editdata.bio = document.getElementById('bio').value
+     
+    }
+    
+    if (document.getElementById('github').value!==""){
+      editdata.github = document.getElementById('github').value
+    }
+
+    if (document.getElementById('firstname').value!==""){
     editdata.firstName = document.getElementById('firstname').value
+    }
+
+    if (document.getElementById('lastname').value!==""){
     editdata.lastName = document.getElementById('lastname').value
+    }
 
     
 
@@ -41,7 +63,7 @@ class Edit extends React.Component{
   }).then(function(response){
     window.location.reload()
   }).catch(e=>{if (e.response.status === 400){
-            alert("this name already exists")
+    alert("oops something went wrong")
   }else{
     alert("oops something went wrong")
   } })
@@ -53,11 +75,11 @@ class Edit extends React.Component{
     
         <div id="form">
           <p className="form" id="changes">
-            <Input type="text" id="name" placeholder="UserName" ></Input><br></br>
+            <Input type="text" id="displayname" placeholder="Display Name" ></Input><br></br>
             <Input type="text" id="email" placeholder="Email"></Input><br></br>
 
-            <Input  type="text" id="firstname" placeholder="Firstname"></Input><br></br>
-            <Input   type="text" id="lastname" placeholder="Lastname"></Input><br></br>
+            <Input  type="text" id="firstname" placeholder="First name"></Input><br></br>
+            <Input   type="text" id="lastname" placeholder="Last name"></Input><br></br>
            
 
             <Input type="text" id="github" placeholder="github url"></Input><br></br><br></br>

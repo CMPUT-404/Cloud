@@ -76,7 +76,7 @@ class CardContent extends React.Component{
             <div>
              
                 <Card title={
-                    <Link to={{ pathname:'/Timeline/' + this.props.post.id,}}>
+                    <Link to={'/Timeline/' + this.props.post.id}>
                         {this.props.post.title}
                     </Link>
                 }

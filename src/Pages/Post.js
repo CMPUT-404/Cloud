@@ -4,20 +4,20 @@ import CommentCard from '../Components/CommentCard';
 import  { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactMarkdown from "react-markdown";
+import { withRouter } from "react-router";
 
 
 class Post extends React.Component{
 
-    _isMounted = false
+    _isMounted = false;
     constructor(props){
-        super(props)
+        super(props);
         this.state={
             text:null,
             comments:null,
             the_post: null,
             commentComponents: []
-        }
-        this.loadCommentData = this.loadCommentData.bind(this);
+        };
         
     }
 
@@ -32,7 +32,18 @@ class Post extends React.Component{
                 "contentType": this.state.markdown?"text/markdown":"text/plain",
             },
         };
-        axios.post("https://cloud-align-server.herokuapp.com/posts/"+ this.state.the_post.id+'/comments', data,
+
+
+
+        let url = "https://cloud-align-server.herokuapp.com/posts/"+ this.state.the_post.id+'/comments';
+
+        const host = new URLSearchParams(this.props.location.search).get("host");
+
+        if (host || host!=="https://cloud-align-server.herokuapp.com/") {
+            url += `?host=${host}`
+        }
+
+        axios.post(url, data,
             {}
         )
             .then(()=>{
@@ -45,7 +56,7 @@ class Post extends React.Component{
     };
 
     componentDidMount= ()=> {
-
+        const host = new URLSearchParams(this.props.location.search).get("host");
         const id = this.props.match.params.Post;
         this._isMounted = true;
 
@@ -58,14 +69,18 @@ class Post extends React.Component{
         //
         // }else{
 
+        let url = 'https://cloud-align-server.herokuapp.com/posts/' + id + '/';
 
-        axios.get('https://cloud-align-server.herokuapp.com/posts/' + id + '/', {headers: {Authorization: "Token " + localStorage.getItem("token")}})
+        if (host && host!=="https://cloud-align-server.herokuapp.com/") {
+            url += `?host=${host}`
+        }
+
+        axios.get(url, {headers: {Authorization: "Token " + localStorage.getItem("token")}})
             .then(
                 (response) => {
 
 
                     this.setState({the_post: response.data.post});
-                    this.loadCommentData();
                 })
             .catch(
                 function (err) {
@@ -82,24 +97,32 @@ class Post extends React.Component{
     }
 
     loadFromLocation = () =>{
-        var tempPostList = []
+        const tempPostList = [];
         for (let i = 0 ; i < this.props.location.state.post.comments.length; i++){
-            
-            var eachPost = <CommentCard key={this.props.location.state.post.comments[i].id} comment={this.props.location.state.post.comments[i]}/>
-                tempPostList.push(eachPost)
+
+            const eachPost = <CommentCard key={this.props.location.state.post.comments[i].id}
+                                          comment={this.props.location.state.post.comments[i]}/>;
+            tempPostList.push(eachPost)
         }
         this.setState({commentComponents: tempPostList})
-    }
+    };
 
     loadCommentData= ()=>{
-        var id = this.props.match.params.Post
-        
-        axios.get(`https://cloud-align-server.herokuapp.com/posts/`+id+`/comments`)
+        const host = new URLSearchParams(this.props.location.search).get("host");
+        const id = this.props.match.params.Post;
+
+        let url = `https://cloud-align-server.herokuapp.com/posts/`+id+`/comments`;
+
+        if (host || host!=="https://cloud-align-server.herokuapp.com/") {
+            url += `?host=${host}`
+        }
+
+        axios.get(url)
         .then(response => {
-            
-            var tempPostList = []
+
+            const tempPostList = [];
             for(let i=0; i<response.data.comments.length; i++){
-                var eachPost = <CommentCard key={response.data.comments[i].id} comment={response.data.comments[i]}/>
+                const eachPost = <CommentCard key={response.data.comments[i].id} comment={response.data.comments[i]}/>;
                 tempPostList.push(eachPost)
             }
             
@@ -109,7 +132,7 @@ class Post extends React.Component{
         .catch((err)=>{
             alert(err)
         })
-    }
+    };
     
     render(){
 
@@ -150,8 +173,8 @@ class Post extends React.Component{
             </Card>
 
             {this.state.the_post.comments.map(comment => (
-                <div>
-                    <CommentCard key={comment.id} comment={comment}/>
+                <div key={comment.id}>
+                    <CommentCard comment={comment}/>
                 </div>
             ))}
 
@@ -167,6 +190,6 @@ class Post extends React.Component{
 
 
 
-export default Post
+export default withRouter(Post);
 
 

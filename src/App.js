@@ -80,6 +80,8 @@ class App extends React.Component {
   register(){
     axios.post(`https://cloud-align-server.herokuapp.com/author/register`,{
       "username": this.state.username,
+      "firstName": this.state.firstName,
+      "lastName": this.state.lastName,
       "displayName":this.state.displayName,
       "password": this.state.password,
       "email": this.state.email,
@@ -150,6 +152,7 @@ class App extends React.Component {
           lastNameChange = {this.lastNameChange}
           usernameChange = {this.usernameChange}
           passwordChange = {this.passwordChange}
+          emailChange = {this.emailChange}
           githubChange = {this.githubChange}
         />
       )

@@ -35,76 +35,29 @@ class CardContent extends React.Component{
         //console.log(this.state.authorID)
     }
 
-   // componentDidMount(){
-   //   axios.get(this.state.authorURL)
-   //   .then((response)=>{
-   //     this.setState({authorObject: response.data})
-   //       console.log(this.state.authorObject)
-   //   })
-
-   // }
-
-    displayProfile(){
-        //Route to profile 
-        window.alert("Going to user's profile")
-        return <Link to={'/Profile'} >see more</Link>
+    componentDidMount() {
+        const host = new URL(this.props.url).origin;
+        console.log(host);
+        if (host !== "https://cloud-align-server.herokuapp.com") {
+            this.setState({host})
+        }
     }
 
-
-    addComment = () => {
-        this.setState({
-          visible: true,
-        });
-      };
-
-    handleOk = () => {
-        this.setState({
-          ModalText: 'Posting your comment',
-          confirmLoading: true,
-        });
-        
-        var text = document.getElementById("comment").value;
-
-        const data = {
-            "query": "addComment",
-            "post": this.props.post.source,
-            "comment": {
-                "author": this.props.userObject,
-                "comment": text,
-                "contentType": this.state.markdown?"text/markdown":"text/plain",
-            },
-        };
-        axios.post("https://cloud-align-server.herokuapp.com/posts/"+ this.props.post.id+'/comments', data,
-        {}
-      )
-        .then(()=>{
-          this.setState({
-            visible: false,
-            confirmLoading: false,
-          });
-        })
-        .catch((err)=>{
-          alert(err)
-        })
-
-      };
-
-    handleCancel = () => {
-        this.setState({
-          visible: false,
-        });
-      };
-
+    addHost = () => {
+        if (this.state.host) {
+            return `?host=${this.state.host}/`
+        }
+    };
 
     render(){
         const { visible, confirmLoading, ModalText } = this.state;
         const date = new Date(this.props.post.published);
-        console.log(this.props.post)
+
         return(
             <div>
              
                 <Card title={
-                    <Link to={{ pathname:'/Timeline/' + this.props.post.id,}}>
+                    <Link to={'/Timeline/'+this.props.post.id+this.addHost()}>
                         {this.props.post.title}
                     </Link>
                 }
@@ -137,32 +90,6 @@ class CardContent extends React.Component{
 
 
                     <img alt = '' src={this.props.post.image}/><br/>
-                    {
-                    // <Button onClick={this.addComment}>Add Comment</Button>
-                    // <Modal
-                    //     title={this.props.post.title}
-                    //     visible={visible}
-                    //     onOk={this.handleOk}
-                    //     confirmLoading={confirmLoading}
-                    //     onCancel={this.handleCancel}
-                    //     >
-                    //     <TextArea id='comment' rows={7} placeholder="Make a comment about this post"/>
-                    //     <span style={{float: "right"}}>
-                    //         <Tag color={"magenta"}>Markdown</Tag>
-                    //         <Switch
-                    //
-                    //             checked={this.state.markdown}
-                    //             onChange={e=>(this.setState({markdown: e}))}
-                    //         />
-                    //     </span>
-                    //     {this.props.post.comments.map(comment => (
-                    //         <div>
-                    //             <Divider/>
-                    //             <CommentCard key={comment.id} comment={comment} style={{marginLeft: "0", marginRight: "0"}}/>
-                    //         </div>
-                    //     ))}
-                    // </Modal>
-                    }
                 </Card>
             </div>
         )

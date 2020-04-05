@@ -2,6 +2,7 @@
 
 import React from 'react';
 import axios from 'axios';
+import {Button, Input} from 'antd';
 
 class Edit extends React.Component{
 
@@ -17,7 +18,7 @@ class Edit extends React.Component{
 
 
   save_change(props){
-    console.log(props)
+    
     var auth = "Token "+props.token
 
    
@@ -52,19 +53,19 @@ class Edit extends React.Component{
     
         <div id="form">
           <p className="form" id="changes">
-            <input type="text" id="name" placeholder="UserName" ></input><br></br>
-            <input type="text" id="email" placeholder="Email"></input><br></br>
+            <Input type="text" id="name" placeholder="UserName" ></Input><br></br>
+            <Input type="text" id="email" placeholder="Email"></Input><br></br>
 
-            <input type="text" id="firstname" placeholder="Firstname"></input><br></br>
-            <input type="text" id="lastname" placeholder="Lastname"></input><br></br>
+            <Input  type="text" id="firstname" placeholder="Firstname"></Input><br></br>
+            <Input   type="text" id="lastname" placeholder="Lastname"></Input><br></br>
            
 
-            <input type="text" id="github" placeholder="github url"></input><br></br><br></br>
+            <Input type="text" id="github" placeholder="github url"></Input><br></br><br></br>
             <textarea type="text" id="bio" rows="5" cols="50" placeholder="Bio"></textarea><br></br>
             
-            <button type="submit" onClick={()=> this.save_change(this.props)}> 
+            <Button type="submit" onClick={()=> this.save_change(this.props)}> 
             Save changes
-            </button>
+            </Button>
           </p>
         </div>
     )

@@ -1,7 +1,7 @@
 import React from 'react';
 import BasicProfile from './Models/Basic_profile';
 import './css/Profile.css';
-import CardContent from '../Components/ProfileCardContent';
+import CardContent from '../Components/ProfileCardContentNew';
 import Edit from './Models/Edit';
 import axios from 'axios';
 

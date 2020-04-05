@@ -36,10 +36,12 @@ class CardContent extends React.Component{
     }
 
     componentDidMount() {
-        const host = new URL(this.props.url).origin;
-        console.log(host);
-        if (host !== "https://cloud-align-server.herokuapp.com") {
-            this.setState({host})
+        if (this.props.url) {
+            const host = new URL(this.props.url).origin;
+            console.log(host);
+            if (host !== "https://cloud-align-server.herokuapp.com") {
+                this.setState({host})
+            }
         }
     }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import {FormGroup, Label, Input} from 'reactstrap';
 import './css/Login.css';
-import {Button} from "antd";
+import {Button, Divider} from "antd";
 
 class Login extends React.Component {
   constructor(){
@@ -30,9 +30,10 @@ class Login extends React.Component {
             <Label>Enter Your Password</Label>
             <Input id='passwordInput' type='password' placeholder='Password' value={this.props.password} onChange={this.props.passwordChange}/>
             <Label>Don't have an account? Click on the register button</Label>
-            <div className='buttonDiv'>
-              <Button id='registerButton' onClick={() => this.register()}>Register</Button>
-              <Button id='submitButton' onClick={this.props.handleLogin}>Login</Button>
+            <div style={{textAlign: "center"}}>
+              <Button onClick={() => this.register()}>Register</Button>
+              <Divider type={"vertical"}/>
+              <Button onClick={this.props.handleLogin}>Login</Button>
             </div>
           </FormGroup>
         </div>

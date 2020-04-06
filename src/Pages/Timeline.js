@@ -15,7 +15,7 @@ class Timeline extends React.Component {
     this.state = {
         myPostComponents: -1,
         otherPostComponents: [],
-        url: 'https://cloud-align-server.herokuapp.com/posts',
+        url: 'https://cloud-align-server.herokuapp.com/author/posts',
         visible: false,
         author: localStorage.getItem("url"), //https://cloud-align-server.herokuapp.com/author/author_id/
         friends: null,

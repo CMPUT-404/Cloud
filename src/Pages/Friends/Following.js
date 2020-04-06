@@ -119,7 +119,7 @@ class FollowingList extends React.Component {
                 />
             </Skeleton>
             <div >
-              <Button onClick={() => this.unfollow(item)}>Unfollow</Button>
+              <Button type={"danger"} ghost onClick={() => this.unfollow(item)}>Unfollow</Button>
             </div>
           </List.Item>
         )}

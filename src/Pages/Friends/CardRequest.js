@@ -87,7 +87,10 @@ class CardRequest extends React.Component{
                       state:{
                         author:this.state.requestor,
                         token: this.state.token,
-                      } }}>{this.state.requestor.displayName}</Link>}>
+                      } }}
+                >{this.state.requestor.displayName}</Link>}
+                      style={{margin: "2em 0 2em 0"}}
+                >
                 <Link to={{ pathname:'/OtherProfile/'+ this.state.requestor.requestorUsername,
                   state:{
                     author:this.state.requestor,
@@ -99,7 +102,7 @@ class CardRequest extends React.Component{
                 <h2> {this.state.requestor.displayName} {'wants to add you as a friend'}</h2>
                 <div style={{float: 'right'}}>
                 <Button onClick={this.accept}>accept</Button>
-                <Button onClick={this.decline}>decline</Button>
+                <Button onClick={this.decline} type={"danger"}>decline</Button>
                 </div>
                 </Card>
             </div>

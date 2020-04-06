@@ -2,7 +2,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 
 import axios from 'axios';
-import { List, Skeleton,Input,message} from 'antd';
+import {List, Skeleton, Input, message, Card, Button} from 'antd';
 import { Link } from 'react-router-dom'
 const {Search} = Input;
 
@@ -69,10 +69,9 @@ class SearchUser extends React.Component {
             onChange = {()=>this.setState({loading:true})}
             enterButton 
             size="large"
-            style={{ width: "80%", }}
         />
         </div>
-        <div style = {{display: 'flex', justifyContent:'center',alignItems: 'center'}}>
+        <div>
             {!this.state.loading ?
             <List
             itemLayout="horizontal"
@@ -81,24 +80,33 @@ class SearchUser extends React.Component {
             renderItem={item => (
               <List.Item>
                 <Skeleton avatar title={false} loading={item.loading} active>
-                  <List.Item.Meta
-                    avatar={
-                      <Link to={{ pathname:'/OtherProfile/'+ item.username,
-                        state:{
-                          author:item,
-                          token: this.state.token,
-                        }}}>
-                        <img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} />
-                      </Link>                
-                    }
-                    title={<Link to={{ pathname:'/OtherProfile/'+ item.username,
-                    state:{
-                      author:item,
-                      token: this.state.token,
-                    } }}>{item.displayName}</Link>}
-                    description={item.bio}
-                  />
-    
+                    <Card
+                        title={item.displayName}
+                        extra={<Link to={{ pathname:'/OtherProfile/'+ item.username,
+                            state:{
+                                author:item,
+                                token: this.state.token,
+                            }}}><Button>Follow</Button></Link>}
+                        style={{width: "100%", margin: "4em 0 4em 0"}}
+                    >
+                        <List.Item.Meta
+                            avatar={
+                                <Link to={{ pathname:'/OtherProfile/'+ item.username,
+                                    state:{
+                                        author:item,
+                                        token: this.state.token,
+                                    }}}>
+                                    <img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} />
+                                </Link>
+                            }
+                            title={<Link to={{ pathname:'/OtherProfile/'+ item.username,
+                                state:{
+                                    author:item,
+                                    token: this.state.token,
+                                } }}>{item.displayName}</Link>}
+                            description={item.bio}
+                        />
+                    </Card>
                 </Skeleton>
               </List.Item>
             )}

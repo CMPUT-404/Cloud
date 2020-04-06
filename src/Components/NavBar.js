@@ -21,11 +21,11 @@ function NavBar(props){
                 <Link style={getStyle(0)} to='/Profile' onClick={()=>(setCurrent(0))}><li>Profile</li></Link>
                 <Link style={getStyle(1)} to='/Timeline' onClick={()=>(setCurrent(1))}><li>Timeline</li></Link>
                 <Link style={getStyle(2)} to='/GithubEvents' onClick={()=>(setCurrent(2))}><li>Github</li></Link>
-                <Link style={getStyle(3)} to='/Requests' onClick={()=>(setCurrent(3))}><li>Requests</li></Link>
-                <Link style={getStyle(4)} to='/FriendsList' onClick={()=>(setCurrent(4))}><li>FriendsList</li></Link>
-                <Link style={getStyle(5)} to='/Following' onClick={()=>(setCurrent(5))}><li>Following</li></Link>
-                <Link style={getStyle(7)} to='/Search' onClick={()=>(setCurrent(7))}><li>Search</li></Link>
-                <Link style={getStyle(6)} to='/LogOut' onClick={()=>(setCurrent(6))}><li>Log Out</li></Link>
+                <Link style={getStyle(3)} to='/Friends' onClick={()=>(setCurrent(3))}><li>Friends</li></Link>
+                {/*<Link style={getStyle(4)} to='/FriendsList' onClick={()=>(setCurrent(4))}><li>Friends</li></Link>*/}
+                {/*<Link style={getStyle(5)} to='/Following' onClick={()=>(setCurrent(5))}><li>Following</li></Link>*/}
+                {/*<Link style={getStyle(7)} to='/Search' onClick={()=>(setCurrent(7))}><li>Search</li></Link>*/}
+                <Link style={getStyle(4)} to='/LogOut' onClick={()=>(setCurrent(4))}><li>Log Out</li></Link>
             </ul>
         </nav>
     );

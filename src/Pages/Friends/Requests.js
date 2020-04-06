@@ -2,7 +2,7 @@ import React from 'react';
 import './css/Requests.css';
 import CardRequest from './CardRequest';
 import 'antd/dist/antd.css';
-import { Badge } from 'antd';
+import {Alert, Badge, Tag} from 'antd';
 import axios from 'axios';
 
 
@@ -23,13 +23,16 @@ class FriendRequest extends React.Component {
   }
 
   showFriendrequest =() =>{
-    if (this.state.count === 0){
-      return 'No friend request so far'
-    }
-    else{
-      return 'You have following friend requests'
-    }   
-  }
+    return (
+        <Alert
+            style={{fontSize: "12pt"}}
+            message={
+              !this.state.count? "No friend requests so far..": <span>Hi, You have <Tag color={"volcano"}>{this.state.count}</Tag>requests!</span>
+            }
+            type={!this.state.count? "info": "success"}
+            closeText="close"
+        />);
+  };
 
   fetchData = () => {
     axios.get(this.state.userID +'friendrequests' ,{headers:{Authorization: "Token "+this.state.token}} )    
@@ -65,8 +68,9 @@ class FriendRequest extends React.Component {
     render(){
       return (
         <div className="FriendRequest">
-          <div id='showMessage'>{this.showFriendrequest()} {<Badge count={this.state.count}/>}</div> 
-          
+          <div id='showMessage'>
+            {this.showFriendrequest()}
+          </div>
           {this.state.friendRequests}
         </div>
       )

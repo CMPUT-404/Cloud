@@ -125,7 +125,7 @@ class FriendsList extends React.Component {
             
             <div >
             
-              <Button onClick={() => this.unfriend(item)}>Unfriend</Button>
+              <Button type={"danger"} ghost onClick={() => this.unfriend(item)}>Unfriend</Button>
             </div>
           </List.Item>
         )}

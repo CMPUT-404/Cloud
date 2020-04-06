@@ -14,6 +14,7 @@ import Post from './Pages/Post';
 import GithubEvents from './Pages/GithubEvents';
 import OtherProfile from './Pages/OtherProfile'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import Friends from "./Pages/Friends";
 
 class App extends React.Component {
   constructor(){
@@ -166,6 +167,10 @@ class App extends React.Component {
                 (props)=>(
                 <Profile token={this.state.token} userObject={this.state.userObject} {...props}/>)
                 }/>
+              <Route path="/Friends" render={
+                (props)=>(
+                    <Friends token={this.state.token} userObject={this.state.userObject} {...props}/>)
+              }/>
               <Route path="/requests" render={
                 (props)=>(
                 <Requests token={this.state.token} userObject={this.state.userObject} {...props}/>)

@@ -1,7 +1,7 @@
 import React from 'react';
 import CardContent from '../Components/CardContent';
 import axios from 'axios';
-import {Input, Button, Typography, Icon, Divider, Switch, Tag, Card} from 'antd';
+import {Input, Button, Typography, Icon, Divider, Switch, Tag, Card, Select} from 'antd';
 import {Modal } from 'antd';
 import './Timeline.css';
 
@@ -24,6 +24,9 @@ class Timeline extends React.Component {
         showVlist: true,
         markdown: false,
         token: localStorage.getItem("token"),
+        visibility: "PUBLIC",
+        visibleTo: [],
+        authors: [],
     };
 
     // this.loadPostData = this.loadPostData.bind(this);
@@ -32,7 +35,17 @@ class Timeline extends React.Component {
 
 
     UNSAFE_componentWillMount = ()=>{
-        this.loadPostData()
+        this.loadPostData();
+        this.loadAuthors();
+    };
+
+    loadAuthors = () => {
+        axios.get('https://cloud-align-server.herokuapp.com/author/',
+            {headers:{Authorization: "Token "+localStorage.getItem("token")}}).then(response=>{
+                this.setState({authors: response.data})
+        }).catch((err)=>{
+            alert(err)
+        })
     };
 
     loadPostData = ()=>{
@@ -57,15 +70,13 @@ class Timeline extends React.Component {
                 alert(err)
             })
     };
+
+
     submitPost = () => {
 
     const title = this.state.title;
     const text = this.state.text;
-    // var newvis = ""
-    let visibility = "PUBLIC";
-    if (this.state.showVlist === false){
-        visibility = "PRIVATE"
-    }
+    const visibility = this.state.visibility;
 
     const imgString = document.getElementById('userImg').src;
     const data = {
@@ -76,7 +87,7 @@ class Timeline extends React.Component {
         "author": localStorage.getItem("url"),
         "visibility": visibility,
         "description": "",
-        "visibleTo": '',
+        "visibleTo": this.state.visibleTo.join(","),
         "image": imgString,
     };
 
@@ -88,21 +99,6 @@ class Timeline extends React.Component {
         })
     };
 
- 
-
-
-    startPost = () =>{
-        this.setState({visible: true})
-    };
-
-    showVisibleList= ()=>{
-        if (this.state.showVlist === true){this.setState({showVlist: false})}
-        else{this.setState({showVlist: true})}
-    };
-
-    exitModal = () =>{
-        this.setState({visible: false})
-    };
 
     pictureHandler = () => {
         const loader = document.getElementById("uploadButton");
@@ -125,6 +121,7 @@ class Timeline extends React.Component {
 
 
     render(){
+        const Option = Select.Option;
     return(
         <div className="Timeline">
 
@@ -170,8 +167,51 @@ class Timeline extends React.Component {
                     </div>
                     <br/>
 
-                    <Button type="danger" id="submitButton" onClick={this.startPost}>Submit</Button>
+                    <Button type="danger" id="submitButton" onClick={this.submitPost}>Submit</Button>
+
                     <span style={{float: "right", position: "relative", "top": "4px"}}>
+                        {this.state.visibility==="PRIVATE" &&
+                            <span>
+                                <Tag color={"red"}>Visible To</Tag>
+                                <Select
+                                    size={"small"}
+                                    mode="multiple"
+                                    style={{ width: 200 }}
+                                    tokenSeparators={[',']}
+                                    value={this.state.visibleTo}
+                                    onChange={(e)=>(this.setState({visibleTo: e}))}
+                                    filterOption={(input, option) =>
+                                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    {this.state.authors.map(author => (
+                                        <Option
+                                            key={author.id}
+                                            value={author.id.split("/").slice(-2)[0]}
+                                        >
+                                            {author.displayName}
+                                        </Option>
+                                    ))}
+                                </Select>
+                                <Divider type={"vertical"}/>
+                            </span>
+                        }
+
+                        <Tag color={"orange"}>Visibility</Tag>
+                        <Select
+                            size={"small"}
+                            defaultValue="PUBLIC"
+                            value={this.state.visibility}
+                            style={{ width: 150 }}
+                            onChange={(e)=>(this.setState({visibility: e}))}
+                        >
+                            <Option value="PUBLIC">Public</Option>
+                            <Option value="SERVERONLY">Server Only</Option>
+                            <Option value="FOAF">Friends of a Friend</Option>
+                            <Option value="FRIENDS">Friends</Option>
+                            <Option value="PRIVATE">Private</Option>
+                        </Select>
+                        <Divider type={"vertical"}/>
                         <Tag color={"magenta"}>Markdown</Tag>
                         <Switch
                             checked={this.state.markdown}
@@ -180,25 +220,6 @@ class Timeline extends React.Component {
                     </span>
 
                 </Card>
-
-                <Modal
-                    title={"Who should this Post be Visible to?"}
-                    visible={this.state.visible}
-                    onOk={this.submitPost}
-                    // confirmLoading={confirmLoading}
-                    onCancel={this.exitModal}
-                >
-
-
-                    Post visible to all users ?<br/>
-                    <button onClick={this.showVisibleList}>Change Visibility</button>
-                    <br/>
-                    <div id="scroll"  >
-                        {
-                            this.state.showVlist ? "Post visible to all, click to change" : "Post private, click to change"
-                        }
-                    </div>
-                </Modal>
             </div>
 
 

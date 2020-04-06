@@ -31,6 +31,7 @@ class SearchUser extends React.Component {
                 username: value,
                 loading:false,
             })
+            this.fetchData();
         }
     })
 
@@ -40,6 +41,7 @@ class SearchUser extends React.Component {
 
 
     fetchData =() => {
+        if(this.state.username.trim()!==''){
         axios.get(this.state.host + '/author/search/' + this.state.username +'/',{headers:{Authorization: "Token "+ this.state.token}}).then(res => {   
             let temp= [];
             temp.push(res.data)
@@ -49,6 +51,7 @@ class SearchUser extends React.Component {
             }) 
             
         })
+        }
     }
     
       
@@ -70,33 +73,33 @@ class SearchUser extends React.Component {
             {!this.state.loading ?
             <List
             itemLayout="horizontal"
-            locale={{ emptyText: "Cannot find the user" }}
             dataSource={list}
+            locale={{ emptyText: "Can't find the user!" }}
             renderItem={item => (
-            <List.Item>
-                <Skeleton avatar title={false}  active>
-                <List.Item.Meta
+              <List.Item>
+                <Skeleton avatar title={false} loading={item.loading} active>
+                  <List.Item.Meta
                     avatar={
-                    <Link to={{ pathname:'/OtherProfile/'+ item.username,
+                      <Link to={{ pathname:'/OtherProfile/'+ item.username,
                         state:{
-                        author:item,
-                        token: this.state.token,
+                          author:item,
+                          token: this.state.token,
                         }}}>
                         <img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} />
-                    </Link>           
+                      </Link>                
                     }
                     title={<Link to={{ pathname:'/OtherProfile/'+ item.username,
                     state:{
-                    author:item,
-                    token: this.state.token,
+                      author:item,
+                      token: this.state.token,
                     } }}>{item.displayName}</Link>}
                     description={item.bio}
-                />
+                  />
     
                 </Skeleton>
-            </List.Item>
+              </List.Item>
             )}
-            /> :null}
+          />:null}
         </div>
     </div>
     );

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Card, Button,message, Modal} from 'antd';
+import {Card, Button, message, Modal, Divider} from 'antd';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 const {confirm} = Modal;
@@ -102,6 +102,7 @@ class CardRequest extends React.Component{
                 <h2> {this.state.requestor.displayName} {'wants to add you as a friend'}</h2>
                 <div style={{float: 'right'}}>
                 <Button onClick={this.accept}>accept</Button>
+                <Divider type={"vertical"}/>
                 <Button onClick={this.decline} type={"danger"}>decline</Button>
                 </div>
                 </Card>

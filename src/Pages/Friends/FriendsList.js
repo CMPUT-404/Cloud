@@ -82,7 +82,8 @@ class FriendsList extends React.Component {
       cancelText: 'Cancel', 
       onOk() {
         axios.post('https://cloud-align-server.herokuapp.com/friendrequest/deletefriend/',data,{headers:{Authorization: "Token "+outer.state.token}}).then(res =>{
-          outer.fetchData();
+          window.location.reload();
+          //outer.fetchData();
         });
         //console.log('OK');
       },

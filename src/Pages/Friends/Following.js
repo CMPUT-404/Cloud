@@ -77,7 +77,8 @@ class FollowingList extends React.Component {
       cancelText: 'Cancel', 
       onOk() {
         axios.post('https://cloud-align-server.herokuapp.com/friendrequest/deletefollowing/',data,{headers:{Authorization: "Token "+outer.state.token}}).then(res =>{
-          outer.fetchData();
+          //outer.fetchData();
+          window.location.reload();
           //console.log(res)
         }
         );

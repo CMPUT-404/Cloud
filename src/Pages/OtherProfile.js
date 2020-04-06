@@ -40,11 +40,10 @@ class OtherProfile extends React.Component {
       loggedURL: localStorage.getItem("url"),
       loggedDisplayName: localStorage.getItem("displayName"),
       host: "https://cloud-align-server.herokuapp.com",
-      sourceHost: this.props.location.state.author.host,
+      sourceHost: new URL(this.props.location.state.author.url).origin+"/",
       addFriend: true,
     };
     console.log(this.state.sourceHost)
-
   }
 
   

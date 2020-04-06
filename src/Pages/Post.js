@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import {Button, Card, Divider, Input, Modal, Switch, Tag} from 'antd';
+import {Button, Card, Divider, Input, Modal, Switch, Tag, Tooltip} from 'antd';
 import CommentCard from '../Components/CommentCard';
 import  { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -138,7 +138,7 @@ class Post extends React.Component{
     if(this.state.the_post!==null){
     return(
         <div>
-            <Card title= {this.state.the_post.title}
+            <Card title= {<Tooltip title={`Source: ${this.state.the_post.source}`}>{this.state.the_post.title}</Tooltip>}
                 extra={
                     <Link to={{ pathname:'/OtherProfile/'+ this.state.the_post.author.displayName,
                               state:{
@@ -149,10 +149,8 @@ class Post extends React.Component{
                         {this.state.the_post.author.displayName }
                     </Link>
                 }
-
-
-                >
-                Source: {this.state.the_post.source}<br></br><br></br>
+            >
+                <Card.Meta description={`Source: ${this.state.the_post.source}`}/>
                 <ReactMarkdown source={this.state.the_post.content} />
                 <br/>
                 <br/>

@@ -31,8 +31,8 @@ class SearchUser extends React.Component {
                 username: value,
                 loading:false,
             })
+            this.fetchData();
         }
-        this.fetchData();
     })
 
     componentDidMount() {

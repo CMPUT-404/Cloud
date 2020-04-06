@@ -34,6 +34,9 @@ class SearchUser extends React.Component {
             
             this.fetchData(value);
         }
+        this.setState({
+            list:[]
+        })
     
     })
 

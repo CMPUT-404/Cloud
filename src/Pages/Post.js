@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import {Button, Card, Divider, Input, Modal, Switch, Tag} from 'antd';
+import {Button, Card, Divider, Input, Modal, Switch, Tag, Tooltip} from 'antd';
 import CommentCard from '../Components/CommentCard';
 import  { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -39,7 +39,7 @@ class Post extends React.Component{
 
         const host = new URLSearchParams(this.props.location.search).get("host");
 
-        if (host || host!=="https://cloud-align-server.herokuapp.com/") {
+        if (host && host!=="https://cloud-align-server.herokuapp.com/") {
             url += `?host=${host}`
         }
 
@@ -138,7 +138,7 @@ class Post extends React.Component{
     if(this.state.the_post!==null){
     return(
         <div>
-            <Card title= {this.state.the_post.title}
+            <Card title= {<Tooltip title={`Source: ${this.state.the_post.source}`}>{this.state.the_post.title}</Tooltip>}
                 extra={
                     <Link to={{ pathname:'/OtherProfile/'+ this.state.the_post.author.displayName,
                               state:{
@@ -149,11 +149,15 @@ class Post extends React.Component{
                         {this.state.the_post.author.displayName }
                     </Link>
                 }
+            >
+                <Card.Meta description={`Source: ${this.state.the_post.source}`}/>
 
+                {this.state.the_post.contentType==="text/plain"?
+                    <p>{this.state.the_post.content}</p>
+                    :
+                    <ReactMarkdown source={this.state.the_post.content} />
+                }
 
-                >
-                Source: {this.state.the_post.source}<br></br><br></br>
-                <ReactMarkdown source={this.state.the_post.content} />
                 <br/>
                 <br/>
                 <img alt='' src={this.state.the_post.image} />

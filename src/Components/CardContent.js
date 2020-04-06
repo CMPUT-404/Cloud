@@ -2,7 +2,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import './CardContent.css';
-import {Card, Button, Tag, Switch, Divider} from 'antd';
+import {Card, Button, Tag, Switch, Divider, Tooltip} from 'antd';
 import { Modal} from 'antd';
 import { Input } from 'antd';
 import  { Link } from 'react-router-dom';
@@ -53,6 +53,9 @@ class CardContent extends React.Component{
     render(){
         const { visible, confirmLoading, ModalText } = this.state;
         const date = new Date(this.props.post.published);
+        const host = new URL(this.props.post.source).host;
+        const seed = [...host].map((char, index)=>(host.codePointAt(index))).reduce((a,b) => a + b, 0);
+        const hostColor = genColor(seed);
 
         return(
             <div>
@@ -80,17 +83,25 @@ class CardContent extends React.Component{
                         post: this.props.post,
                       } }}> {this.state.authorObject.displayName} </Link>
 
+
+
                     <Link to={{ pathname:'/OtherProfile/'+ this.state.authorName,
                       state:{
                         author:this.state.authorObject,
                         token: this.state.token,
                         post: this.props.post
-                      } }}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
+                      } }}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link><br/>
 
-                    {this.props.post.contentType==="text/markdown"?
-                        <ReactMarkdown source={this.props.post.content} />
-                        :
+                    <Tooltip title={`Source: ${this.props.post.source}`}>
+                        <span style={{color: hostColor.bg}}>
+                            {host}
+                        </span>
+                    </Tooltip>
+
+                    {this.props.post.contentType==="text/plain"?
                         <p>{this.props.post.content}</p>
+                        :
+                        <ReactMarkdown source={this.props.post.content} />
                     }
 
 
@@ -99,6 +110,28 @@ class CardContent extends React.Component{
             </div>
         )
     }
+}
+
+// reference: https://stackoverflow.com/questions/8132081/generate-a-random-seeded-hex-color
+// https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
+
+function genColor (seed) {
+    let color = Math.floor((Math.abs(Math.sin(seed) * 16777215)) % 16777215).toString(16);
+    // pad any colors shorter than 6 characters with leading 0s
+    while(color.length < 6) {
+        color = '0' + color;
+    }
+
+    return {bg: "#"+color, fg: chooseFontColor(color, "#FFFFFF", "#000000")};
+}
+
+function chooseFontColor(bgColor, lightColor, darkColor) {
+    let color = (bgColor.charAt(0) === '#') ? bgColor.substring(1, 7) : bgColor;
+    let r = parseInt(color.substring(0, 2), 16); // hexToR
+    let g = parseInt(color.substring(2, 4), 16); // hexToG
+    let b = parseInt(color.substring(4, 6), 16); // hexToB
+    return (((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186) ?
+        darkColor : lightColor;
 }
 
 export default CardContent

@@ -100,10 +100,11 @@ class CardContent extends React.Component{
                         post: this.props.post
                       } }}><img id="cardProfile" alt='profile' align="left" src={require('../Images/profile.jpeg')} /></Link>
 
-                    {this.props.post.contentType==="text/markdown"?
-                        <ReactMarkdown source={this.props.post.content} />
-                        :
+
+                    {this.props.post.contentType==="text/plain"?
                         <p>{this.props.post.content}</p>
+                        :
+                        <ReactMarkdown source={this.props.post.content} />
                     }
 
                     <img alt = '' src={this.props.post.image}/>

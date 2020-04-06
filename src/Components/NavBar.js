@@ -24,6 +24,7 @@ function NavBar(props){
                 <Link style={getStyle(3)} to='/Requests' onClick={()=>(setCurrent(3))}><li>Requests</li></Link>
                 <Link style={getStyle(4)} to='/FriendsList' onClick={()=>(setCurrent(4))}><li>FriendsList</li></Link>
                 <Link style={getStyle(5)} to='/Following' onClick={()=>(setCurrent(5))}><li>Following</li></Link>
+                <Link style={getStyle(7)} to='/Search' onClick={()=>(setCurrent(7))}><li>Search</li></Link>
                 <Link style={getStyle(6)} to='/LogOut' onClick={()=>(setCurrent(6))}><li>Log Out</li></Link>
             </ul>
         </nav>

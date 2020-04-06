@@ -3,6 +3,7 @@ import './App.css';
 import FriendsList from './Pages/Friends/FriendsList';
 import Following from './Pages/Friends/Following';
 import Requests from './Pages/Friends/Requests';
+import Search from './Pages/Search';
 import Profile from './Pages/Profile';
 import LogOut from './Pages/LogOut';
 import NavBar from './Components/NavBar';
@@ -176,6 +177,11 @@ class App extends React.Component {
               <Route path="/following" render={
                 (props)=>(
                 <Following token={this.state.token} userObject={this.state.userObject} {...props}/>)
+                }/>
+
+              <Route path="/Search" render={
+                (props)=>(
+                <Search token={this.state.token} userObject={this.state.userObject} {...props}/>)
                 }/>
 
               <Route path="/Timeline/:Post" render={

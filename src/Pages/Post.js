@@ -151,7 +151,13 @@ class Post extends React.Component{
                 }
             >
                 <Card.Meta description={`Source: ${this.state.the_post.source}`}/>
-                <ReactMarkdown source={this.state.the_post.content} />
+
+                {this.state.the_post.contentType==="text/plain"?
+                    <p>{this.state.the_post.content}</p>
+                    :
+                    <ReactMarkdown source={this.state.the_post.content} />
+                }
+
                 <br/>
                 <br/>
                 <img alt='' src={this.state.the_post.image} />

@@ -98,10 +98,10 @@ class CardContent extends React.Component{
                         </span>
                     </Tooltip>
 
-                    {this.props.post.contentType==="text/markdown"?
-                        <ReactMarkdown source={this.props.post.content} />
-                        :
+                    {this.props.post.contentType==="text/plain"?
                         <p>{this.props.post.content}</p>
+                        :
+                        <ReactMarkdown source={this.props.post.content} />
                     }
 
 

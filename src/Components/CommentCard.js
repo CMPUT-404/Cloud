@@ -21,10 +21,10 @@ class CommentCard extends React.Component{
                     style={this.props.style}
                     extra={date.toLocaleString()}
                 >
-                    {this.props.comment.contentType==="text/markdown"?
-                        <ReactMarkdown source={this.props.comment.comment}/>
-                        :
+                    {this.props.comment.contentType==="text/plain"?
                         <p>{this.props.comment.comment}</p>
+                        :
+                        <ReactMarkdown source={this.props.comment.comment}/>
                     }
                 </Card>
             </div>

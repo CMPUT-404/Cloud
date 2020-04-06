@@ -38,7 +38,6 @@ class CardContent extends React.Component{
     componentDidMount() {
         if (this.props.url) {
             const host = new URL(this.props.url).origin;
-            console.log(host);
             if (host !== "https://cloud-align-server.herokuapp.com") {
                 this.setState({host})
             }
@@ -59,7 +58,11 @@ class CardContent extends React.Component{
             <div>
              
                 <Card title={
-                    <Link to={'/Timeline/'+this.props.post.id+this.addHost()}>
+                    <Link to={{
+                        pathname: '/Timeline/'+this.props.post.id,
+                        search: this.addHost(),
+                        state: { post: this.props.post, token: this.state.token, }
+                    }}>
                         {this.props.post.title}
                     </Link>
                 }

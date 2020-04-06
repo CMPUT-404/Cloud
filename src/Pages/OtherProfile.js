@@ -40,8 +40,9 @@ class OtherProfile extends React.Component {
       loggedURL: localStorage.getItem("url"),
       loggedDisplayName: localStorage.getItem("displayName"),
       host: "https://cloud-align-server.herokuapp.com",
-      sourceHost: this.props.location.state.author.host
-    }
+      sourceHost: this.props.location.state.author.host,
+      addFriend: true,
+    };
     console.log(this.state.sourceHost)
 
   }
@@ -52,8 +53,8 @@ class OtherProfile extends React.Component {
     let requestURL = ""
     if (this.state.sourceHost !== "https://cloud-align-server.herokuapp.com/"){
       requestURL = `https://cloud-align-server.herokuapp.com/author/`+this.state.authorID+'/?host='+this.state.sourceHost
-      
-      this.loadPostData();
+      this.setState({postComponents: [<CardContent key={this.props.location.state.post.id} post={this.props.location.state.post}/>]})
+      //this.loadPostData();
     }else{
       requestURL = this.state.authorURL
       this.loadPostData();
@@ -64,16 +65,15 @@ class OtherProfile extends React.Component {
     axios.get(requestURL)
         .then(
             (response) =>{
-                console.log(response)
+                console.log(response);
                 this.setState({the_post: response.data})
                 
             })
-        .catch(
-            function(err){
-                
-                console.log(err)
+        .catch((err) =>{
+                console.log(err+" Use fallback author info");
+                this.setState({the_post: this.props.location.state.author, addFriend: false})
             }
-        )
+        );
     
     this.getFriendStatus()
   }
@@ -92,7 +92,8 @@ class OtherProfile extends React.Component {
         this.setState({postComponents: tempPostList})
       })
       .catch((err)=>{
-        console.log(err)
+        console.log(err+" Use fallback post");
+        this.setState({postComponents: [<CardContent key={this.props.location.state.post.id} post={this.props.location.state.post}/>]})
       }
       )
     
@@ -201,11 +202,13 @@ class OtherProfile extends React.Component {
           {this.state.the_post.bio}<br></br>
         </div>
         <div>
-        {this.state.isMyProfile|| this.state.isFriend || this.state.requestSent|| this.state.isRejected?null:<Button onClick={()=>this.addFriend()}>add friend</Button>}
+        {this.state.isMyProfile|| this.state.isFriend || this.state.requestSent|| this.state.isRejected ||!this.state.addFriend?null:<Button onClick={()=>this.addFriend()}>add friend</Button>}
         {this.state.isMyProfile? <Button disabled>MyCustomProfile</Button>:null}
         {this.state.isFriend? <Button disabled>Friend</Button>:null}
         {this.state.requestSent? <Button disabled>friend request sent</Button>:null}
         {this.state.isRejected? <Button onClick={()=>this.rejectMessage()}>Friend Request Info</Button>:null}
+        {!this.state.addFriend&& <Button disabled>Not from trusted servers</Button>}
+        <br/>
         </div>
 
         <div id="Posts">

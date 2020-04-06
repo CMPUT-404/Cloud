@@ -82,10 +82,9 @@ class Post extends React.Component{
 
                     this.setState({the_post: response.data.post});
                 })
-            .catch(
-                function (err) {
-                    alert(err)
-
+            .catch((err) =>{
+                    console.error("server responds with "+err+". Using fallback method.");
+                    this.setState({the_post: this.props.location.state.post, fallback: true});
                 }
             )
     //}
@@ -140,7 +139,16 @@ class Post extends React.Component{
     return(
         <div>
             <Card title= {this.state.the_post.title}
-                extra={<Link to={'/Profile/'+this.state.the_post.author.displayName}>{this.state.the_post.author.displayName }</Link>}
+                extra={
+                    <Link to={{ pathname:'/OtherProfile/'+ this.state.the_post.author.displayName,
+                              state:{
+                                  author:this.state.the_post.author,
+                                  token: this.state.token,
+                                  post: this.state.the_post,
+                              } }}>
+                        {this.state.the_post.author.displayName }
+                    </Link>
+                }
 
 
                 >
@@ -151,26 +159,28 @@ class Post extends React.Component{
                 <img alt='' src={this.state.the_post.image} />
             </Card>
 
-            <Card title={<b>Make a comment</b>}>
-                <Input.TextArea
-                    id='comment'
-                    rows={7}
-                    placeholder="Make a comment about this post"
-                    value={this.state.comment}
-                    onChange={(e)=>(this.setState({comment: e.target.value}))}
-                />
-                <Divider/>
-                <Button onClick={this.submit} type={"danger"}>Submit</Button>
+            {!this.state.fallback &&
+                <Card title={<b>Make a comment</b>}>
+                    <Input.TextArea
+                        id='comment'
+                        rows={7}
+                        placeholder="Make a comment about this post"
+                        value={this.state.comment}
+                        onChange={(e) => (this.setState({comment: e.target.value}))}
+                    />
+                    <Divider/>
+                    <Button onClick={this.submit} type={"danger"}>Submit</Button>
 
-                <span style={{float: "right"}}>
+                    <span style={{float: "right"}}>
                     <Tag color={"magenta"}>Markdown</Tag>
                     <Switch
 
                         checked={this.state.markdown}
-                        onChange={e=>(this.setState({markdown: e}))}
+                        onChange={e => (this.setState({markdown: e}))}
                     />
                 </span>
-            </Card>
+                </Card>
+            }
 
             {this.state.the_post.comments.map(comment => (
                 <div key={comment.id}>

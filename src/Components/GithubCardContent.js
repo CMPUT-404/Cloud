@@ -8,7 +8,6 @@ import ReactMarkdown from "react-markdown";
 class CardContent extends React.Component{
 
     render(){
-        console.log(this.props.data);
         const date = new Date(this.props.data.created_at);
         return(
             <Card

@@ -71,7 +71,6 @@ class CardContent extends React.Component{
     render(){
         const { visible, confirmLoading, ModalText } = this.state;
         const date = new Date(this.props.post.published);
-        console.log(this.props.post);
         return(
             <div>
              

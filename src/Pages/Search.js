@@ -30,9 +30,11 @@ class SearchUser extends React.Component {
             this.setState({
                 username: value,
                 loading:false,
-            })
-            this.fetchData();
+            });
+            
+            this.fetchData(value);
         }
+    
     })
 
     componentDidMount() {
@@ -40,16 +42,14 @@ class SearchUser extends React.Component {
     }
 
 
-    fetchData =() => {
-        if(this.state.username.trim()!==''){
-        axios.get(this.state.host + '/author/search/' + this.state.username +'/',{headers:{Authorization: "Token "+ this.state.token}}).then(res => {   
+    fetchData =(username='') => {
+        if(username.trim()!==''){
+        axios.get(this.state.host + '/author/search/' +username +'/',{headers:{Authorization: "Token "+ this.state.token}}).then(res => {   
             let temp= [];
             temp.push(res.data)
             this.setState({
-                list: temp
-                
-            }) 
-            
+                list: temp,       
+            })          
         })
         }
     }

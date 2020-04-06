@@ -39,7 +39,7 @@ class Post extends React.Component{
 
         const host = new URLSearchParams(this.props.location.search).get("host");
 
-        if (host || host!=="https://cloud-align-server.herokuapp.com/") {
+        if (host && host!=="https://cloud-align-server.herokuapp.com/") {
             url += `?host=${host}`
         }
 
